@@ -52,9 +52,19 @@ mock/              feed, dms, reels, profile JSON
 docs/              HACKATHON_PLAN.md
 ```
 
+## Run locally (step 1)
+
+```bash
+cd hackathon/meta_ai_hackathon_intentLoop
+npm install
+npm run dev
+```
+
+Open [http://127.0.0.1:3000](http://127.0.0.1:3000). You should see a phone-sized **Home** (stories + feed) with **no overlay**. A green dot above the phone means `MODEL_API_KEY` is set in `.env.local` (the key is never printed).
+
 ## Status
 
-Folder structure is in place. Routes are stubs until we implement step by step.
+Step 1 done: Next.js + mock Instagram Home. APIs still return 501 until later steps.
 
 ## License
 

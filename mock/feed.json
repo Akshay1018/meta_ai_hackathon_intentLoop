@@ -1,4 +1,42 @@
 {
-  "stories": [],
-  "posts": []
+  "stories": [
+    { "id": "s1", "name": "you", "initials": "AK", "self": true, "hue": 210 },
+    { "id": "s2", "name": "maya", "initials": "M", "self": false, "hue": 12 },
+    { "id": "s3", "name": "jordan", "initials": "J", "self": false, "hue": 160 },
+    { "id": "s4", "name": "priya", "initials": "P", "self": false, "hue": 280 },
+    { "id": "s5", "name": "leo", "initials": "L", "self": false, "hue": 40 },
+    { "id": "s6", "name": "nina", "initials": "N", "self": false, "hue": 320 }
+  ],
+  "posts": [
+    {
+      "id": "p1",
+      "username": "maya.draws",
+      "place": "Lisbon",
+      "time": "2h",
+      "likes": 1284,
+      "caption": "Morning light and a too-long coffee.",
+      "hue": 18,
+      "initials": "M"
+    },
+    {
+      "id": "p2",
+      "username": "jordan.runs",
+      "place": "Brooklyn",
+      "time": "5h",
+      "likes": 642,
+      "caption": "Easy 8k. No watch, just the loop.",
+      "hue": 152,
+      "initials": "J"
+    },
+    {
+      "id": "p3",
+      "username": "priya.eats",
+      "place": "Melbourne",
+      "time": "1d",
+      "likes": 3102,
+      "caption": "Dumplings that ruined my plans for the rest of the day.",
+      "hue": 272,
+      "initials": "P"
+    }
+  ]
 }
