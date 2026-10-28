@@ -47,7 +47,7 @@ Use this file as a gate. If a change would violate a row below, do not ship it.
 
 | Model | When the user sees it | Status |
 |-------|------------------------|--------|
-| **Muse Spark 1.3** (`MODEL_API_KEY` → `https://api.meta.ai/v1`) | Silent IntentCard when opening **DMs** (cached); ExitBrief later | **Steps 2–3: DMs card + activity/timer (timer is chrome)** |
+| **Muse Spark 1.3** (`MODEL_API_KEY` → `https://api.meta.ai/v1`) | IntentCard on **DMs** (cached); **ExitBrief** on See brief | **Live: Steps 2–4 — intent + exit (2 Spark calls max per demo run)** |
 | **Muse Voice Transcribe** | Mic on the **brief sheet**, not on open | Later |
 | **SAM 3.1** | Optional walk photo on brief | Later |
 | **Muse Image** | Session card on brief | Later |

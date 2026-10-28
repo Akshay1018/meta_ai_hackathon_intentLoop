@@ -390,6 +390,27 @@ button {
   font-weight: 600;
 }
 
+.limit-footnote {
+  margin: 0 0 8px;
+  padding: 0 8px 4px;
+  font-size: 12px;
+  color: var(--ig-muted);
+  text-align: center;
+  line-height: 1.35;
+}
+
+.activity-reset-btn {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid var(--ig-line);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 .activity-back {
   font-size: 22px;
   width: 28px;
@@ -524,4 +545,48 @@ button {
   place-items: center;
   color: #fff;
   font-weight: 600;
+}
+
+.brief-sheet {
+  max-height: 70%;
+  overflow-y: auto;
+}
+
+.brief-drift {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ig-muted);
+  text-align: center;
+}
+
+.brief-happened {
+  margin: 0 0 12px;
+  font-size: 15px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.brief-list {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brief-list-item {
+  border-top: 1px solid var(--ig-line);
+  padding: 10px 0;
+  font-size: 13px;
+}
+
+.brief-list-item p {
+  margin: 4px 0 0;
+  color: var(--ig-muted);
+}
+
+.brief-list-time {
+  display: block;
+  font-size: 11px;
+  color: var(--ig-muted);
+  margin-bottom: 2px;
 }

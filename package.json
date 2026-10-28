@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start --port 3000",
     "test:intent": "npx tsx scripts/test-intent.mjs",
-    "test": "npx tsx --test lib/intent-from-spark.test.ts lib/session.test.ts && npm run test:intent"
+    "test": "npx tsx --test lib/intent-from-spark.test.ts lib/exit-from-spark.test.ts lib/session.test.ts && npm run test:intent"
   },
   "dependencies": {
     "next": "^15.5.6",

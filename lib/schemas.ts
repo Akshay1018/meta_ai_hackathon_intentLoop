@@ -114,3 +114,54 @@ export function fixtureIntentCard(surface: IntentSurface): IntentCard {
     };
   return { app: "instagram", surface, source: "inferred", ...hints[surface] };
 }
+
+export type ExitBrief = {
+  drift: number;
+  happened: string;
+  next_action: string;
+  tone: "neutral" | "encouraging";
+};
+
+export const EXIT_BRIEF_JSON_SCHEMA = {
+  type: "object" as const,
+  additionalProperties: false,
+  required: ["drift", "happened", "next_action", "tone"],
+  properties: {
+    drift: { type: "number" },
+    happened: { type: "string" },
+    next_action: { type: "string" },
+    tone: { type: "string", enum: ["neutral", "encouraging"] },
+  },
+};
+
+export function isExitBrief(value: unknown): value is ExitBrief {
+  if (!value || typeof value !== "object") return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.drift === "number" &&
+    v.drift >= 0 &&
+    v.drift <= 100 &&
+    typeof v.happened === "string" &&
+    v.happened.length > 0 &&
+    typeof v.next_action === "string" &&
+    v.next_action.length > 0 &&
+    (v.tone === "neutral" || v.tone === "encouraging")
+  );
+}
+
+export function fixtureExitBrief(intent: IntentCard, surfacesVisited: IntentSurface[]): ExitBrief {
+  const drifted = surfacesVisited.includes("reels") && intent.surface === "dms";
+  const drift = drifted ? 68 : surfacesVisited.length <= 1 ? 12 : 35;
+  return {
+    drift,
+    happened: drifted
+      ? `You opened for ${intent.goal.toLowerCase()}, but Reels showed up in this visit.`
+      : `Most of this visit stayed on ${intent.goal.toLowerCase()}.`,
+    next_action:
+      intent.surface === "dms"
+        ? "Open DMs and send the one reply."
+        : `Finish: ${intent.success}`,
+    tone: "neutral",
+  };
+}
+

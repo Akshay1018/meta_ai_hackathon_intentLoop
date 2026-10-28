@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import {
+  limitBlockReason,
   limitPhase,
   limitSeconds,
   readLimitSkipped,
@@ -11,6 +12,7 @@ import {
   remainingSeconds,
   writeLimitSkipped,
   writeSnoozeUntil,
+  type LimitBlockReason,
   type LimitPhase,
   type SessionSettings,
 } from "@/lib/session";
@@ -18,6 +20,7 @@ import {
 type LimitState = {
   phase: LimitPhase;
   remaining: number;
+  blockReason: LimitBlockReason;
   skip: () => void;
   remindHours: (hours: number) => void;
 };
@@ -28,12 +31,20 @@ export function useLimitTimer(settings: SessionSettings): LimitState {
   const [skipped, setSkipped] = useState(false);
   const [snoozeUntil, setSnoozeUntil] = useState(0);
 
-  useEffect(() => {
+  const refreshFromStorage = useCallback(() => {
     const t = Date.now();
     setStartedAt(readSessionStartedAt(t));
     setSkipped(readLimitSkipped());
     setSnoozeUntil(readSnoozeUntil());
+    setNow(t);
   }, []);
+
+  useEffect(() => {
+    refreshFromStorage();
+    const onReset = () => refreshFromStorage();
+    window.addEventListener("intentloop:visit-reset", onReset);
+    return () => window.removeEventListener("intentloop:visit-reset", onReset);
+  }, [refreshFromStorage]);
 
   useEffect(() => {
     const id = window.setInterval(() => setNow(Date.now()), 1000);
@@ -64,6 +75,12 @@ export function useLimitTimer(settings: SessionSettings): LimitState {
   return {
     phase,
     remaining: remainingSeconds({ now, startedAt, limitSec }),
+    blockReason: limitBlockReason({
+      enabled: settings.enabled,
+      skipped,
+      snoozeUntil,
+      now,
+    }),
     skip,
     remindHours,
   };

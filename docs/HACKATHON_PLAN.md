@@ -56,6 +56,22 @@ No private-feed scrape. Screenshot / walk photo only if **you** attach them on t
 
 **Use cases:** (1) DMs then Reels → send the reply. (2) Post then scroll → posting is done. (3) Browse-only + limit → honest “you were browsing.” (4) Profile check of today. (5) Same banner on Facebook later.
 
+**Hero use case (video + Impact — do not build extra UI for this yet):** *Passive / companion scrolling* — user on a phone call (speaker on), opens Instagram “just to scroll,” drifts through **feed → DMs → profile → Reels** with **no real task**. IntentLoop does not block; at the limit they get an honest **visit summary** (“you never had one job — mostly browsing”) and optional one gentle action. This matches real behavior (mindless tab-hopping) and **Build for Your World** without shame or medical framing. **Later:** tune copy for “no primary intent” sessions, default intent = browse when only Home/Reels, call-context hint only if user opts in (never infer “on a call” from sensors).
+
+---
+
+## Backlog (after vertical slice — capture only, not this week unless time)
+
+| Item | Why |
+|------|-----|
+| **Companion-scroll / no-intent sessions** | Summarize drift when user never opened DMs/Create “for real”; video narrative above. |
+| **Stronger Reels/Create chrome** | Full mock screens (not placeholders). |
+| **Intent on every tab** | Same Spark + cache as DMs for Create, Reels, Profile. |
+| **Brief UX polish** | Shorter Spark copy; primary action button styling; drift visual. |
+| **IndexedDB history** | Persist briefs across days (local only). |
+| **Baseten fallback** | If Meta API fails during judge demo. |
+| **Vercel + rate limit** | Protect `MODEL_API_KEY` when public. |
+
 ---
 
 ## 1. What we are building

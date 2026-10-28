@@ -89,6 +89,35 @@ export function writeSnoozeUntil(epochMs: number): void {
   sessionStorage.setItem(SNOOZE_KEY, String(epochMs));
 }
 
+export function clearLimitSkipped(): void {
+  sessionStorage.removeItem(SKIPPED_KEY);
+}
+
+export function clearSnooze(): void {
+  sessionStorage.removeItem(SNOOZE_KEY);
+}
+
+/** New visit for demo / retest — restarts timer and shows the limit sheet again. */
+export function resetDemoVisit(now: number = Date.now()): void {
+  clearLimitSkipped();
+  clearSnooze();
+  sessionStorage.setItem(STARTED_KEY, String(now));
+}
+
+export type LimitBlockReason = "none" | "disabled" | "skipped" | "snoozed";
+
+export function limitBlockReason(input: {
+  enabled: boolean;
+  skipped: boolean;
+  snoozeUntil: number;
+  now: number;
+}): LimitBlockReason {
+  if (!input.enabled) return "disabled";
+  if (input.skipped) return "skipped";
+  if (input.now < input.snoozeUntil) return "snoozed";
+  return "none";
+}
+
 export type LimitPhase = "running" | "open" | "hidden";
 
 export function limitPhase(input: {

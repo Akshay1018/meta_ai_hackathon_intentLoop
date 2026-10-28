@@ -38,8 +38,11 @@ export function LimitSheet({
           Remind in 2 hours
         </button>
         <button type="button" className="limit-btn limit-btn--accent" onClick={onSeeBrief}>
-          See whether you did the thing
+          See visit summary
         </button>
+        <p className="limit-footnote">
+          What you came for vs what you actually did — one short recap.
+        </p>
       </div>
     </div>
   );

@@ -65,8 +65,7 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000). You should see a phone-size
 
 ## Status
 
-**Step 2:** Home is feed-first. **DMs** infers IntentCard via Muse Spark 1.3 (one call per tab per session, then cache). Chip: `Inbox · on intent`.  
-**Step 3:** Profile → Your activity (15 min + Demo 45s). Limit banner: Skip / 1h / 2h / See brief. **No Spark on the timer.**
+**Steps 2–4:** DMs IntentCard (Spark, cached) · activity + 45s demo timer · limit sheet · **ExitBrief sheet** (`POST /api/exit`) · history in Your activity.
 
 ```bash
 npm test               # fixtures + timer math — no Meta credits

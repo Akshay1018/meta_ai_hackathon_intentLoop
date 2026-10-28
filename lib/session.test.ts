@@ -4,6 +4,7 @@ import { describe, it } from "node:test";
 import {
   defaultSessionSettings,
   isSessionSettings,
+  limitBlockReason,
   limitPhase,
   limitSeconds,
   remainingSeconds,
@@ -91,6 +92,21 @@ describe("session settings (no Meta API)", () => {
         snoozeUntil: 0,
       }),
       "hidden",
+    );
+  });
+
+  it("block reason reflects skip and snooze", () => {
+    assert.equal(
+      limitBlockReason({ enabled: false, skipped: false, snoozeUntil: 0, now: 1 }),
+      "disabled",
+    );
+    assert.equal(
+      limitBlockReason({ enabled: true, skipped: true, snoozeUntil: 0, now: 1 }),
+      "skipped",
+    );
+    assert.equal(
+      limitBlockReason({ enabled: true, skipped: false, snoozeUntil: 99, now: 1 }),
+      "snoozed",
     );
   });
 
