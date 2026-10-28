@@ -16,7 +16,8 @@ Speak or type intent → Muse Spark IntentCard → session
 
 ## Docs
 
-- **[End-to-end plan](docs/HACKATHON_PLAN.md)** — problem, users, judging, Meta model map, architecture, video, submission copy
+- **[End-to-end plan](docs/HACKATHON_PLAN.md)** — product, architecture, video  
+- **[Rules & judging](docs/HACKATHON_RULES_AND_JUDGING.md)** — read before every implementation step
 
 ## Meta models (golden path)
 
@@ -64,7 +65,13 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000). You should see a phone-size
 
 ## Status
 
-Step 1 done: Next.js + mock Instagram Home. APIs still return 501 until later steps.
+**Step 2:** Home is feed-first. **DMs** infers IntentCard via Muse Spark 1.3 (one call per tab per session, then cache). Chip: `Inbox · on intent`.  
+**Step 3:** Profile → Your activity (15 min + Demo 45s). Limit banner: Skip / 1h / 2h / See brief. **No Spark on the timer.**
+
+```bash
+npm test               # fixtures + timer math — no Meta credits
+INTENTLOOP_FIXTURE=1 npm run dev   # UI without Spark
+```
 
 ## License
 

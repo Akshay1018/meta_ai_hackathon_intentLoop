@@ -1,18 +1,11 @@
-import Link from "next/link";
+import { Suspense } from "react";
 
-import { IgHeader } from "@/components/ig/IgHeader";
+import { ActivityPanel } from "@/components/intentloop/ActivityPanel";
 
 export default function ActivityPage() {
   return (
-    <>
-      <IgHeader />
-      <div className="ig-scroll">
-        <p className="ig-placeholder">
-          Your activity — next steps.
-          <br />
-          <Link href="/profile">Back to profile</Link>
-        </p>
-      </div>
-    </>
+    <Suspense fallback={<p className="ig-placeholder">Your activity</p>}>
+      <ActivityPanel />
+    </Suspense>
   );
 }

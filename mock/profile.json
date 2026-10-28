@@ -1,7 +1,21 @@
 {
   "user": {
-    "username": "",
-    "displayName": ""
+    "username": "you",
+    "displayName": "You",
+    "posts": 9,
+    "followers": "128",
+    "following": "94",
+    "bio": "Local mock — not a real Instagram account."
   },
-  "grid": []
+  "grid": [
+    { "id": "g1", "hue": 12, "label": "1" },
+    { "id": "g2", "hue": 40, "label": "2" },
+    { "id": "g3", "hue": 80, "label": "3" },
+    { "id": "g4", "hue": 140, "label": "4" },
+    { "id": "g5", "hue": 180, "label": "5" },
+    { "id": "g6", "hue": 210, "label": "6" },
+    { "id": "g7", "hue": 260, "label": "7" },
+    { "id": "g8", "hue": 300, "label": "8" },
+    { "id": "g9", "hue": 330, "label": "9" }
+  ]
 }

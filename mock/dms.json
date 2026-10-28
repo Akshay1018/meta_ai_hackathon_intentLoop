@@ -1,3 +1,40 @@
 {
-  "threads": []
+  "threads": [
+    {
+      "id": "t1",
+      "name": "Maya",
+      "preview": "Did you still want to grab coffee Thursday?",
+      "time": "2m",
+      "unread": true,
+      "initials": "M",
+      "hue": 12
+    },
+    {
+      "id": "t2",
+      "name": "Jordan",
+      "preview": "Sending the recap in a bit",
+      "time": "1h",
+      "unread": false,
+      "initials": "J",
+      "hue": 160
+    },
+    {
+      "id": "t3",
+      "name": "Priya",
+      "preview": "Loved that photo from Lisbon",
+      "time": "3h",
+      "unread": false,
+      "initials": "P",
+      "hue": 280
+    },
+    {
+      "id": "t4",
+      "name": "Leo",
+      "preview": "You: on my way",
+      "time": "1d",
+      "unread": false,
+      "initials": "L",
+      "hue": 40
+    }
+  ]
 }

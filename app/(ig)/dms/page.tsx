@@ -1,12 +1,6 @@
-import { IgHeader } from "@/components/ig/IgHeader";
+import { DmsInbox, type DmThread } from "@/components/ig/DmsInbox";
+import dms from "@/mock/dms.json";
 
 export default function DmsPage() {
-  return (
-    <>
-      <IgHeader />
-      <div className="ig-scroll">
-        <p className="ig-placeholder">DMs — next steps. No intent chip yet.</p>
-      </div>
-    </>
-  );
+  return <DmsInbox threads={dms.threads as DmThread[]} />;
 }
