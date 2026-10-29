@@ -5,21 +5,24 @@
       "user": "maya.draws",
       "caption": "Morning light in Lisbon",
       "likes": "12.4K",
-      "hue": 24
+      "hue": 24,
+      "imageUrl": "https://images.unsplash.com/photo-1516480668274-0aa7b75693ef?w=900&h=1600&fit=crop&q=80"
     },
     {
       "id": "r2",
       "user": "jordan.runs",
       "caption": "Easy loop before work",
       "likes": "8.1K",
-      "hue": 145
+      "hue": 145,
+      "imageUrl": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50e?w=900&h=1600&fit=crop&q=80"
     },
     {
       "id": "r3",
       "user": "priya.eats",
       "caption": "Dumpling ranking, part 2",
       "likes": "31K",
-      "hue": 280
+      "hue": 280,
+      "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=900&h=1600&fit=crop&q=80"
     }
   ]
 }

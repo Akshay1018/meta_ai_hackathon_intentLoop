@@ -1,10 +1,10 @@
 import type { IntentCard, IntentSurface } from "@/lib/schemas";
 
 const CHIP_LABEL: Partial<Record<IntentSurface, string>> = {
-  dms: "Inbox · on intent",
-  create: "Post · on intent",
-  reels: "Reels · on intent",
-  profile: "Profile · on intent",
+  dms: "Inbox",
+  create: "Post",
+  reels: "Reels",
+  profile: "Profile",
 };
 
 type IntentChipProps = {
@@ -15,10 +15,15 @@ type IntentChipProps = {
 
 export function IntentChip({ surface, card, loading }: IntentChipProps) {
   const label = CHIP_LABEL[surface];
-  if (!label || loading || !card) return null;
+  if (!label) return null;
+  if (loading) {
+    return <span className="intent-chip intent-chip--loading" aria-busy="true" />;
+  }
+  if (!card) return null;
   return (
-    <span className="inbox-chip" title={card.goal}>
-      {label}
+    <span className="intent-chip" title={card.goal}>
+      <span className="intent-chip-dot" aria-hidden />
+      {label} · on intent
     </span>
   );
 }

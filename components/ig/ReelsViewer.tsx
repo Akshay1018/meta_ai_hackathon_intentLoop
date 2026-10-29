@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 
+import { IconComment, IconHeart, IconMore, IconShare } from "@/components/ig/IgIcons";
 import { IntentChip } from "@/components/intentloop/IntentChip";
 import { useIntentCard } from "@/components/intentloop/useIntentCard";
 
@@ -11,6 +12,7 @@ export type ReelItem = {
   caption: string;
   likes: string;
   hue: number;
+  imageUrl?: string;
 };
 
 type ReelsViewerProps = {
@@ -35,17 +37,31 @@ export function ReelsViewer({ reels }: ReelsViewerProps) {
         <IntentChip surface="reels" card={card} loading={loading} />
       </header>
       <button type="button" className="reels-stage" onClick={next} aria-label="Next reel">
-        <div
-          className="reels-video"
-          style={{
-            background: `linear-gradient(165deg, hsl(${reel.hue} 55% 28%), hsl(${reel.hue} 40% 12%))`,
-          }}
-        />
-        <div className="reels-rail" aria-hidden="true">
-          <span>♡</span>
-          <span>💬</span>
-          <span>↗</span>
-          <span>⋯</span>
+        {reel.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="reels-video reels-video--photo" src={reel.imageUrl} alt="" />
+        ) : (
+          <div
+            className="reels-video"
+            style={{
+              background: `linear-gradient(165deg, hsl(${reel.hue} 55% 28%), hsl(${reel.hue} 40% 12%))`,
+            }}
+          />
+        )}
+        <div className="reels-scrim" aria-hidden />
+        <div className="reels-rail">
+          <button type="button" className="ig-icon-btn reels-rail-btn" aria-label="Like">
+            <IconHeart size={28} />
+          </button>
+          <button type="button" className="ig-icon-btn reels-rail-btn" aria-label="Comment">
+            <IconComment size={28} />
+          </button>
+          <button type="button" className="ig-icon-btn reels-rail-btn" aria-label="Share">
+            <IconShare size={28} />
+          </button>
+          <button type="button" className="ig-icon-btn reels-rail-btn" aria-label="More">
+            <IconMore size={28} />
+          </button>
         </div>
         <div className="reels-meta">
           <p className="reels-user">{reel.user}</p>

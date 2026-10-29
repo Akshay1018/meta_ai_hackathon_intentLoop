@@ -8,14 +8,16 @@ type PhoneShellProps = {
 export function PhoneShell({ children, metaKeyConfigured }: PhoneShellProps) {
   return (
     <div className="stage">
-      <p className="stage-label">
-        IntentLoop mock · feed first · no overlay{" "}
+      <div className="phone">
         <span
-          className={metaKeyConfigured ? "env-dot env-dot--ok" : "env-dot env-dot--off"}
-          title={metaKeyConfigured ? "MODEL_API_KEY is set" : "MODEL_API_KEY missing"}
+          className={metaKeyConfigured ? "phone-badge phone-badge--live" : "phone-badge"}
+          title={metaKeyConfigured ? "Meta Model API ready" : "Set MODEL_API_KEY in .env.local"}
         />
+        {children}
+      </div>
+      <p className="stage-caption">
+        IntentLoop session layer · mock Instagram · feed first
       </p>
-      <div className="phone">{children}</div>
     </div>
   );
 }

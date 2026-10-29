@@ -3,13 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import {
+  IconCreate,
+  IconDm,
+  IconHome,
+  IconProfile,
+  IconReels,
+} from "@/components/ig/IgIcons";
+
 const TABS = [
-  { href: "/", label: "Home", icon: "⌂" },
-  { href: "/reels", label: "Reels", icon: "▷" },
-  { href: "/create", label: "+", icon: "+" },
-  { href: "/dms", label: "DMs", icon: "✈" },
-  { href: "/profile", label: "Profile", icon: "●" },
-] as const;
+  { href: "/", label: "Home", kind: "home" as const },
+  { href: "/reels", label: "Reels", kind: "reels" as const },
+  { href: "/create", label: "New post", kind: "create" as const },
+  { href: "/dms", label: "Messages", kind: "dms" as const },
+  { href: "/profile", label: "Profile", kind: "profile" as const },
+];
 
 export function TabBar() {
   const pathname = usePathname();
@@ -25,11 +33,25 @@ export function TabBar() {
           <Link
             key={tab.href}
             href={tab.href}
-            className={active ? "tab is-active" : "tab"}
+            className={
+              active
+                ? `tab is-active${tab.kind === "create" ? " tab--create" : ""}`
+                : `tab${tab.kind === "create" ? " tab--create" : ""}`
+            }
             aria-current={active ? "page" : undefined}
+            aria-label={tab.label}
           >
-            {tab.icon}
-            <span>{tab.label}</span>
+            {tab.kind === "home" ? (
+              <IconHome size={26} filled={active} />
+            ) : tab.kind === "reels" ? (
+              <IconReels size={26} />
+            ) : tab.kind === "create" ? (
+              <IconCreate size={28} />
+            ) : tab.kind === "dms" ? (
+              <IconDm size={26} filled={active} />
+            ) : (
+              <IconProfile size={26} active={active} />
+            )}
           </Link>
         );
       })}

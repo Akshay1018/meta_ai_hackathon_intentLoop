@@ -35,7 +35,13 @@ export function CreateComposer() {
         ) : null}
       </div>
       <div className="ig-scroll create-scroll">
-        <div className="create-preview" />
+        <div
+          className="create-preview"
+          style={{
+            backgroundImage:
+              "url(https://images.unsplash.com/photo-1493246507136-91e8fad9978e?w=800&h=800&fit=crop&q=80)",
+          }}
+        />
         <textarea
           className="create-caption"
           placeholder="Write a caption..."

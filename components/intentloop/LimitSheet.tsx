@@ -23,25 +23,25 @@ export function LimitSheet({
       <div className="limit-sheet">
         <div className="limit-handle" />
         <p id="limit-title" className="limit-title">
-          Your daily limit
+          You&apos;re at your daily limit
         </p>
         <p className="limit-copy">
-          You set this reminder. Instagram still works — this is just a pause.
+          You set this reminder to help manage your time. You can keep scrolling or take a pause.
         </p>
         <button type="button" className="limit-btn" onClick={onSkip}>
           Skip
         </button>
         <button type="button" className="limit-btn" onClick={onRemind1h}>
-          Remind in 1 hour
+          Remind me in 1 hour
         </button>
         <button type="button" className="limit-btn" onClick={onRemind2h}>
-          Remind in 2 hours
+          Remind me in 2 hours
         </button>
-        <button type="button" className="limit-btn limit-btn--accent" onClick={onSeeBrief}>
+        <button type="button" className="limit-btn limit-btn--primary" onClick={onSeeBrief}>
           See visit summary
         </button>
         <p className="limit-footnote">
-          What you came for vs what you actually did — one short recap.
+          IntentLoop · what you came for vs what you did — optional, same sheet you already trust.
         </p>
       </div>
     </div>

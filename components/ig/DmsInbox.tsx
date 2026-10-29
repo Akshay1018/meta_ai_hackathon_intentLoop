@@ -1,5 +1,6 @@
 "use client";
 
+import { IconDm } from "@/components/ig/IgIcons";
 import { IntentChip } from "@/components/intentloop/IntentChip";
 import { useIntentCard } from "@/components/intentloop/useIntentCard";
 
@@ -22,18 +23,21 @@ export function DmsInbox({ threads }: DmsInboxProps) {
 
   return (
     <>
-      <header className="ig-header">
-        <span className="ig-logo" style={{ fontSize: 20, fontFamily: "inherit" }}>
-          Messages
-        </span>
-        <IntentChip surface="dms" card={card} loading={loading} />
+      <header className="ig-header ig-header--messages">
+        <span className="messages-title">you</span>
+        <div className="messages-head-actions">
+          <IntentChip surface="dms" card={card} loading={loading} />
+          <button type="button" className="ig-icon-btn" aria-label="New message">
+            <IconDm size={22} />
+          </button>
+        </div>
       </header>
       <div className="ig-scroll">
         {threads.map((thread) => (
-          <div key={thread.id} className="dm-row">
+          <button key={thread.id} type="button" className="dm-row dm-row-btn">
             <div
-              className="post-avatar"
-              style={{ background: `hsl(${thread.hue} 50% 40%)`, width: 48, height: 48 }}
+              className="post-avatar post-avatar--ring"
+              style={{ background: `hsl(${thread.hue} 50% 40%)`, width: 56, height: 56 }}
             >
               {thread.initials}
             </div>
@@ -46,9 +50,10 @@ export function DmsInbox({ threads }: DmsInboxProps) {
               </div>
               <p className={thread.unread ? "dm-preview dm-preview--unread" : "dm-preview"}>
                 {thread.preview}
+                {thread.unread ? <span className="dm-unread-dot" aria-label="Unread" /> : null}
               </p>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </>

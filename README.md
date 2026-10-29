@@ -7,9 +7,9 @@
 **Hackathon:** IG-faithful mock + Meta Model API engine (we cannot patch the real native app). Meta counts **time**. IntentLoop adds **outcome**.
 
 ```text
-Speak or type intent → Muse Spark IntentCard → session
-  → optional screenshot (Spark vision) / walking photo (SAM 3.1)
-  → ExitBrief + one next action → Muse Image session card
+Feed first → tap DMs / Reels / Create / Profile → Muse Spark IntentCard (silent, cached)
+  → your limit banner → See visit summary → ExitBrief
+  → optional: screenshot (Spark vision), walk photo (SAM 3.1), voice note (WAV), session card (Muse Image)
 ```
 
 **Built during the hackathon (Oct 26 – Nov 4, 2026).** All product code in this repository is new work for the event.
@@ -17,7 +17,8 @@ Speak or type intent → Muse Spark IntentCard → session
 ## Docs
 
 - **[End-to-end plan](docs/HACKATHON_PLAN.md)** — product, architecture, video  
-- **[Rules & judging](docs/HACKATHON_RULES_AND_JUDGING.md)** — read before every implementation step
+- **[Rules & judging](docs/HACKATHON_RULES_AND_JUDGING.md)** — read before every implementation step  
+- **[Personas & impact](docs/PERSONAS_AND_IMPACT.md)** — who it’s for (demo + submission copy)
 
 ## Meta models (golden path)
 
@@ -67,12 +68,21 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000). You should see a phone-size
 
 ## Status
 
-**Steps 2–4 + 11:** Intent on **DMs / Reels / Create** (Spark, cached) · IG-style Reels + Create · activity · limit · **ExitBrief** · history.
+**Vertical slice:** Intent on **DMs / Reels / Create** (Spark, cached) · IG-style Reels + Create · activity · limit · **ExitBrief** on **See visit summary** · **Today** history · brief extras (vision / SAM / voice / Muse Image).
 
 ```bash
-npm test               # fixtures + timer math — no Meta credits
+npm test                    # fixtures + timer math — no Meta credits
+npm run test:meta-live      # light live Meta smoke (uses MODEL_API_KEY)
+npm run test:meta-live:heavy  # more Spark + 3× Muse Image (billing check)
 INTENTLOOP_FIXTURE=1 npm run dev   # UI without Spark
 ```
+
+### Quick manual E2E (live Meta)
+
+1. **Profile → Your activity** — IntentLoop on, **45s demo** timer, **Start new visit (demo)**.  
+2. Visit **DMs → Reels → Create** (optional **Share**), then wait for the limit sheet.  
+3. **See visit summary** — ExitBrief + optional extras on the sheet.  
+4. Back to activity — confirm **Today** lists the summary.
 
 ## License
 
