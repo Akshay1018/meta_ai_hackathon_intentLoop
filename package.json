@@ -4,10 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3000",
+    "dev:clean": "rm -rf .next && next dev --port 3000",
     "build": "next build",
     "start": "next start --port 3000",
     "test:intent": "npx tsx scripts/test-intent.mjs",
-    "test": "npx tsx --test lib/intent-from-spark.test.ts lib/exit-from-spark.test.ts lib/session.test.ts && npm run test:intent"
+    "test:meta-live": "node scripts/make-demo-png.mjs && node scripts/make-demo-wav.mjs && node scripts/test-meta-live.mjs",
+    "test:meta-live:heavy": "node scripts/make-demo-png.mjs && node scripts/make-demo-wav.mjs && node scripts/test-meta-live.mjs --heavy",
+    "test:meta-live": "node scripts/make-demo-png.mjs && node scripts/make-demo-wav.mjs && node scripts/test-meta-live.mjs",
+    "test:meta-live:heavy": "node scripts/make-demo-png.mjs && node scripts/make-demo-wav.mjs && node scripts/test-meta-live.mjs --heavy",
+    "test": "npx tsx --test lib/intent-from-spark.test.ts lib/exit-from-spark.test.ts lib/intent-primary.test.ts lib/session.test.ts && npm run test:intent"
   },
   "dependencies": {
     "next": "^15.5.6",

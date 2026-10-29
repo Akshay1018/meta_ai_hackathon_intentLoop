@@ -62,6 +62,7 @@ export function SessionLayer() {
         open={briefOpen}
         loading={loading}
         brief={brief}
+        intent={intent}
         fallbackNote={fallbackNote}
         onClose={closeBrief}
         onAction={onAction}

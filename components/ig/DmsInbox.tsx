@@ -1,6 +1,6 @@
 "use client";
 
-import { InboxChip } from "@/components/intentloop/InboxChip";
+import { IntentChip } from "@/components/intentloop/IntentChip";
 import { useIntentCard } from "@/components/intentloop/useIntentCard";
 
 export type DmThread = {
@@ -26,7 +26,7 @@ export function DmsInbox({ threads }: DmsInboxProps) {
         <span className="ig-logo" style={{ fontSize: 20, fontFamily: "inherit" }}>
           Messages
         </span>
-        <InboxChip card={card} loading={loading} />
+        <IntentChip surface="dms" card={card} loading={loading} />
       </header>
       <div className="ig-scroll">
         {threads.map((thread) => (

@@ -1,3 +1,7 @@
+import { clearAllCachedIntents } from "@/lib/intent-cache";
+import { clearPostedThisVisit } from "@/lib/visit-outcome";
+import { clearSurfaceVisits } from "@/lib/visit-tracker";
+
 export type SessionSettings = {
   enabled: boolean;
   maxMinutes: number;
@@ -99,9 +103,13 @@ export function clearSnooze(): void {
 
 /** New visit for demo / retest — restarts timer and shows the limit sheet again. */
 export function resetDemoVisit(now: number = Date.now()): void {
+  if (typeof window === "undefined") return;
   clearLimitSkipped();
   clearSnooze();
   sessionStorage.setItem(STARTED_KEY, String(now));
+  clearAllCachedIntents();
+  clearSurfaceVisits();
+  clearPostedThisVisit();
 }
 
 export type LimitBlockReason = "none" | "disabled" | "skipped" | "snoozed";

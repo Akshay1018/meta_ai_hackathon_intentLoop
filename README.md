@@ -61,11 +61,13 @@ npm install
 npm run dev
 ```
 
+If you see `Cannot find module './NNN.js'`, stop the server and run **`npm run dev:clean`** (stale `.next` after `npm run build`).
+
 Open [http://127.0.0.1:3000](http://127.0.0.1:3000). You should see a phone-sized **Home** (stories + feed) with **no overlay**. A green dot above the phone means `MODEL_API_KEY` is set in `.env.local` (the key is never printed).
 
 ## Status
 
-**Steps 2–4:** DMs IntentCard (Spark, cached) · activity + 45s demo timer · limit sheet · **ExitBrief sheet** (`POST /api/exit`) · history in Your activity.
+**Steps 2–4 + 11:** Intent on **DMs / Reels / Create** (Spark, cached) · IG-style Reels + Create · activity · limit · **ExitBrief** · history.
 
 ```bash
 npm test               # fixtures + timer math — no Meta credits

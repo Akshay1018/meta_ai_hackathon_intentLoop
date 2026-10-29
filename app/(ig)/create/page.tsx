@@ -1,12 +1,5 @@
-import { IgHeader } from "@/components/ig/IgHeader";
+import { CreateComposer } from "@/components/ig/CreateComposer";
 
 export default function CreatePage() {
-  return (
-    <>
-      <IgHeader />
-      <div className="ig-scroll">
-        <p className="ig-placeholder">Create — next steps.</p>
-      </div>
-    </>
-  );
+  return <CreateComposer />;
 }

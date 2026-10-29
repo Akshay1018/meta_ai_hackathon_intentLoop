@@ -149,9 +149,35 @@ export function isExitBrief(value: unknown): value is ExitBrief {
   );
 }
 
-export function fixtureExitBrief(intent: IntentCard, surfacesVisited: IntentSurface[]): ExitBrief {
-  const drifted = surfacesVisited.includes("reels") && intent.surface === "dms";
-  const drift = drifted ? 68 : surfacesVisited.length <= 1 ? 12 : 35;
+export type ExitBriefInput = {
+  intent: IntentCard;
+  surfacesVisited: IntentSurface[];
+  surfaceOrder: IntentSurface[];
+  elapsedSec: number;
+  postedThisVisit: boolean;
+  intentsBySurface?: Partial<Record<IntentSurface, IntentCard>>;
+};
+
+export function fixtureExitBrief(input: ExitBriefInput): ExitBrief {
+  const { intent, surfacesVisited, postedThisVisit } = input;
+  const touchedReels = surfacesVisited.includes("reels");
+  const touchedDms = surfacesVisited.includes("dms");
+  const touchedCreate = surfacesVisited.includes("create");
+
+  if (postedThisVisit && intent.surface === "create") {
+    const drift = touchedReels && touchedDms ? 55 : touchedReels ? 40 : 18;
+    return {
+      drift,
+      happened: touchedReels
+        ? "You shared a post, then Reels (and other tabs) pulled you away from a single job."
+        : "You shared a post this visit — that was the main win.",
+      next_action: touchedDms ? "Check DMs if anything still needs a reply, then close." : "Close the app — posting is done.",
+      tone: "encouraging",
+    };
+  }
+
+  const drifted = touchedReels && intent.surface === "dms";
+  const drift = drifted ? 68 : surfacesVisited.length <= 1 ? 12 : 42;
   return {
     drift,
     happened: drifted

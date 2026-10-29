@@ -1,23 +1,23 @@
 import { isIntentSurface, type IntentSurface } from "@/lib/schemas";
 
-const KEY = "intentloop:surfaces";
+const ORDER_KEY = "intentloop:surface-order";
 
 export function recordSurfaceVisit(surface: IntentSurface): void {
   if (typeof window === "undefined") return;
   try {
-    const raw = sessionStorage.getItem(KEY);
-    const list: IntentSurface[] = raw ? (JSON.parse(raw) as IntentSurface[]) : [];
-    const next = list.includes(surface) ? list : [...list, surface];
-    sessionStorage.setItem(KEY, JSON.stringify(next));
+    const order = readSurfaceVisitOrder();
+    order.push(surface);
+    sessionStorage.setItem(ORDER_KEY, JSON.stringify(order.slice(-40)));
   } catch {
-    sessionStorage.setItem(KEY, JSON.stringify([surface]));
+    sessionStorage.setItem(ORDER_KEY, JSON.stringify([surface]));
   }
 }
 
-export function readSurfaceVisits(): IntentSurface[] {
+/** Tab order for this visit ( repeats when user switches back ). */
+export function readSurfaceVisitOrder(): IntentSurface[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = sessionStorage.getItem(KEY);
+    const raw = sessionStorage.getItem(ORDER_KEY);
     if (!raw) return [];
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
@@ -25,6 +25,23 @@ export function readSurfaceVisits(): IntentSurface[] {
   } catch {
     return [];
   }
+}
+
+/** Unique tabs touched this visit. */
+export function readSurfaceVisits(): IntentSurface[] {
+  const seen = new Set<IntentSurface>();
+  const unique: IntentSurface[] = [];
+  for (const s of readSurfaceVisitOrder()) {
+    if (!seen.has(s)) {
+      seen.add(s);
+      unique.push(s);
+    }
+  }
+  return unique;
+}
+
+export function clearSurfaceVisits(): void {
+  sessionStorage.removeItem(ORDER_KEY);
 }
 
 export function pathnameToSurface(pathname: string): IntentSurface | null {

@@ -3,14 +3,15 @@
 import { useCallback, useState } from "react";
 
 import { appendBriefRecord } from "@/lib/brief-history";
-import { readPrimaryIntentCard } from "@/lib/intent-primary";
+import { readIntentCardsForVisit, readPrimaryIntentCard } from "@/lib/intent-primary";
 import {
   fixtureIntentCard,
   type ExitBrief,
   type IntentCard,
 } from "@/lib/schemas";
 import { readSessionSettings, readSessionStartedAt } from "@/lib/session";
-import { readSurfaceVisits } from "@/lib/visit-tracker";
+import { readPostedThisVisit } from "@/lib/visit-outcome";
+import { readSurfaceVisitOrder, readSurfaceVisits } from "@/lib/visit-tracker";
 
 const useFixtureClient = process.env.NEXT_PUBLIC_INTENTLOOP_FIXTURE === "1";
 
@@ -31,18 +32,25 @@ export function useExitBrief() {
 
   const fetchBrief = useCallback(async () => {
     setState({ loading: true, brief: null, fallbackNote: null, intent: null });
-    const settings = readSessionSettings();
     const startedAt = readSessionStartedAt(Date.now());
     const elapsedSec = Math.max(0, Math.round((Date.now() - startedAt) / 1000));
-    const intent = readPrimaryIntentCard() ?? fixtureIntentCard("home");
+    const surfaceOrder = readSurfaceVisitOrder();
     const surfacesVisited = readSurfaceVisits();
-    const body: {
-      intent: IntentCard;
-      surfacesVisited: string[];
-      elapsedSec: number;
-      fixture?: boolean;
-    } = { intent, surfacesVisited, elapsedSec };
-    if (useFixtureClient) body.fixture = true;
+    const intent =
+      readPrimaryIntentCard(surfaceOrder) ??
+      fixtureIntentCard(readPostedThisVisit() ? "create" : "home");
+    const intentsBySurface = readIntentCardsForVisit(surfaceOrder);
+    const postedThisVisit = readPostedThisVisit();
+
+    const body = {
+      intent,
+      surfacesVisited,
+      surfaceOrder,
+      elapsedSec,
+      postedThisVisit,
+      intentsBySurface,
+      ...(useFixtureClient ? { fixture: true } : {}),
+    };
 
     try {
       const res = await fetch("/api/exit", {

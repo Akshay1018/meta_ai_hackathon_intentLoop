@@ -590,3 +590,247 @@ button {
   color: var(--ig-muted);
   margin-bottom: 2px;
 }
+
+.brief-extras {
+  margin: 12px 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--ig-line);
+}
+
+.brief-extras-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ig-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.brief-extras-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.brief-extras-btn {
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--ig-line);
+  background: #fafafa;
+}
+
+.brief-extra-line {
+  margin: 8px 0;
+  font-size: 12px;
+}
+
+.brief-extra-line p {
+  margin: 2px 0 0;
+  color: var(--ig-muted);
+}
+
+.brief-session-card {
+  width: 100%;
+  max-width: 280px;
+  margin: 8px auto 0;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Reels (IG-style full-bleed vertical) */
+.reels-shell {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  color: #fff;
+}
+
+.reels-topbar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  background: #000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.reels-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.reels-topbar .inbox-chip {
+  background: rgba(255, 255, 255, 0.14);
+  color: #f5f5f5;
+}
+
+.reels-stage {
+  flex: 1;
+  position: relative;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  background: #000;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
+
+.reels-video {
+  position: absolute;
+  inset: 0;
+}
+
+.reels-rail {
+  position: absolute;
+  right: 10px;
+  bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-size: 24px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.reels-meta {
+  position: absolute;
+  left: 12px;
+  right: 56px;
+  bottom: 72px;
+}
+
+.reels-user {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.reels-caption {
+  margin: 0 0 4px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.reels-likes {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.reels-dots {
+  position: absolute;
+  bottom: 52px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.reels-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.reels-dot.is-active {
+  background: #fff;
+}
+
+/* Create post (IG-style composer) */
+.create-header {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--ig-line);
+  background: var(--ig-surface);
+}
+
+.create-cancel {
+  font-size: 20px;
+  width: 28px;
+  color: var(--ig-text);
+}
+
+.create-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.create-share {
+  border: 0;
+  background: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #b3dbf7;
+}
+
+.create-share:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.create-share--on {
+  color: #0095f6;
+}
+
+.create-subhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--ig-line);
+  background: var(--ig-bg);
+  min-height: 36px;
+}
+
+.create-session-hint {
+  font-size: 11px;
+  color: var(--ig-muted);
+  flex: 1;
+  text-align: right;
+}
+
+.create-scroll {
+  background: var(--ig-surface);
+}
+
+.create-preview {
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(145deg, #f5c26b, #e17b34 45%, #8b4513);
+  border-bottom: 1px solid var(--ig-line);
+}
+
+.create-caption {
+  width: 100%;
+  border: 0;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 14px;
+  resize: none;
+  outline: none;
+}
+
+.create-caption::placeholder {
+  color: var(--ig-muted);
+}
+
+.create-toast {
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #0095f6;
+  background: #f0f9ff;
+  border-top: 1px solid var(--ig-line);
+}

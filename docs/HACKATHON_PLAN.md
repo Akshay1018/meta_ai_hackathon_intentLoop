@@ -36,6 +36,8 @@ It is the missing **close of the loop** on a visit you already take:
 
 People who **still want Instagram** but often leave feeling they **didn’t do the one thing** they had in mind: everyday adults; people who **already set a 15-minute limit**; creators who open to **post** or **answer DMs**; parents/busy people who already visit **Profile**. Not for: quit-social, teen locks, medical coaches, people who want IntentLoop **off**.
 
+**Persona matrix (video + submission):** [PERSONAS_AND_IMPACT.md](./PERSONAS_AND_IMPACT.md).
+
 ### Real time (during this visit)
 
 | Moment | What happens | What you feel |
@@ -65,12 +67,50 @@ No private-feed scrape. Screenshot / walk photo only if **you** attach them on t
 | Item | Why |
 |------|-----|
 | **Companion-scroll / no-intent sessions** | Summarize drift when user never opened DMs/Create “for real”; video narrative above. |
-| **Stronger Reels/Create chrome** | Full mock screens (not placeholders). |
-| **Intent on every tab** | Same Spark + cache as DMs for Create, Reels, Profile. |
+| **Reels/Create chrome + intent** | **Done (step 11).** Further pixel polish if time. |
 | **Brief UX polish** | Shorter Spark copy; primary action button styling; drift visual. |
-| **IndexedDB history** | Persist briefs across days (local only). |
+| **Visit-accurate summaries** | **Done** — per-visit cache reset, tab order, `postedThisVisit`. |
 | **Baseten fallback** | If Meta API fails during judge demo. |
 | **Vercel + rate limit** | Protect `MODEL_API_KEY` when public. |
+
+### Your activity — history & retention (enhance last; spec now)
+
+**Behavior (target):**
+
+- Every time the user taps **See visit summary** when the limit banner appears, append **one row** to history (same day can have **many** summaries — each limit cycle / each “visit” after reset).
+- **Today** section = all summaries for the calendar day (newest first).
+- **Rolling window:** show **5–7 days** by default (product default **7**; settings allow **3 / 5 / 7 / 14** or “keep 7 days only”).
+- Storage: **IndexedDB** (or localStorage with cap) — device-local, no server; aligns with “no scrape.”
+- **Start new visit (demo)** stays for hackathon demo; in a shipped product, a new “visit” might also start on cold open after N hours or explicit “new session” — out of scope for Nov 4 unless time.
+
+**Settings UI (later):** Profile → Your activity → “Keep summaries for **7 days**” (dropdown). Purge older rows on read/write.
+
+**Why this matters for Impact:** users can **look back** (“I kept saying I’d reply in DMs but drifted to Reels four times Tuesday”) without another app.
+
+---
+
+### Meta partnership pitch — “Time spent **and** where it went” (enhance last; high value)
+
+Instagram **Your activity** already answers: **how much** time (daily average, weekly chart, reminders). IntentLoop adds the missing axis: **what the time was for** and **whether it matched**.
+
+| Today (Meta) | + IntentLoop (proposal) |
+|--------------|-------------------------|
+| 32 min / day average | Same clock |
+| Time by day / week | **Summaries by day** — e.g. “3 visits: 2 browse-only, 1 post completed” |
+| Daily limit reminder | Same banner grammar + optional **visit summary** |
+| — | **Where:** feed vs Reels vs DMs vs Create (from tab order + Spark, no private feed read) |
+| — | **Outcome:** drift %, one-line happened, one next action |
+
+**One line for judges / Meta:** *“You already show minutes. We show minutes **with meaning** — where they went and if the visit did the job.”* That is a natural **upsell inside Your activity**, not a competing app: same screen family as “Time spent,” new row **“Visit summaries”** or **“What those visits were.”**
+
+**Optional later (if time):** tiny stacked bar “this week: % in Reels vs DMs vs posting” derived from visit logs only (no pixel tracking). Do **not** claim medical or addiction treatment.
+
+**Additional enhancements worth capturing:**
+
+- **Chip copy:** show inferred `goal` (“Reply in DMs”) instead of “Inbox · on intent” for end users; keep chips minimal on Home.
+- **Weekly digest** in activity: one Spark call/week max — “Mostly browsing, one post shipped.”
+- **Export / delete my summaries** — trust button for privacy story in video.
+- **Facebook adapter** — same engine, second chrome (step 16).
 
 ---
 

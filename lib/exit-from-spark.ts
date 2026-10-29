@@ -4,22 +4,16 @@ import {
   fixtureExitBrief,
   isExitBrief,
   type ExitBrief,
-  type IntentCard,
-  type IntentSurface,
+  type ExitBriefInput,
 } from "@/lib/schemas";
 
 export async function inferExitBrief(
-  input: {
-    intent: IntentCard;
-    surfacesVisited: IntentSurface[];
-    elapsedSec: number;
-    recap?: string;
-  },
+  input: ExitBriefInput & { recap?: string },
   options: { fixture: boolean },
 ): Promise<{ brief: ExitBrief; model: string; fixture: boolean }> {
   if (options.fixture) {
     return {
-      brief: fixtureExitBrief(input.intent, input.surfacesVisited),
+      brief: fixtureExitBrief(input),
       model: "fixture",
       fixture: true,
     };
@@ -33,13 +27,16 @@ export async function inferExitBrief(
       {
         role: "system",
         content:
-          "You write a short Instagram session ExitBrief. Never shame. drift 0=on intent, 100=fully off. tone neutral or encouraging only.",
+          "You write a short Instagram session ExitBrief. Use surfaceOrder and postedThisVisit — each visit must get a distinct accurate happened line. If postedThisVisit is true, lead with posting. Never shame. drift 0=on intent, 100=fully off.",
       },
       {
         role: "user",
         content: JSON.stringify({
-          intent: input.intent,
+          leadIntent: input.intent,
           surfacesVisited: input.surfacesVisited,
+          surfaceOrder: input.surfaceOrder,
+          postedThisVisit: input.postedThisVisit,
+          intentsBySurface: input.intentsBySurface,
           elapsedSec: input.elapsedSec,
           recap: input.recap ?? "",
         }),

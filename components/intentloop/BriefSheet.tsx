@@ -1,11 +1,13 @@
 "use client";
 
-import type { ExitBrief } from "@/lib/schemas";
+import { BriefExtras } from "@/components/intentloop/BriefExtras";
+import type { ExitBrief, IntentCard } from "@/lib/schemas";
 
 type BriefSheetProps = {
   open: boolean;
   loading: boolean;
   brief: ExitBrief | null;
+  intent: IntentCard | null;
   fallbackNote: string | null;
   onClose: () => void;
   onAction: () => void;
@@ -15,6 +17,7 @@ export function BriefSheet({
   open,
   loading,
   brief,
+  intent,
   fallbackNote,
   onClose,
   onAction,
@@ -36,6 +39,7 @@ export function BriefSheet({
             <p className="brief-drift">Drift {Math.round(brief.drift)}%</p>
             <p className="brief-happened">{brief.happened}</p>
             {fallbackNote ? <p className="activity-hint">{fallbackNote}</p> : null}
+            {intent ? <BriefExtras intent={intent} brief={brief} /> : null}
             <button type="button" className="limit-btn limit-btn--accent" onClick={onAction}>
               {brief.next_action}
             </button>

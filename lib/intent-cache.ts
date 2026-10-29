@@ -21,3 +21,10 @@ export function writeCachedIntent(surface: string, card: IntentCard): void {
     /* ignore quota */
   }
 }
+
+export function clearAllCachedIntents(): void {
+  if (typeof window === "undefined") return;
+  for (const key of Object.keys(sessionStorage)) {
+    if (key.startsWith(PREFIX)) sessionStorage.removeItem(key);
+  }
+}

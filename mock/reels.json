@@ -1,3 +1,25 @@
 {
-  "reels": []
+  "reels": [
+    {
+      "id": "r1",
+      "user": "maya.draws",
+      "caption": "Morning light in Lisbon",
+      "likes": "12.4K",
+      "hue": 24
+    },
+    {
+      "id": "r2",
+      "user": "jordan.runs",
+      "caption": "Easy loop before work",
+      "likes": "8.1K",
+      "hue": 145
+    },
+    {
+      "id": "r3",
+      "user": "priya.eats",
+      "caption": "Dumpling ranking, part 2",
+      "likes": "31K",
+      "hue": 280
+    }
+  ]
 }

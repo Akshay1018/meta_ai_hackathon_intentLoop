@@ -47,10 +47,10 @@ Use this file as a gate. If a change would violate a row below, do not ship it.
 
 | Model | When the user sees it | Status |
 |-------|------------------------|--------|
-| **Muse Spark 1.3** (`MODEL_API_KEY` → `https://api.meta.ai/v1`) | IntentCard on **DMs** (cached); **ExitBrief** on See brief | **Live: Steps 2–4 — intent + exit (2 Spark calls max per demo run)** |
-| **Muse Voice Transcribe** | Mic on the **brief sheet**, not on open | Later |
-| **SAM 3.1** | Optional walk photo on brief | Later |
-| **Muse Image** | Session card on brief | Later |
+| **Muse Spark 1.3** (`MODEL_API_KEY` → `https://api.meta.ai/v1`) | IntentCard on **DMs, Reels, Create** (cached each); **ExitBrief** on **See visit summary**; optional **screenshot** vision on brief | **Up to 4 Spark calls first time per tab + 1 exit per visit** (+ optional vision) |
+| **Muse Voice Transcribe** | **Voice note (WAV)** on brief sheet | **Implemented** (`POST /api/transcribe`) |
+| **SAM 3.1** | **Walk photo** on brief | **Implemented** (`POST /api/segment`) |
+| **Muse Image** | **Session card** on brief | **Implemented** (`POST /api/card`) |
 | **Muse Code / Wonder** | How we write code in the terminal (`ANTHROPIC_*`) — **not** the in-app loop | Dev only unless we show it in the video |
 | **Baseten Spark Open 1026** | Fallback if Meta API errors | Later |
 | **Modal** | Optional function using secret `intentloop-key` | Later |

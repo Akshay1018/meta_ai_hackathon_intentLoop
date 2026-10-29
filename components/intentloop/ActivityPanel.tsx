@@ -74,8 +74,8 @@ export function ActivityPanel() {
             Start new visit (demo)
           </button>
           <p className="activity-hint">
-            Resets the {limitSeconds(settings)}s timer and shows the limit banner again after
-            it expires.
+            Resets the {limitSeconds(settings)}s timer, clears tab history and intent cache for
+            this visit, then shows the limit banner again after it expires.
           </p>
         </section>
 
