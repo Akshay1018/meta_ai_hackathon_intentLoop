@@ -36,24 +36,29 @@ export function FeedPost({ post }: FeedPostProps) {
           <IconMore size={22} />
         </button>
       </div>
-      {post.imageUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          className="post-image post-image--photo"
-          src={post.imageUrl}
-          alt={`Photo by ${post.username}`}
-          loading="lazy"
-        />
-      ) : (
+      <div className="post-image-wrap">
+        {post.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            className="post-image post-image--photo"
+            src={post.imageUrl}
+            alt={`Photo by ${post.username}`}
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+          />
+        ) : null}
         <div
-          className="post-image"
+          className="post-image post-image-fallback"
           style={{
             background: `linear-gradient(145deg, hsl(${post.hue} 60% 48%), hsl(${post.hue + 40} 40% 28%))`,
           }}
           role="img"
           aria-label={`Photo by ${post.username}`}
         />
-      )}
+      </div>
       <div className="post-actions">
         <div className="post-actions-left">
           <button

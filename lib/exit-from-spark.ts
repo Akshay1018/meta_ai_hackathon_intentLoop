@@ -27,7 +27,10 @@ export async function inferExitBrief(
       {
         role: "system",
         content:
-          "You write a short Instagram session ExitBrief. Use surfaceOrder and postedThisVisit — each visit must get a distinct accurate happened line. If postedThisVisit is true, lead with posting. Never shame. drift 0=on intent, 100=fully off.",
+          "You write a short Instagram session ExitBrief for a normal user (not an analytics dashboard). " +
+          "happened: ONE or TWO plain sentences, max 220 characters. No numbered lists, no step-by-step timeline, no '1. home 2. reels'. " +
+          "Say what mattered vs what drifted in human language. postedThisVisit true → lead with posting. Never shame or medical language. " +
+          "next_action: one short button label (max 56 chars), imperative. drift 0=on intent, 100=fully off.",
       },
       {
         role: "user",

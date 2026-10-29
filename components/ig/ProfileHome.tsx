@@ -79,7 +79,13 @@ export function ProfileHome({ data }: { data: ProfileData }) {
             <div key={tile.id} className="profile-tile">
               {tile.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={tile.imageUrl} alt="" className="profile-tile-img" loading="lazy" />
+                <img
+                  src={tile.imageUrl}
+                  alt=""
+                  className="profile-tile-img"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
               ) : (
                 <span style={{ background: `hsl(${tile.hue} 45% 42%)` }}>{tile.label}</span>
               )}

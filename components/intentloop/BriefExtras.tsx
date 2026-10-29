@@ -11,7 +11,12 @@ type BriefExtrasProps = {
 
 type Line = { id: string; label: string; text: string };
 
+/**
+ * Hackathon-only: proves Meta models on the judging video.
+ * Collapsed by default — not a shipped IG v1 feature for everyday users.
+ */
 export function BriefExtras({ intent, brief }: BriefExtrasProps) {
+  const [open, setOpen] = useState(false);
   const [lines, setLines] = useState<Line[]>([]);
   const [cardB64, setCardB64] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -20,7 +25,7 @@ export function BriefExtras({ intent, brief }: BriefExtrasProps) {
   const wavRef = useRef<HTMLInputElement>(null);
 
   const addLine = useCallback((label: string, text: string) => {
-    setLines((prev) => [{ id: `${Date.now()}`, label, text }, ...prev].slice(0, 6));
+    setLines((prev) => [{ id: `${Date.now()}`, label, text }, ...prev].slice(0, 4));
   }, []);
 
   const readFileB64 = (file: File) =>
@@ -107,68 +112,122 @@ export function BriefExtras({ intent, brief }: BriefExtrasProps) {
   };
 
   return (
-    <div className="brief-extras">
-      <p className="brief-extras-title">Optional proof (you choose)</p>
-      <div className="brief-extras-row">
-        <button type="button" className="brief-extras-btn" disabled={!!busy} onClick={() => shotRef.current?.click()}>
-          Screenshot
-        </button>
-        <button type="button" className="brief-extras-btn" disabled={!!busy} onClick={() => walkRef.current?.click()}>
-          Walk photo
-        </button>
-        <button type="button" className="brief-extras-btn" disabled={!!busy} onClick={() => wavRef.current?.click()}>
-          Voice (WAV)
-        </button>
-        <button type="button" className="brief-extras-btn" disabled={!!busy} onClick={() => void onSessionCard()}>
-          Session card
-        </button>
-      </div>
-      {busy ? <p className="activity-hint">Calling Meta ({busy})…</p> : null}
-      <input
-        ref={shotRef}
-        type="file"
-        accept="image/*"
-        hidden
-        onChange={(e) => {
-          const f = e.target.files?.[0];
-          if (f) void onScreenshot(f);
-          e.target.value = "";
-        }}
-      />
-      <input
-        ref={walkRef}
-        type="file"
-        accept="image/*"
-        hidden
-        onChange={(e) => {
-          const f = e.target.files?.[0];
-          if (f) void onWalkPhoto(f);
-          e.target.value = "";
-        }}
-      />
-      <input
-        ref={wavRef}
-        type="file"
-        accept="audio/wav,audio/x-wav"
-        hidden
-        onChange={(e) => {
-          const f = e.target.files?.[0];
-          if (f) void onWav(f);
-          e.target.value = "";
-        }}
-      />
-      {lines.map((line) => (
-        <div key={line.id} className="brief-extra-line">
-          <strong>{line.label}</strong>
-          <p>{line.text}</p>
+    <div className="brief-extras-wrap">
+      <button
+        type="button"
+        className="brief-extras-toggle"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+      >
+        {open ? "Hide" : "More"} · Meta AI demo tools
+      </button>
+      {open ? (
+        <div className="brief-extras">
+          <p className="brief-extras-lede">
+            For the hackathon demo only. Real IG would not ask you to upload files here — these
+            buttons show judges which Meta models power IntentLoop.
+          </p>
+          <ul className="brief-extras-legend">
+            <li>
+              <strong>Screenshot</strong> — you pick one image; Spark describes it vs your intent.
+            </li>
+            <li>
+              <strong>Walk photo</strong> — optional street scene; SAM nudges if phone/traffic
+              shows up (scroll-and-walk safety).
+            </li>
+            <li>
+              <strong>Voice</strong> — upload a short <em>.wav</em> note; Muse transcribes (no
+              always-on mic).
+            </li>
+            <li>
+              <strong>Session card</strong> — Muse Image makes a calm bookmark (not a chart).
+            </li>
+          </ul>
+          <div className="brief-extras-row">
+            <button
+              type="button"
+              className="brief-extras-btn"
+              disabled={!!busy}
+              onClick={() => shotRef.current?.click()}
+            >
+              Screenshot
+            </button>
+            <button
+              type="button"
+              className="brief-extras-btn"
+              disabled={!!busy}
+              onClick={() => walkRef.current?.click()}
+            >
+              Walk photo
+            </button>
+            <button
+              type="button"
+              className="brief-extras-btn"
+              disabled={!!busy}
+              onClick={() => wavRef.current?.click()}
+            >
+              Voice (.wav)
+            </button>
+            <button
+              type="button"
+              className="brief-extras-btn"
+              disabled={!!busy}
+              onClick={() => void onSessionCard()}
+            >
+              Session card
+            </button>
+          </div>
+          {busy ? <p className="activity-hint">Calling Meta ({busy})…</p> : null}
+          <input
+            ref={shotRef}
+            type="file"
+            accept="image/*"
+            hidden
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) void onScreenshot(f);
+              e.target.value = "";
+            }}
+          />
+          <input
+            ref={walkRef}
+            type="file"
+            accept="image/*"
+            hidden
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) void onWalkPhoto(f);
+              e.target.value = "";
+            }}
+          />
+          <input
+            ref={wavRef}
+            type="file"
+            accept="audio/wav,audio/x-wav"
+            hidden
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) void onWav(f);
+              e.target.value = "";
+            }}
+          />
+          {lines.map((line) => (
+            <div key={line.id} className="brief-extra-line">
+              <strong>{line.label}</strong>
+              <p>{line.text}</p>
+            </div>
+          ))}
+          {cardB64 ? (
+            <>
+              <p className="brief-card-caption">Session bookmark (Muse Image) — a visual close, not analytics.</p>
+              <img
+                className="brief-session-card"
+                src={`data:image/png;base64,${cardB64}`}
+                alt="Session bookmark from Muse Image"
+              />
+            </>
+          ) : null}
         </div>
-      ))}
-      {cardB64 ? (
-        <img
-          className="brief-session-card"
-          src={`data:image/png;base64,${cardB64}`}
-          alt="Session card generated by Muse Image"
-        />
       ) : null}
     </div>
   );

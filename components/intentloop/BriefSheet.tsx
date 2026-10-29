@@ -35,7 +35,7 @@ export function BriefSheet({
           Visit summary
         </p>
         <p className="limit-copy limit-copy--brief">
-          How this visit matched what you opened for — one honest recap.
+          One honest line about this visit — not a full analytics report.
         </p>
         {loading ? (
           <BriefSkeleton />

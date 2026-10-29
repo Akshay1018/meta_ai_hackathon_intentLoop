@@ -55,7 +55,12 @@ export function ReelsViewer({ reels }: ReelsViewerProps) {
       >
         {reel.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img className="reels-video reels-video--photo" src={reel.imageUrl} alt="" />
+          <img
+            className="reels-video reels-video--photo"
+            src={reel.imageUrl}
+            alt=""
+            referrerPolicy="no-referrer"
+          />
         ) : (
           <div
             className="reels-video"

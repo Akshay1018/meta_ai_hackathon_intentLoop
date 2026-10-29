@@ -359,11 +359,27 @@ button {
   color: var(--ig-muted);
 }
 
+.post-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--ig-line-soft);
+}
+
 .post-image {
   width: 100%;
   aspect-ratio: 1;
   display: block;
   background: var(--ig-line-soft);
+}
+
+.post-image-fallback {
+  position: absolute;
+  inset: 0;
+}
+
+.post-image-wrap:has(.post-image--photo:not([style*="display: none"])) .post-image-fallback {
+  z-index: -1;
 }
 
 .post-image--photo {
@@ -951,10 +967,54 @@ button {
   margin-bottom: 2px;
 }
 
+.brief-extras-wrap {
+  margin: 0 16px 8px;
+}
+
+.brief-extras-toggle {
+  width: 100%;
+  border: 0;
+  background: var(--ig-line-soft);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ig-muted);
+}
+
 .brief-extras {
-  margin: 12px 16px;
-  padding-top: 8px;
+  margin: 10px 0 0;
+  padding-top: 10px;
   border-top: 1px solid var(--ig-line);
+}
+
+.brief-extras-lede {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--ig-muted);
+  line-height: 1.45;
+}
+
+.brief-extras-legend {
+  margin: 0 0 10px;
+  padding-left: 18px;
+  font-size: 11px;
+  color: var(--ig-muted);
+  line-height: 1.4;
+}
+
+.brief-card-caption {
+  margin: 8px 0 4px;
+  font-size: 11px;
+  color: var(--ig-muted);
+  text-align: center;
+}
+
+.activity-code {
+  font-size: 11px;
+  background: var(--ig-line-soft);
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 .brief-extras-title {

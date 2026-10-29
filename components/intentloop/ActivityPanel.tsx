@@ -101,6 +101,30 @@ export function ActivityPanel() {
           </p>
         </section>
 
+        <section className="activity-card activity-card--privacy">
+          <p className="activity-kicker">Privacy</p>
+          <p className="activity-sub">
+            IntentLoop only uses <strong>which tabs you open in this mock app</strong> and your
+            limit setting — not your real Instagram password, DMs, or feed. Summaries stay{" "}
+            <strong>on this device</strong> until you clear them. Optional photo/voice on the visit
+            summary run only if <strong>you</strong> pick a file (hackathon demo).
+          </p>
+          <p className="activity-hint">
+            A shipped Meta version would show this in Your activity with clear on/off and export/delete
+            — same trust bar as Time spent.
+          </p>
+        </section>
+
+        <section className="activity-card">
+          <p className="activity-kicker">Demo persona (video)</p>
+          <p className="activity-sub">
+            For the video, run two visits: <strong>DMs-first</strong> (reply intent) and{" "}
+            <strong>Create + Share</strong> (creator). Full matrix:{" "}
+            <code className="activity-code">docs/PERSONAS_AND_IMPACT.md</code>. In-app persona picker
+            is next.
+          </p>
+        </section>
+
         <section className="activity-card">
           <label className="activity-row">
             <span>IntentLoop</span>
