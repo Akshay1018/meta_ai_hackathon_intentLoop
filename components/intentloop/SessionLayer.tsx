@@ -10,7 +10,14 @@ import { useLimitTimer } from "@/components/intentloop/useLimitTimer";
 import { useSessionSettings } from "@/components/intentloop/useSessionSettings";
 import type { IntentSurface } from "@/lib/schemas";
 
-function actionHref(surface: IntentSurface | undefined): string {
+function actionHref(surface: IntentSurface | undefined, nextAction?: string): string {
+  const t = (nextAction ?? "").toLowerCase();
+  if (t.includes("message") || t.includes("inbox") || t.includes(" dm")) return "/dms";
+  if (t.includes("reel")) return "/reels";
+  if (t.includes("post") || t.includes("share") || t.includes("create")) return "/create";
+  if (t.includes("activity") || t.includes("time spent")) return "/profile/activity";
+  if (t.includes("home") || t.includes("feed")) return "/";
+
   switch (surface) {
     case "dms":
       return "/dms";
@@ -44,10 +51,10 @@ export function SessionLayer() {
   }, [reset, skip]);
 
   const onAction = useCallback(() => {
-    const href = actionHref(intent?.surface);
+    const href = actionHref(intent?.surface, brief?.next_action);
     closeBrief();
     router.push(href);
-  }, [closeBrief, intent?.surface, router]);
+  }, [brief?.next_action, closeBrief, intent?.surface, router]);
 
   return (
     <>

@@ -8,7 +8,7 @@ const data = feed as FeedData;
 
 export default function HomePage() {
   return (
-    <>
+    <div className="ig-route">
       <IgHeader />
       <div className="ig-scroll">
         <StoriesRow stories={data.stories} />
@@ -16,6 +16,6 @@ export default function HomePage() {
           <FeedPost key={post.id} post={post} />
         ))}
       </div>
-    </>
+    </div>
   );
 }

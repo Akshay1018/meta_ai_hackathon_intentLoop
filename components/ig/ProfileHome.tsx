@@ -23,7 +23,7 @@ type ProfileData = {
 
 export function ProfileHome({ data }: { data: ProfileData }) {
   return (
-    <>
+    <div className="ig-route">
       <header className="ig-header ig-header--profile">
         <span className="profile-header-user">{data.user.username}</span>
         <button type="button" className="ig-icon-btn" aria-label="Settings">
@@ -87,6 +87,6 @@ export function ProfileHome({ data }: { data: ProfileData }) {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }

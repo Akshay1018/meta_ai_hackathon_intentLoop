@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import { IntentChip } from "@/components/intentloop/IntentChip";
@@ -12,9 +13,11 @@ export function CreateComposer() {
   const [posted, setPosted] = useState(false);
 
   return (
-    <>
+    <div className="ig-route ig-route--create">
       <header className="create-header">
-        <span className="create-cancel">✕</span>
+        <Link href="/" className="create-cancel ig-icon-btn" aria-label="Close">
+          ✕
+        </Link>
         <span className="create-title">New post</span>
         <button
           type="button"
@@ -58,6 +61,6 @@ export function CreateComposer() {
           </p>
         ) : null}
       </div>
-    </>
+    </div>
   );
 }

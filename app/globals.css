@@ -212,8 +212,24 @@ button {
   gap: 10px;
 }
 
+.ig-main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ig-route {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .ig-scroll {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   background: var(--ig-surface);
 }
@@ -984,6 +1000,10 @@ button {
 }
 
 /* Reels (IG-style full-bleed vertical) */
+.ig-route--reels {
+  background: #000;
+}
+
 .reels-shell {
   flex: 1;
   min-height: 0;
@@ -1028,6 +1048,11 @@ button {
   cursor: pointer;
   text-align: left;
   color: inherit;
+  outline: none;
+}
+
+.reels-stage:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 
 .reels-video {
@@ -1061,6 +1086,7 @@ button {
 
 .reels-rail {
   position: absolute;
+  z-index: 3;
   right: 10px;
   bottom: 120px;
   display: flex;
@@ -1072,9 +1098,11 @@ button {
 
 .reels-meta {
   position: absolute;
+  z-index: 2;
   left: 12px;
   right: 56px;
   bottom: 72px;
+  pointer-events: none;
 }
 
 .reels-user {
@@ -1128,9 +1156,14 @@ button {
 }
 
 .create-cancel {
-  font-size: 20px;
-  width: 28px;
+  font-size: 22px;
+  width: 32px;
+  height: 32px;
   color: var(--ig-text);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .create-title {

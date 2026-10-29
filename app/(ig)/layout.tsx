@@ -13,7 +13,7 @@ export default function IgLayout({ children }: { children: ReactNode }) {
     <PhoneShell metaKeyConfigured={metaKeyConfigured}>
       <IgStatusBar />
       <SurfaceTracker />
-      {children}
+      <div className="ig-main">{children}</div>
       <TabBar />
       <SessionLayer />
     </PhoneShell>

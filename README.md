@@ -62,7 +62,13 @@ npm install
 npm run dev
 ```
 
-If you see `Cannot find module './NNN.js'`, stop the server and run **`npm run dev:clean`** (stale `.next` after `npm run build`).
+If you see **`Cannot find module './887.js'`** (or any `./NNN.js`), unstyled pages, or **ChunkLoadError**:
+
+1. Stop **all** servers on port 3000 (do not run `npm run start` and `npm run dev` at the same time).
+2. Run **`npm run dev:clean`** (deletes `.next` and starts dev).
+3. Hard-refresh the browser (or use a new incognito window).
+
+Verify routes: **`npm run smoke:routes`** (server must already be up).
 
 Open [http://127.0.0.1:3000](http://127.0.0.1:3000). You should see a phone-sized **Home** (stories + feed) with **no overlay**. A green dot above the phone means `MODEL_API_KEY` is set in `.env.local` (the key is never printed).
 

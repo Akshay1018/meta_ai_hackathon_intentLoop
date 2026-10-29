@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, type KeyboardEvent, type MouseEvent } from "react";
 
 import { IconComment, IconHeart, IconMore, IconShare } from "@/components/ig/IgIcons";
 import { IntentChip } from "@/components/intentloop/IntentChip";
@@ -28,6 +28,10 @@ export function ReelsViewer({ reels }: ReelsViewerProps) {
     setIndex((i) => (i + 1) % reels.length);
   }, [reels.length]);
 
+  const stopTap = useCallback((e: MouseEvent | KeyboardEvent) => {
+    e.stopPropagation();
+  }, []);
+
   if (!reel) return null;
 
   return (
@@ -36,7 +40,19 @@ export function ReelsViewer({ reels }: ReelsViewerProps) {
         <span className="reels-title">Reels</span>
         <IntentChip surface="reels" card={card} loading={loading} />
       </header>
-      <button type="button" className="reels-stage" onClick={next} aria-label="Next reel">
+      <div
+        className="reels-stage"
+        role="button"
+        tabIndex={0}
+        onClick={next}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            next();
+          }
+        }}
+        aria-label="Next reel"
+      >
         {reel.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img className="reels-video reels-video--photo" src={reel.imageUrl} alt="" />
@@ -50,16 +66,36 @@ export function ReelsViewer({ reels }: ReelsViewerProps) {
         )}
         <div className="reels-scrim" aria-hidden />
         <div className="reels-rail">
-          <button type="button" className="ig-icon-btn reels-rail-btn" aria-label="Like">
+          <button
+            type="button"
+            className="ig-icon-btn reels-rail-btn"
+            aria-label="Like"
+            onClick={stopTap}
+          >
             <IconHeart size={28} />
           </button>
-          <button type="button" className="ig-icon-btn reels-rail-btn" aria-label="Comment">
+          <button
+            type="button"
+            className="ig-icon-btn reels-rail-btn"
+            aria-label="Comment"
+            onClick={stopTap}
+          >
             <IconComment size={28} />
           </button>
-          <button type="button" className="ig-icon-btn reels-rail-btn" aria-label="Share">
+          <button
+            type="button"
+            className="ig-icon-btn reels-rail-btn"
+            aria-label="Share"
+            onClick={stopTap}
+          >
             <IconShare size={28} />
           </button>
-          <button type="button" className="ig-icon-btn reels-rail-btn" aria-label="More">
+          <button
+            type="button"
+            className="ig-icon-btn reels-rail-btn"
+            aria-label="More"
+            onClick={stopTap}
+          >
             <IconMore size={28} />
           </button>
         </div>
@@ -73,7 +109,7 @@ export function ReelsViewer({ reels }: ReelsViewerProps) {
             <span key={r.id} className={i === index ? "reels-dot is-active" : "reels-dot"} />
           ))}
         </div>
-      </button>
+      </div>
     </div>
   );
 }

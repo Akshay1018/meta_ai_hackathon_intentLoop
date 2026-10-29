@@ -22,7 +22,7 @@ export function DmsInbox({ threads }: DmsInboxProps) {
   const { card, loading } = useIntentCard("dms");
 
   return (
-    <>
+    <div className="ig-route">
       <header className="ig-header ig-header--messages">
         <span className="messages-title">you</span>
         <div className="messages-head-actions">
@@ -56,6 +56,6 @@ export function DmsInbox({ threads }: DmsInboxProps) {
           </button>
         ))}
       </div>
-    </>
+    </div>
   );
 }

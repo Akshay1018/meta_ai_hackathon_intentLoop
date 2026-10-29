@@ -46,7 +46,7 @@ export function ActivityPanel() {
   };
 
   return (
-    <>
+    <div className="ig-route">
       <header className="ig-header">
         <Link href="/profile" className="activity-back">
           ‹
@@ -138,6 +138,6 @@ export function ActivityPanel() {
           )}
         </section>
       </div>
-    </>
+    </div>
   );
 }
