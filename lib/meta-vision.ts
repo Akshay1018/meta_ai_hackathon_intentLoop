@@ -4,6 +4,7 @@ import type { IntentCard } from "@/lib/schemas";
 export type VisionResult = {
   happened: string;
   vs_intent: string;
+  next_step: string;
 };
 
 export async function analyzeScreenshot(input: {
@@ -22,7 +23,9 @@ export async function analyzeScreenshot(input: {
       {
         role: "system",
         content:
-          "You compare a user-chosen screenshot to their session intent. Two short strings only in plain JSON: happened, vs_intent. Never shame.",
+          "User missed something while scrolling (e.g. a Reel they wanted to like/share). They uploaded ONE photo they chose. " +
+          "Describe what the image shows (happened), how it relates to their intent (vs_intent), and one helpful next_step " +
+          "(like, save, search, or let go). Short plain language. Never shame.",
       },
       {
         role: "user",
@@ -43,10 +46,11 @@ export async function analyzeScreenshot(input: {
         schema: {
           type: "object",
           additionalProperties: false,
-          required: ["happened", "vs_intent"],
+          required: ["happened", "vs_intent", "next_step"],
           properties: {
             happened: { type: "string" },
             vs_intent: { type: "string" },
+            next_step: { type: "string" },
           },
         },
       },
@@ -61,7 +65,8 @@ export async function analyzeScreenshot(input: {
 
 export function fixtureVision(intent: IntentCard): VisionResult {
   return {
-    happened: "Screenshot shows a social feed or Reels-style screen.",
-    vs_intent: `Compared to “${intent.goal}”: may match or drift — fixture mode, no image sent.`,
+    happened: "Looks like a Reels or feed screen in your photo.",
+    vs_intent: `You opened for “${intent.goal}” — this might be the clip you had in mind.`,
+    next_step: "If this is the one, like or save it, then close the app.",
   };
 }

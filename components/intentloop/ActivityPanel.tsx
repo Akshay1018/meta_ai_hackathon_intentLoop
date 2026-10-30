@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { useConsentSettings } from "@/components/intentloop/useConsentSettings";
 import { useLimitTimer } from "@/components/intentloop/useLimitTimer";
 import { useSessionSettings } from "@/components/intentloop/useSessionSettings";
 import { readBriefRecords, type BriefRecord } from "@/lib/brief-history";
@@ -30,6 +31,7 @@ function timerHint(input: {
 
 export function ActivityPanel() {
   const { settings, update } = useSessionSettings();
+  const { consent, update: updateConsent } = useConsentSettings();
   const { remaining, phase, blockReason } = useLimitTimer(settings);
   const [briefs, setBriefs] = useState<BriefRecord[]>([]);
 
@@ -104,15 +106,46 @@ export function ActivityPanel() {
         <section className="activity-card activity-card--privacy">
           <p className="activity-kicker">Privacy</p>
           <p className="activity-sub">
-            IntentLoop only uses <strong>which tabs you open in this mock app</strong> and your
-            limit setting — not your real Instagram password, DMs, or feed. Summaries stay{" "}
-            <strong>on this device</strong> until you clear them. Optional photo/voice on the visit
-            summary run only if <strong>you</strong> pick a file (hackathon demo).
+            IntentLoop uses <strong>which tabs you open here</strong> and your limit — not your real
+            IG password or DMs. Summaries stay <strong>on this device</strong>. Photo, voice, surroundings,
+            and visit card run <strong>only when you turn them on</strong> and choose to use them.
           </p>
-          <p className="activity-hint">
-            A shipped Meta version would show this in Your activity with clear on/off and export/delete
-            — same trust bar as Time spent.
-          </p>
+        </section>
+
+        <section className="activity-card">
+          <p className="activity-kicker">Optional features (your consent)</p>
+          <label className="activity-row">
+            <span>Still looking for something? (photo + Spark)</span>
+            <input
+              type="checkbox"
+              checked={consent.photoMatch}
+              onChange={(e) => updateConsent({ photoMatch: e.target.checked })}
+            />
+          </label>
+          <label className="activity-row">
+            <span>After posting — surroundings check (SAM)</span>
+            <input
+              type="checkbox"
+              checked={consent.surroundingsCheck}
+              onChange={(e) => updateConsent({ surroundingsCheck: e.target.checked })}
+            />
+          </label>
+          <label className="activity-row">
+            <span>Voice on visit summary</span>
+            <input
+              type="checkbox"
+              checked={consent.voiceSummary}
+              onChange={(e) => updateConsent({ voiceSummary: e.target.checked })}
+            />
+          </label>
+          <label className="activity-row">
+            <span>Save visit card</span>
+            <input
+              type="checkbox"
+              checked={consent.visitCard}
+              onChange={(e) => updateConsent({ visitCard: e.target.checked })}
+            />
+          </label>
         </section>
 
         <section className="activity-card">

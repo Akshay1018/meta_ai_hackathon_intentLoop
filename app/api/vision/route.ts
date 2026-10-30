@@ -25,9 +25,10 @@ export async function POST(request: Request) {
 
   try {
     if (fixture) {
+      const fx = fixtureVision(body.intent);
       return Response.json({
         ok: true,
-        ...fixtureVision(body.intent),
+        ...fx,
         fixture: true,
         meta: metaCallMeta("fixture"),
       });
@@ -41,6 +42,7 @@ export async function POST(request: Request) {
       ok: true,
       happened: result.happened,
       vs_intent: result.vs_intent,
+      next_step: result.next_step,
       fixture: false,
       meta: metaCallMeta(model),
     });

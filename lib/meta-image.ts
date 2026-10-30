@@ -9,9 +9,8 @@ export async function generateSessionCard(brief: ExitBrief, intentGoal: string):
   const client = getMetaClient();
   const model = museImageModelId();
   const prompt =
-    `Minimal Instagram-style session card, soft gradient, no logos, no text in image. ` +
-    `Mood: calm closure after a social app visit. Theme: ${intentGoal}. ` +
-    `Drift level ${Math.round(brief.drift)} percent. Abstract, not a screenshot.`;
+    `Soft pastel gradient background only, calm and minimal, no text, no logos, no people, ` +
+    `no UI screenshot. Mood: gentle closure after a short social app session.`;
 
   const result = await client.images.generate({
     model,

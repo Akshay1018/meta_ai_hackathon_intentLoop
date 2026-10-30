@@ -903,11 +903,86 @@ button {
   letter-spacing: 0.06em;
 }
 
+.brief-drift-label {
+  margin: 0 16px 4px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--ig-muted);
+}
+
 .brief-happened {
   margin: 0 16px 12px;
   font-size: 15px;
   line-height: 1.5;
   text-align: center;
+}
+
+.visit-close {
+  margin: 0 0 8px;
+  padding: 12px 16px 0;
+  border-top: 1px solid var(--ig-line-soft);
+}
+
+.visit-close-title {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ig-text);
+}
+
+.visit-close-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.visit-close-btn {
+  width: 100%;
+  border: 1px solid var(--ig-line);
+  border-radius: 10px;
+  padding: 11px 12px;
+  background: #fafafa;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.visit-close-result {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--ig-bg);
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.visit-close-result-kicker {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ig-muted);
+}
+
+.visit-close-download {
+  display: block;
+  margin-top: 8px;
+  text-align: center;
+  color: var(--ig-blue);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.surroundings-toast {
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #262626;
+  background: #fff8e6;
+  border-top: 1px solid var(--ig-line);
 }
 
 .brief-skeleton {

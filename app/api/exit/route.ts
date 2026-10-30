@@ -1,3 +1,4 @@
+import { sanitizeHappened } from "@/lib/brief-display";
 import { inferExitBrief } from "@/lib/exit-from-spark";
 import { hasMetaApiKey, metaCallMeta } from "@/lib/meta";
 import { isIntentCard, isIntentSurface, type ExitBriefInput, type IntentSurface } from "@/lib/schemas";
@@ -68,17 +69,25 @@ export async function POST(request: Request) {
 
   try {
     const result = await inferExitBrief(payload, { fixture });
+    const brief = {
+      ...result.brief,
+      happened: sanitizeHappened(result.brief.happened),
+    };
     return Response.json({
       ok: true,
-      brief: result.brief,
+      brief,
       fixture: result.fixture,
       meta: metaCallMeta(result.model),
     });
   } catch {
     const fb = await inferExitBrief(payload, { fixture: true });
+    const brief = {
+      ...fb.brief,
+      happened: sanitizeHappened(fb.brief.happened),
+    };
     return Response.json({
       ok: true,
-      brief: fb.brief,
+      brief,
       fixture: true,
       meta: metaCallMeta("fixture-fallback"),
       message: "Live brief unavailable; showing honest fallback.",

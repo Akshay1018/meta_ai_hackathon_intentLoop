@@ -43,10 +43,13 @@ export async function segmentWalkPhoto(input: {
       : undefined;
   const raw = response.output_text ?? fallbackText ?? "";
 
-  const nudge =
-    raw.length > 20
-      ? "Scene check: phone or traffic nearby — one glance, then pocket the phone if you're walking."
-      : "Could not read masks; stay aware if you're moving.";
+  const lower = raw.toLowerCase();
+  const manyPhones = (lower.match(/phone/g) ?? []).length >= 2;
+  const nudge = manyPhones
+    ? "Several phones in frame — step somewhere quieter if you want more privacy while recording."
+    : raw.length > 20
+      ? "Looks like you're outside — eyes up for a block. Pocket the phone if you're crossing."
+      : "Busy spot — stay aware of people and traffic around you.";
 
   return {
     summary: { prompt: WALK_PROMPT, raw: raw.slice(0, 500), nudge },

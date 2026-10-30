@@ -1,3 +1,4 @@
+import { visitCardHook, sanitizeHappened } from "@/lib/brief-display";
 import { fixtureSessionCard, generateSessionCard } from "@/lib/meta-image";
 import { hasMetaApiKey, metaCallMeta } from "@/lib/meta";
 import { isExitBrief } from "@/lib/schemas";
@@ -19,11 +20,18 @@ export async function POST(request: Request) {
   const fixture =
     process.env.INTENTLOOP_FIXTURE === "1" || body.fixture === true || !hasMetaApiKey();
 
+  const lines = {
+    goal: intentGoal.slice(0, 80),
+    outcome: sanitizeHappened(body.brief.happened).slice(0, 140),
+    hook: visitCardHook(body.brief).slice(0, 80),
+  };
+
   try {
     if (fixture) {
       return Response.json({
         ok: true,
-        imageBase64: fixtureSessionCard(),
+        backgroundBase64: fixtureSessionCard(),
+        lines,
         fixture: true,
         meta: metaCallMeta("fixture"),
       });
@@ -31,14 +39,16 @@ export async function POST(request: Request) {
     const { imageBase64, model } = await generateSessionCard(body.brief, intentGoal);
     return Response.json({
       ok: true,
-      imageBase64,
+      backgroundBase64: imageBase64,
+      lines,
       fixture: false,
       meta: metaCallMeta(model),
     });
   } catch {
     return Response.json({
       ok: true,
-      imageBase64: fixtureSessionCard(),
+      backgroundBase64: fixtureSessionCard(),
+      lines,
       fixture: true,
       meta: metaCallMeta("fixture-fallback"),
       message: "Muse Image unavailable; placeholder returned.",
