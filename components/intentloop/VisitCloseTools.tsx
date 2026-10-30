@@ -2,22 +2,57 @@
 
 import { useCallback, useRef, useState } from "react";
 
+import { ConsentBanner } from "@/components/intentloop/ConsentBanner";
 import { useConsentSettings } from "@/components/intentloop/useConsentSettings";
-import { driftHeadline, visitCardHook } from "@/lib/brief-display";
+import { driftHeadline } from "@/lib/brief-display";
 import { webmBlobToWav } from "@/lib/client-wav";
 import type { ExitBrief, IntentCard } from "@/lib/schemas";
+import type { VoiceFollowUp } from "@/lib/voice-follow-up";
 
 type VisitCloseToolsProps = {
   intent: IntentCard;
   brief: ExitBrief;
   onVoiceLine?: (line: string) => void;
+  onNavigate?: (href: string) => void;
 };
 
-type Panel = "menu" | "photo" | "voice" | "card" | null;
+type ConsentKey = "photoMatch" | "voiceSummary" | "visitCard";
 
-export function VisitCloseTools({ intent, brief, onVoiceLine }: VisitCloseToolsProps) {
+const TOOLS = [
+  {
+    id: "photo" as const,
+    consent: "photoMatch" as ConsentKey,
+    title: "Still looking?",
+    subtitle: "Upload a photo — Spark compares it to what you came for",
+    consentMessage: "Compare one photo from your camera roll to your visit intent.",
+    consentPrimary: "Allow photo",
+  },
+  {
+    id: "voice" as const,
+    consent: "voiceSummary" as ConsentKey,
+    title: "Say it in one sentence",
+    subtitle: "Hold to speak — we'll suggest a next step",
+    consentMessage: "Add your visit in one sentence with the microphone.",
+    consentPrimary: "Allow microphone",
+  },
+  {
+    id: "card" as const,
+    consent: "visitCard" as ConsentKey,
+    title: "Visit card",
+    subtitle: "Private image for your camera roll",
+    consentMessage: "Create a private visit card on this device only.",
+    consentPrimary: "Allow visit card",
+  },
+];
+
+export function VisitCloseTools({
+  intent,
+  brief,
+  onVoiceLine,
+  onNavigate,
+}: VisitCloseToolsProps) {
   const { consent, update } = useConsentSettings();
-  const [panel, setPanel] = useState<Panel>(null);
+  const [pendingConsent, setPendingConsent] = useState<(typeof TOOLS)[number] | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [photoResult, setPhotoResult] = useState<{
     happened: string;
@@ -25,23 +60,24 @@ export function VisitCloseTools({ intent, brief, onVoiceLine }: VisitCloseToolsP
     next_step: string;
   } | null>(null);
   const [voiceText, setVoiceText] = useState<string | null>(null);
+  const [voiceFollowUp, setVoiceFollowUp] = useState<VoiceFollowUp | null>(null);
   const [cardUrl, setCardUrl] = useState<string | null>(null);
   const [recording, setRecording] = useState(false);
+  const [micHint, setMicHint] = useState<string | null>(null);
   const photoRef = useRef<HTMLInputElement>(null);
   const mediaRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
-  const ensureConsent = useCallback(
-    (key: keyof typeof consent, label: string): boolean => {
-      if (consent[key]) return true;
-      const ok = window.confirm(
-        `${label}\n\nOnly when you choose. Processed for this summary — not saved to your feed. Turn on anytime in Your activity.`,
-      );
-      if (ok) update({ [key]: true });
-      return ok;
+  const grantConsent = useCallback(
+    (key: ConsentKey) => {
+      update({ [key]: true });
     },
-    [consent, update],
+    [update],
   );
+
+  const runPhoto = () => {
+    photoRef.current?.click();
+  };
 
   const onPhotoPick = async (file: File) => {
     setBusy("photo");
@@ -78,7 +114,7 @@ export function VisitCloseTools({ intent, brief, onVoiceLine }: VisitCloseToolsP
   };
 
   const startVoice = async () => {
-    if (!ensureConsent("voiceSummary", "Hold to add your visit in one sentence.")) return;
+    setMicHint(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const rec = new MediaRecorder(stream);
@@ -100,6 +136,13 @@ export function VisitCloseTools({ intent, brief, onVoiceLine }: VisitCloseToolsP
           if (json.ok && json.text) {
             setVoiceText(json.text);
             onVoiceLine?.(json.text);
+            const fu = await fetch("/api/voice-follow-up", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ transcript: json.text, intent }),
+            });
+            const fuJson = (await fu.json()) as { ok?: boolean; followUp?: VoiceFollowUp };
+            if (fuJson.ok && fuJson.followUp) setVoiceFollowUp(fuJson.followUp);
           }
         } finally {
           setBusy(null);
@@ -108,9 +151,8 @@ export function VisitCloseTools({ intent, brief, onVoiceLine }: VisitCloseToolsP
       mediaRef.current = rec;
       rec.start();
       setRecording(true);
-      setPanel("voice");
     } catch {
-      window.alert("Microphone access is needed only while you hold record.");
+      setMicHint("Microphone access is needed only while you record.");
     }
   };
 
@@ -119,7 +161,6 @@ export function VisitCloseTools({ intent, brief, onVoiceLine }: VisitCloseToolsP
   };
 
   const buildCard = async () => {
-    if (!ensureConsent("visitCard", "Save a private visit card to your device.")) return;
     setBusy("card");
     try {
       const res = await fetch("/api/card", {
@@ -136,9 +177,11 @@ export function VisitCloseTools({ intent, brief, onVoiceLine }: VisitCloseToolsP
       const bg = json.backgroundBase64 ?? json.imageBase64;
       if (!json.ok || !bg || !json.lines) return;
 
+      const w = 864;
+      const h = 1080;
       const canvas = document.createElement("canvas");
-      canvas.width = 1024;
-      canvas.height = 1024;
+      canvas.width = w;
+      canvas.height = h;
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
@@ -148,67 +191,82 @@ export function VisitCloseTools({ intent, brief, onVoiceLine }: VisitCloseToolsP
         img.onerror = reject;
         img.src = `data:image/png;base64,${bg}`;
       });
-      ctx.drawImage(img, 0, 0, 1024, 1024);
-      ctx.fillStyle = "rgba(255,255,255,0.88)";
-      ctx.fillRect(64, 280, 896, 460);
-      ctx.fillStyle = "#262626";
+      ctx.drawImage(img, 0, 0, w, h);
+      ctx.fillStyle = "rgba(255,255,255,0.92)";
+      ctx.fillRect(48, 320, w - 96, 520);
+      ctx.fillStyle = "#8e8e8e";
       ctx.textAlign = "center";
-      ctx.font = "600 42px -apple-system, BlinkMacSystemFont, sans-serif";
-      ctx.fillText(json.lines.goal.slice(0, 60), 512, 360);
-      ctx.font = "400 32px -apple-system, BlinkMacSystemFont, sans-serif";
-      const outcome = json.lines.outcome.slice(0, 120);
-      wrapText(ctx, outcome, 512, 430, 820, 38);
-      ctx.font = "600 28px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.font = "600 22px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillText(`VISIT CARD · ${driftHeadline(brief.drift).toUpperCase()}`, w / 2, 380);
+      ctx.fillStyle = "#262626";
+      ctx.font = "600 36px -apple-system, BlinkMacSystemFont, sans-serif";
+      wrapText(ctx, json.lines.goal.slice(0, 50), w / 2, 440, w - 120, 42);
+      ctx.font = "400 28px -apple-system, BlinkMacSystemFont, sans-serif";
+      wrapText(ctx, json.lines.outcome.slice(0, 100), w / 2, 540, w - 120, 34);
+      ctx.font = "500 24px -apple-system, BlinkMacSystemFont, sans-serif";
       ctx.fillStyle = "#0095f6";
-      ctx.fillText(json.lines.hook.slice(0, 70), 512, 640);
+      ctx.fillText(json.lines.hook.slice(0, 60), w / 2, 780);
 
       setCardUrl(canvas.toDataURL("image/png"));
-      setPanel("card");
     } finally {
       setBusy(null);
     }
   };
 
+  const onToolClick = (tool: (typeof TOOLS)[number]) => {
+    if (consent[tool.consent]) {
+      if (tool.id === "photo") runPhoto();
+      else if (tool.id === "voice") void startVoice();
+      else void buildCard();
+      return;
+    }
+    setPendingConsent(tool);
+  };
+
+  const onConsentPrimary = () => {
+    if (!pendingConsent) return;
+    grantConsent(pendingConsent.consent);
+    const tool = pendingConsent;
+    setPendingConsent(null);
+    if (tool.id === "photo") runPhoto();
+    else if (tool.id === "voice") void startVoice();
+    else void buildCard();
+  };
+
   return (
     <div className="visit-close">
-      <p className="visit-close-title">More help closing this visit</p>
+      <p className="visit-close-title">Need help closing this visit?</p>
+      <p className="visit-close-sub">Optional — uses Meta AI only when you tap a tile.</p>
 
-      {panel === null ? (
-        <div className="visit-close-actions">
-          <button
-            type="button"
-            className="visit-close-btn"
-            disabled={!!busy}
-            onClick={() => {
-              if (!ensureConsent("photoMatch", "Compare one photo from your camera roll.")) return;
-              setPanel("photo");
-              photoRef.current?.click();
-            }}
-          >
-            Still looking for something?
-          </button>
-          <button
-            type="button"
-            className="visit-close-btn"
-            disabled={!!busy || recording}
-            onClick={() => void startVoice()}
-          >
-            Say it in one sentence
-          </button>
-          <button
-            type="button"
-            className="visit-close-btn"
-            disabled={!!busy}
-            onClick={() => void buildCard()}
-          >
-            Save visit card
-          </button>
-        </div>
+      {pendingConsent ? (
+        <ConsentBanner
+          message={pendingConsent.consentMessage}
+          primaryLabel={pendingConsent.consentPrimary}
+          onPrimary={onConsentPrimary}
+          onSecondary={() => setPendingConsent(null)}
+        />
       ) : null}
+
+      {micHint ? <p className="activity-hint">{micHint}</p> : null}
+
+      <div className="visit-close-grid">
+        {TOOLS.map((tool) => (
+          <button
+            key={tool.id}
+            type="button"
+            className={tool.id === "card" ? "visit-tile visit-tile--wide" : "visit-tile"}
+            disabled={!!busy || recording}
+            onClick={() => onToolClick(tool)}
+          >
+            <span className="visit-tile-title">{tool.title}</span>
+            <span className="visit-tile-sub">{tool.subtitle}</span>
+          </button>
+        ))}
+      </div>
 
       {recording ? (
         <div className="visit-close-panel">
-          <p className="activity-hint">Recording… release to finish.</p>
+          <p className="activity-hint">Recording… tap Release when finished.</p>
           <button type="button" className="limit-btn limit-btn--primary" onClick={stopVoice}>
             Release
           </button>
@@ -230,13 +288,27 @@ export function VisitCloseTools({ intent, brief, onVoiceLine }: VisitCloseToolsP
         <div className="visit-close-result">
           <p className="visit-close-result-kicker">In your words</p>
           <p>{voiceText}</p>
+          {voiceFollowUp ? (
+            <>
+              <p className="visit-close-voice-summary">{voiceFollowUp.summary}</p>
+              {voiceFollowUp.navigate_to ? (
+                <button
+                  type="button"
+                  className="limit-btn limit-btn--primary visit-close-voice-action"
+                  onClick={() => onNavigate?.(voiceFollowUp.navigate_to!)}
+                >
+                  {voiceFollowUp.action_label}
+                </button>
+              ) : null}
+            </>
+          ) : null}
         </div>
       ) : null}
 
       {cardUrl ? (
-        <div className="visit-close-result">
+        <div className="visit-close-result visit-close-result--card">
           <p className="visit-close-result-kicker">Visit card · {driftHeadline(brief.drift)}</p>
-          <img className="brief-session-card" src={cardUrl} alt="Visit card you can save" />
+          <img className="brief-session-card brief-session-card--portrait" src={cardUrl} alt="Visit card" />
           <a className="visit-close-download" href={cardUrl} download="intentloop-visit.png">
             Download card
           </a>
@@ -283,4 +355,3 @@ function wrapText(
   }
   if (line) ctx.fillText(line, x, cy);
 }
-

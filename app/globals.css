@@ -136,6 +136,10 @@ button {
   line-height: 0;
 }
 
+.ig-icon-btn svg {
+  display: block;
+}
+
 .ig-status {
   height: 44px;
   display: flex;
@@ -206,11 +210,12 @@ button {
 }
 
 .ig-logo {
-  font-family: "Snell Roundhand", "Segoe Script", "Apple Chancery", cursive;
-  font-size: 28px;
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-family: var(--font-ig-script), "Snell Roundhand", "Segoe Script", cursive;
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0;
   line-height: 1;
+  transform: translateY(1px);
 }
 
 .ig-logo--compact {
@@ -435,8 +440,19 @@ button {
   gap: 2px;
 }
 
+.post-liked-by {
+  margin: 8px 0 0;
+  padding: 0 12px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.post-liked-by strong {
+  font-weight: 600;
+}
+
 .post-likes {
-  margin: 0;
+  margin: 4px 0 0;
   padding: 0 12px;
   font-size: 13px;
   font-weight: 600;
@@ -463,9 +479,12 @@ button {
 .tabbar {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 16;
   border-top: 1px solid var(--ig-line);
   background: var(--ig-surface);
-  padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
+  padding: 8px 2px calc(8px + env(safe-area-inset-bottom));
 }
 
 .tab {
@@ -475,17 +494,48 @@ button {
   justify-content: center;
   background: none;
   border: 0;
-  color: var(--ig-text);
-  padding: 2px 0;
-  min-height: 32px;
+  color: #000;
+  padding: 4px 0;
+  min-height: 36px;
+}
+
+.tab svg {
+  display: block;
+  color: inherit;
+}
+
+.tab-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  background: linear-gradient(145deg, #f58529, #dd2a7b, #8134af);
+  color: #fff;
+  border: 1.5px solid transparent;
+}
+
+.tab-avatar--active {
+  border-color: #000;
 }
 
 .tab.is-active {
-  color: var(--ig-text);
+  color: #000;
 }
 
-.tab--create {
-  color: var(--ig-text);
+.tabbar--dark .tab {
+  color: #fff;
+}
+
+.tabbar--dark .tab.is-active {
+  color: #fff;
+}
+
+.tabbar--dark .tab-avatar--active {
+  border-color: #fff;
 }
 
 .intent-chip {
@@ -960,27 +1010,110 @@ button {
 }
 
 .visit-close-title {
-  margin: 0 0 10px;
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ig-text);
+}
+
+.visit-close-sub {
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: var(--ig-muted);
+  line-height: 1.35;
+}
+
+.visit-close-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.visit-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  border: 1px solid var(--ig-line);
+  border-radius: 12px;
+  padding: 12px 10px;
+  background: #fafafa;
+  text-align: left;
+  min-height: 72px;
+}
+
+.visit-tile--wide {
+  grid-column: 1 / -1;
+  min-height: auto;
+}
+
+.visit-tile-title {
   font-size: 13px;
   font-weight: 600;
   color: var(--ig-text);
 }
 
-.visit-close-actions {
+.visit-tile-sub {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--ig-muted);
+}
+
+.visit-close-voice-summary {
+  margin: 10px 0 0;
+  font-weight: 600;
+  color: var(--ig-text);
+}
+
+.visit-close-voice-action {
+  margin-top: 10px;
+}
+
+.ig-consent-banner {
+  margin: 0 0 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f0f9ff;
+  border: 1px solid #cce8ff;
+}
+
+.ig-consent-banner-text {
+  margin: 0 0 6px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ig-text);
+}
+
+.ig-consent-banner-hint {
+  margin: 0 0 10px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ig-muted);
+}
+
+.ig-consent-banner-actions {
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
   gap: 8px;
 }
 
-.visit-close-btn {
-  width: 100%;
-  border: 1px solid var(--ig-line);
-  border-radius: 10px;
-  padding: 11px 12px;
-  background: #fafafa;
-  font-size: 14px;
+.ig-consent-banner-primary {
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 14px;
+  background: var(--ig-blue);
+  color: #fff;
+  font-size: 13px;
   font-weight: 600;
-  text-align: left;
+}
+
+.ig-consent-banner-secondary {
+  border: 0;
+  background: none;
+  color: var(--ig-muted);
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .visit-close-result {
@@ -1169,6 +1302,14 @@ button {
   border-radius: 12px;
 }
 
+.brief-session-card--portrait {
+  max-width: 220px;
+}
+
+.visit-close-result--card {
+  text-align: center;
+}
+
 /* Reels (IG-style full-bleed vertical) */
 .ig-route--reels {
   background: #000;
@@ -1203,8 +1344,12 @@ button {
   color: #f5f5f5;
 }
 
-.reels-topbar .intent-chip-dot {
-  background: #fff;
+.reels-camera-btn {
+  color: #fff;
+}
+
+.reels-rail .ig-icon-btn {
+  color: #fff;
 }
 
 .reels-stage {
@@ -1326,14 +1471,23 @@ button {
 }
 
 .create-cancel {
-  font-size: 22px;
   width: 32px;
   height: 32px;
-  color: var(--ig-text);
+  color: #262626;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.create-cancel svg,
+.create-option-icon svg,
+.create-option-chevron {
+  color: #262626;
+}
+
+.ig-route--create .create-option-chevron {
+  color: var(--ig-muted);
 }
 
 .create-title {
@@ -1401,6 +1555,80 @@ button {
 
 .create-caption::placeholder {
   color: var(--ig-muted);
+}
+
+.create-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ig-line);
+}
+
+.create-option-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--ig-line-soft);
+  background: var(--ig-surface);
+  color: var(--ig-text);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+}
+
+.create-option-icon {
+  display: inline-flex;
+  color: var(--ig-text);
+}
+
+.create-option-label {
+  flex: 1;
+}
+
+.create-option-chevron {
+  color: var(--ig-muted);
+  opacity: 0.85;
+}
+
+.ig-header--search {
+  padding: 6px 12px 10px;
+}
+
+.search-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  background: var(--ig-line-soft);
+  color: var(--ig-muted);
+}
+
+.search-field input {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ig-text);
+  outline: none;
+}
+
+.search-field input::placeholder {
+  color: var(--ig-muted);
+}
+
+.story-name {
+  font-size: 11px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ig-text);
 }
 
 .create-toast {

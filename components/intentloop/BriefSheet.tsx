@@ -16,6 +16,7 @@ type BriefSheetProps = {
   fallbackNote: string | null;
   onClose: () => void;
   onAction: () => void;
+  onNavigate: (href: string) => void;
 };
 
 export function BriefSheet({
@@ -26,6 +27,7 @@ export function BriefSheet({
   fallbackNote,
   onClose,
   onAction,
+  onNavigate,
 }: BriefSheetProps) {
   const [voiceLine, setVoiceLine] = useState<string | null>(null);
 
@@ -58,7 +60,12 @@ export function BriefSheet({
             <p className="brief-happened">{happened}</p>
             {fallbackNote ? <p className="activity-hint">{fallbackNote}</p> : null}
             {intent ? (
-              <VisitCloseTools intent={intent} brief={brief} onVoiceLine={setVoiceLine} />
+              <VisitCloseTools
+                intent={intent}
+                brief={brief}
+                onVoiceLine={setVoiceLine}
+                onNavigate={onNavigate}
+              />
             ) : null}
             <button type="button" className="limit-btn limit-btn--primary" onClick={onAction}>
               {brief.next_action}

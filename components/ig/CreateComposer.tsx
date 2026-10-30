@@ -3,64 +3,41 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { useConsentSettings } from "@/components/intentloop/useConsentSettings";
+import {
+  IconChevronRight,
+  IconClose,
+  IconLocation,
+  IconMusic,
+  IconTagPeople,
+} from "@/components/ig/IgIcons";
 import { IntentChip } from "@/components/intentloop/IntentChip";
 import { useIntentCard } from "@/components/intentloop/useIntentCard";
-import { imageUrlToBase64 } from "@/lib/surroundings-from-url";
-import { markPostedThisVisit } from "@/lib/visit-outcome";
-
 import { MOCK_IMAGES } from "@/lib/mock-assets";
+import { markPostedThisVisit } from "@/lib/visit-outcome";
 
 const PREVIEW_IMAGE = MOCK_IMAGES.create;
 
+const CREATE_ROWS = [
+  { id: "tag", label: "Tag people", Icon: IconTagPeople },
+  { id: "location", label: "Add location", Icon: IconLocation },
+  { id: "music", label: "Add music", Icon: IconMusic },
+] as const;
+
 export function CreateComposer() {
   const { card, loading } = useIntentCard("create");
-  const { consent, update: updateConsent } = useConsentSettings();
   const [caption, setCaption] = useState("");
   const [posted, setPosted] = useState(false);
-  const [surroundingsNote, setSurroundingsNote] = useState<string | null>(null);
-  const [checking, setChecking] = useState(false);
-
-  const runSurroundingsCheck = async () => {
-    setChecking(true);
-    try {
-      const { b64, mime } = await imageUrlToBase64(PREVIEW_IMAGE);
-      const res = await fetch("/api/segment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageBase64: b64, mime }),
-      });
-      const json = (await res.json()) as { ok?: boolean; summary?: { nudge?: string } };
-      if (json.ok && json.summary?.nudge) setSurroundingsNote(json.summary.nudge);
-    } finally {
-      setChecking(false);
-    }
-  };
 
   const onShare = () => {
     setPosted(true);
     markPostedThisVisit();
-    setSurroundingsNote(null);
-
-    const runCheck = consent.surroundingsCheck;
-    if (!runCheck) {
-      const ok = window.confirm(
-        "Quick surroundings check after posting in public?\n\nSAM looks for phones, people, and traffic in your frame — one nudge only. You can enable this by default in Your activity.",
-      );
-      if (ok) {
-        updateConsent({ surroundingsCheck: true });
-        void runSurroundingsCheck();
-      }
-      return;
-    }
-    void runSurroundingsCheck();
   };
 
   return (
     <div className="ig-route ig-route--create">
       <header className="create-header">
         <Link href="/" className="create-cancel ig-icon-btn" aria-label="Close">
-          ✕
+          <IconClose size={22} />
         </Link>
         <span className="create-title">New post</span>
         <button
@@ -91,17 +68,24 @@ export function CreateComposer() {
             setPosted(false);
             setCaption(e.target.value);
           }}
-          rows={4}
+          rows={3}
         />
+        <ul className="create-options" aria-label="Post options">
+          {CREATE_ROWS.map(({ id, label, Icon }) => (
+            <li key={id}>
+              <button type="button" className="create-option-row">
+                <span className="create-option-icon">
+                  <Icon size={22} />
+                </span>
+                <span className="create-option-label">{label}</span>
+                <IconChevronRight size={18} className="create-option-chevron" />
+              </button>
+            </li>
+          ))}
+        </ul>
         {posted ? (
           <p className="create-toast" role="status">
             Shared to feed (mock). You can keep scrolling or close the app.
-          </p>
-        ) : null}
-        {checking ? <p className="create-toast">Checking surroundings…</p> : null}
-        {surroundingsNote ? (
-          <p className="surroundings-toast" role="status">
-            {surroundingsNote}
           </p>
         ) : null}
       </div>

@@ -123,13 +123,16 @@ export function ActivityPanel() {
             />
           </label>
           <label className="activity-row">
-            <span>After posting — surroundings check (SAM)</span>
+            <span>Surroundings check (SAM) — for Live / recording later</span>
             <input
               type="checkbox"
               checked={consent.surroundingsCheck}
               onChange={(e) => updateConsent({ surroundingsCheck: e.target.checked })}
             />
           </label>
+          <p className="activity-hint">
+            Not used when sharing a still post — reserved for a future Live surface.
+          </p>
           <label className="activity-row">
             <span>Voice on visit summary</span>
             <input
@@ -139,7 +142,7 @@ export function ActivityPanel() {
             />
           </label>
           <label className="activity-row">
-            <span>Save visit card</span>
+            <span>Visit card (Muse Image)</span>
             <input
               type="checkbox"
               checked={consent.visitCard}

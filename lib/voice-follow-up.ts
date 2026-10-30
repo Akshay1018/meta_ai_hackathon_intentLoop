@@ -1,0 +1,145 @@
+import { getMetaClient, sparkModelId } from "@/lib/meta";
+import type { IntentCard } from "@/lib/schemas";
+
+export type VoiceFollowUpRoute =
+  | "/reels"
+  | "/search"
+  | "/dms"
+  | "/create"
+  | "/"
+  | "/profile"
+  | null;
+
+export type VoiceFollowUp = {
+  summary: string;
+  navigate_to: VoiceFollowUpRoute;
+  action_label: string;
+};
+
+const ROUTES = ["/reels", "/search", "/dms", "/create", "/", "/profile", "none"] as const;
+
+export const VOICE_FOLLOWUP_JSON_SCHEMA = {
+  type: "object" as const,
+  additionalProperties: false,
+  required: ["summary", "navigate_to", "action_label"],
+  properties: {
+    summary: { type: "string" },
+    navigate_to: { type: "string", enum: [...ROUTES] },
+    action_label: { type: "string" },
+  },
+};
+
+function routeFromApi(value: string): VoiceFollowUpRoute {
+  if (value === "none") return null;
+  if (
+    value === "/reels" ||
+    value === "/search" ||
+    value === "/dms" ||
+    value === "/create" ||
+    value === "/" ||
+    value === "/profile"
+  ) {
+    return value;
+  }
+  return null;
+}
+
+function isVoiceFollowUpRaw(value: unknown): value is {
+  summary: string;
+  navigate_to: string;
+  action_label: string;
+} {
+  if (!value || typeof value !== "object") return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.summary === "string" &&
+    typeof v.action_label === "string" &&
+    typeof v.navigate_to === "string" &&
+    (ROUTES as readonly string[]).includes(v.navigate_to)
+  );
+}
+
+export function fixtureVoiceFollowUp(text: string): VoiceFollowUp {
+  const lower = text.toLowerCase();
+  if (lower.includes("reel") || lower.includes("mountain")) {
+    return {
+      summary: "You wanted Reels — try the Reels tab for a quick scroll.",
+      navigate_to: "/reels",
+      action_label: "Open Reels",
+    };
+  }
+  if (lower.includes("message") || lower.includes("dm") || lower.includes("inbox")) {
+    return {
+      summary: "Sounds like messages were on your mind.",
+      navigate_to: "/dms",
+      action_label: "Open messages",
+    };
+  }
+  if (lower.includes("search") || lower.includes("find")) {
+    return {
+      summary: "You can browse Search in the mock app.",
+      navigate_to: "/search",
+      action_label: "Open Search",
+    };
+  }
+  return {
+    summary: "Got it — we'll keep that in mind for next time.",
+    navigate_to: null,
+    action_label: "Back to feed",
+  };
+}
+
+export async function interpretVoiceFollowUp(input: {
+  transcript: string;
+  intent: IntentCard;
+  fixture: boolean;
+}): Promise<{ followUp: VoiceFollowUp; model: string; fixture: boolean }> {
+  if (input.fixture) {
+    return {
+      followUp: fixtureVoiceFollowUp(input.transcript),
+      model: "fixture",
+      fixture: true,
+    };
+  }
+
+  const client = getMetaClient();
+  const model = sparkModelId();
+  const response = await client.chat.completions.create({
+    model,
+    messages: [
+      {
+        role: "system",
+        content:
+          "User spoke one sentence at the end of an Instagram visit. Infer what they want next inside a mock Instagram app. " +
+          "Return summary (one friendly line), navigate_to (path or null if no navigation), action_label (short button, e.g. Open Reels). " +
+          "Use /reels for reels/video, /dms for messages, /search for search, /create for posting, / for home feed, /profile for profile, or none if no navigation. Never shame.",
+      },
+      {
+        role: "user",
+        content: `Visit intent: ${JSON.stringify(input.intent)}. They said: "${input.transcript}"`,
+      },
+    ],
+    response_format: {
+      type: "json_schema",
+      json_schema: {
+        name: "voice_follow_up",
+        schema: VOICE_FOLLOWUP_JSON_SCHEMA,
+        strict: true,
+      },
+    },
+  });
+
+  const raw = response.choices[0]?.message?.content;
+  if (!raw) throw new Error("Spark returned empty content");
+  const parsed: unknown = JSON.parse(raw);
+  if (!isVoiceFollowUpRaw(parsed)) throw new Error("Invalid voice follow-up JSON");
+  return {
+    followUp: {
+      summary: parsed.summary,
+      navigate_to: routeFromApi(parsed.navigate_to),
+      action_label: parsed.action_label,
+    },
+    model,
+    fixture: false,
+  };
+}

@@ -15,7 +15,7 @@ export function driftHeadline(drift: number): string {
   return "Got pulled away";
 }
 
-export function visitCardHook(brief: { drift: number; next_action: string }): string {
+export function visitCardHook(brief: { drift: number }): string {
   if (brief.drift >= 55) return "Next visit: one small win.";
-  return brief.next_action.length <= 48 ? brief.next_action : "Close when you're ready.";
+  return "Private reminder — not shared to your feed.";
 }

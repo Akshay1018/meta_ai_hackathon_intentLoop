@@ -85,6 +85,11 @@ export function FeedPost({ post }: FeedPostProps) {
           <IconBookmark size={26} filled={saved} />
         </button>
       </div>
+      {post.likedBy ? (
+        <p className="post-liked-by">
+          Liked by <strong>{post.likedBy}</strong> and <strong>others</strong>
+        </p>
+      ) : null}
       <p className="post-likes">{(post.likes + (liked ? 1 : 0)).toLocaleString()} likes</p>
       <p className="post-caption">
         <strong>{post.username}</strong> {post.caption}

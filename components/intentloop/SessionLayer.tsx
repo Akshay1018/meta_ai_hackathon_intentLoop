@@ -56,6 +56,14 @@ export function SessionLayer() {
     router.push(href);
   }, [brief?.next_action, closeBrief, intent?.surface, router]);
 
+  const onNavigate = useCallback(
+    (href: string) => {
+      closeBrief();
+      router.push(href);
+    },
+    [closeBrief, router],
+  );
+
   return (
     <>
       <LimitSheet
@@ -73,6 +81,7 @@ export function SessionLayer() {
         fallbackNote={fallbackNote}
         onClose={closeBrief}
         onAction={onAction}
+        onNavigate={onNavigate}
       />
     </>
   );

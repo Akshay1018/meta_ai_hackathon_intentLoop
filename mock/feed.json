@@ -17,7 +17,8 @@
       "caption": "Morning light and a too-long coffee.",
       "hue": 18,
       "initials": "M",
-      "imageUrl": "/mock-images/feed-1.jpg"
+      "imageUrl": "/mock-images/feed-1.jpg",
+      "likedBy": "jordan.runs"
     },
     {
       "id": "p2",
@@ -28,7 +29,8 @@
       "caption": "Easy 8k. No watch, just the loop.",
       "hue": 152,
       "initials": "J",
-      "imageUrl": "/mock-images/feed-2.jpg"
+      "imageUrl": "/mock-images/feed-2.jpg",
+      "likedBy": "priya.eats"
     },
     {
       "id": "p3",

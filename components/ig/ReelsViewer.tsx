@@ -2,9 +2,7 @@
 
 import { useCallback, useState, type KeyboardEvent, type MouseEvent } from "react";
 
-import { IconComment, IconHeart, IconMore, IconShare } from "@/components/ig/IgIcons";
-import { IntentChip } from "@/components/intentloop/IntentChip";
-import { useIntentCard } from "@/components/intentloop/useIntentCard";
+import { IconCamera, IconComment, IconHeart, IconMore, IconShare } from "@/components/ig/IgIcons";
 
 export type ReelItem = {
   id: string;
@@ -20,7 +18,6 @@ type ReelsViewerProps = {
 };
 
 export function ReelsViewer({ reels }: ReelsViewerProps) {
-  const { card, loading } = useIntentCard("reels");
   const [index, setIndex] = useState(0);
   const reel = reels[index] ?? reels[0];
 
@@ -38,7 +35,9 @@ export function ReelsViewer({ reels }: ReelsViewerProps) {
     <div className="reels-shell">
       <header className="reels-topbar">
         <span className="reels-title">Reels</span>
-        <IntentChip surface="reels" card={card} loading={loading} />
+        <button type="button" className="ig-icon-btn reels-camera-btn" aria-label="Camera">
+          <IconCamera size={24} />
+        </button>
       </header>
       <div
         className="reels-stage"

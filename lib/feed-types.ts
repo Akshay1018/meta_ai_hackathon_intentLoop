@@ -15,8 +15,9 @@ export type FeedPost = {
   caption: string;
   hue: number;
   initials: string;
-  /** Optional mock photo (Unsplash / Picsum — demo only). */
+  /** Optional mock photo under public/mock-images. */
   imageUrl?: string;
+  likedBy?: string;
 };
 
 export type FeedData = {
