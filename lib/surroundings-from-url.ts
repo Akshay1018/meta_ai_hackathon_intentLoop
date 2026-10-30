@@ -1,7 +1,11 @@
 /** Fetch a preview image URL and return base64 (client-side for surroundings check). */
 
 export async function imageUrlToBase64(url: string): Promise<{ b64: string; mime: string }> {
-  const res = await fetch(url);
+  const href =
+    url.startsWith("/") && typeof window !== "undefined"
+      ? `${window.location.origin}${url}`
+      : url;
+  const res = await fetch(href);
   const blob = await res.blob();
   const mime = blob.type.startsWith("image/") ? blob.type : "image/jpeg";
   const dataUrl = await new Promise<string>((resolve, reject) => {

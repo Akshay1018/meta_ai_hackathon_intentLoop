@@ -9,8 +9,9 @@ import { useIntentCard } from "@/components/intentloop/useIntentCard";
 import { imageUrlToBase64 } from "@/lib/surroundings-from-url";
 import { markPostedThisVisit } from "@/lib/visit-outcome";
 
-const PREVIEW_IMAGE =
-  "https://images.unsplash.com/photo-1493246507136-91e8fad9978e?w=800&h=800&fit=crop&q=80";
+import { MOCK_IMAGES } from "@/lib/mock-assets";
+
+const PREVIEW_IMAGE = MOCK_IMAGES.create;
 
 export function CreateComposer() {
   const { card, loading } = useIntentCard("create");

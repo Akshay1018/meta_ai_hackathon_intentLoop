@@ -90,6 +90,41 @@ button {
   background: #2ecc71;
 }
 
+.phone--reels {
+  background: #000;
+}
+
+.ig-status--dark {
+  background: #000;
+  color: #fff;
+}
+
+.ig-status--dark .ig-status-signal,
+.ig-status--dark .ig-status-wifi {
+  background: #fff;
+}
+
+.ig-status--dark .ig-status-battery {
+  border-color: #fff;
+}
+
+.ig-status--dark .ig-status-battery::after {
+  background: #fff;
+}
+
+.tabbar--dark {
+  background: #000;
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.tabbar--dark .tab {
+  color: #fff;
+}
+
+.tabbar--dark .tab.is-active {
+  color: #fff;
+}
+
 .ig-icon-btn {
   display: inline-flex;
   align-items: center;

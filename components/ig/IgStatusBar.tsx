@@ -1,6 +1,10 @@
-export function IgStatusBar() {
+type IgStatusBarProps = {
+  dark?: boolean;
+};
+
+export function IgStatusBar({ dark }: IgStatusBarProps) {
   return (
-    <div className="ig-status" aria-hidden="true">
+    <div className={dark ? "ig-status ig-status--dark" : "ig-status"} aria-hidden="true">
       <span className="ig-status-time">9:41</span>
       <span className="ig-status-icons">
         <span className="ig-status-signal" />

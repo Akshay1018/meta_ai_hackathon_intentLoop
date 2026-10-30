@@ -19,11 +19,15 @@ const TABS = [
   { href: "/profile", label: "Profile", kind: "profile" as const },
 ];
 
-export function TabBar() {
+type TabBarProps = {
+  dark?: boolean;
+};
+
+export function TabBar({ dark }: TabBarProps) {
   const pathname = usePathname();
 
   return (
-    <nav className="tabbar" aria-label="Main">
+    <nav className={dark ? "tabbar tabbar--dark" : "tabbar"} aria-label="Main">
       {TABS.map((tab) => {
         const active =
           tab.href === "/"

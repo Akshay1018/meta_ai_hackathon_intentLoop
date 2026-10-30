@@ -7,6 +7,7 @@
     "dev:clean": "rm -rf .next && next dev --port 3000",
     "build": "next build",
     "start": "next start --port 3000",
+    "mock-images": "node scripts/fetch-mock-images.mjs",
     "smoke:routes": "node scripts/smoke-routes.mjs",
     "test:intent": "npx tsx scripts/test-intent.mjs",
     "test:meta-live": "node scripts/make-demo-png.mjs && node scripts/make-demo-wav.mjs && node scripts/test-meta-live.mjs",
