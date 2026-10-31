@@ -1,5 +1,4 @@
-import type { PersonaId } from "@/lib/personas";
-import { isPersonaId } from "@/lib/personas";
+import { isPersonaId, type PersonaId } from "@/lib/persona-catalog";
 
 const KEY = "intentloop:active-persona";
 

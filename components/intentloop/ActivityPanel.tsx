@@ -9,7 +9,7 @@ import { useSessionSettings } from "@/components/intentloop/useSessionSettings";
 import { PersonaPicker } from "@/components/intentloop/PersonaPicker";
 import { idbReadBriefsLastDays, type StoredBriefRecord } from "@/lib/brief-idb";
 import { readBriefRecords, type BriefRecord } from "@/lib/brief-history";
-import { PERSONAS } from "@/lib/personas";
+import { personaTitle } from "@/lib/persona-catalog";
 import { limitSeconds, resetDemoVisit } from "@/lib/session";
 
 function timerHint(input: {
@@ -196,8 +196,8 @@ export function ActivityPanel() {
               {briefs.map((row) => (
                 <li key={row.id} className="brief-list-item">
                   <span className="brief-list-time">{row.at}</span>
-                  {row.personaId ? (
-                    <span className="brief-list-persona">{PERSONAS[row.personaId].title}</span>
+                  {personaTitle(row.personaId) ? (
+                    <span className="brief-list-persona">{personaTitle(row.personaId)}</span>
                   ) : null}
                   <strong>{row.intentGoal}</strong>
                   <p>{row.brief.happened}</p>
@@ -221,8 +221,8 @@ export function ActivityPanel() {
                   <span className="brief-list-time">
                     {row.day} · {row.at}
                   </span>
-                  {row.personaId ? (
-                    <span className="brief-list-persona">{PERSONAS[row.personaId].title}</span>
+                  {personaTitle(row.personaId) ? (
+                    <span className="brief-list-persona">{personaTitle(row.personaId)}</span>
                   ) : null}
                   <strong>{row.intentGoal}</strong>
                   <p>{row.brief.happened}</p>

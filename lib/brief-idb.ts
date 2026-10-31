@@ -1,5 +1,5 @@
 import type { ExitBrief, IntentCard } from "@/lib/schemas";
-import type { PersonaId } from "@/lib/personas";
+import type { PersonaId } from "@/lib/persona-catalog";
 
 export type StoredBriefRecord = {
   id: string;

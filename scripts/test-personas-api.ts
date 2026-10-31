@@ -2,7 +2,7 @@
  * API-level persona checks (dev server on :3000). Uses fixture: true.
  *   npx tsx scripts/test-personas-api.ts
  */
-import { PERSONA_SCENARIOS } from "../lib/personas";
+import { PERSONA_SCENARIOS } from "../lib/persona-engine";
 
 const base = process.env.SMOKE_BASE ?? "http://127.0.0.1:3000";
 

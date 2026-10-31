@@ -8,7 +8,7 @@ import {
   personaList,
   type PersonaId,
   type PersonaMetaTool,
-} from "@/lib/personas";
+} from "@/lib/persona-catalog";
 import { readActivePersonaId, writeActivePersonaId } from "@/lib/persona-store";
 import { resetDemoVisit } from "@/lib/session";
 

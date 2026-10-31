@@ -1,7 +1,7 @@
 import { sanitizeHappened } from "@/lib/brief-display";
 import { inferExitBrief } from "@/lib/exit-from-spark";
 import { hasMetaApiKey, metaCallMeta } from "@/lib/meta";
-import { isPersonaId } from "@/lib/personas";
+import { isPersonaId } from "@/lib/persona-catalog";
 import { isIntentCard, isIntentSurface, type ExitBriefInput, type IntentSurface } from "@/lib/schemas";
 
 export const runtime = "nodejs";

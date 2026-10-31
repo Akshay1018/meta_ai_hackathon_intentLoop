@@ -1,4 +1,4 @@
-import type { PersonaId } from "@/lib/personas";
+import type { PersonaId } from "@/lib/persona-catalog";
 import type { ExitBrief, IntentCard } from "@/lib/schemas";
 
 export type BriefRecord = {

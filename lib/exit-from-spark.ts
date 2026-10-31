@@ -1,10 +1,6 @@
 import { getMetaClient, sparkModelId } from "@/lib/meta";
-import {
-  isPersonaId,
-  personaExitBrief,
-  personaSparkExitHint,
-  type PersonaId,
-} from "@/lib/personas";
+import { isPersonaId, type PersonaId } from "@/lib/persona-catalog";
+import { personaExitBrief, personaSparkExitHint } from "@/lib/persona-engine";
 import {
   EXIT_BRIEF_JSON_SCHEMA,
   fixtureExitBrief,

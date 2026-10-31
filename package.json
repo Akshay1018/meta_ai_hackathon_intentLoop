@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3000",
-    "dev:clean": "rm -rf .next && next dev --port 3000",
+    "dev:clean": "lsof -ti :3000 | xargs kill -9 2>/dev/null; rm -rf .next && next dev --port 3000",
     "build": "next build",
     "start": "next start --port 3000",
     "mock-images": "node scripts/fetch-mock-images.mjs",

@@ -7,7 +7,8 @@ import {
   type IntentSurface,
 } from "@/lib/schemas";
 import { getMetaClient, sparkModelId } from "@/lib/meta";
-import { personaIntentCard, personaSparkIntentHint, type PersonaId } from "@/lib/personas";
+import type { PersonaId } from "@/lib/persona-catalog";
+import { personaIntentCard, personaSparkIntentHint } from "@/lib/persona-engine";
 
 export async function inferIntentCard(
   surface: IntentSurface,

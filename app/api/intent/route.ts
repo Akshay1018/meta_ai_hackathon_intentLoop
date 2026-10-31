@@ -1,6 +1,6 @@
 import { inferIntentCard } from "@/lib/intent-from-spark";
 import { hasMetaApiKey, metaCallMeta } from "@/lib/meta";
-import { isPersonaId } from "@/lib/personas";
+import { isPersonaId } from "@/lib/persona-catalog";
 import { isIntentSurface } from "@/lib/schemas";
 
 export const runtime = "nodejs";

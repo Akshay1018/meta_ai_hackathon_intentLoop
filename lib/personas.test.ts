@@ -1,13 +1,12 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
+import { PERSONA_IDS, personaList } from "./persona-catalog";
 import {
-  PERSONA_IDS,
   PERSONA_SCENARIOS,
   personaIntentCard,
-  personaList,
   runPersonaScenario,
-} from "./personas";
+} from "./persona-engine";
 import { isExitBrief, isIntentCard } from "./schemas";
 
 describe("personas matrix", () => {
