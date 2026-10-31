@@ -1,12 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { BriefSkeleton } from "@/components/intentloop/BriefSkeleton";
-import { DriftRing } from "@/components/intentloop/DriftRing";
-import { VisitCloseTools } from "@/components/intentloop/VisitCloseTools";
+import { DriftBar } from "@/components/intentloop/DriftBar";
+import { IncompleteSummaryTools } from "@/components/intentloop/IncompleteSummaryTools";
+import { PrivateVisitCard } from "@/components/intentloop/PrivateVisitCard";
 import { driftHeadline, sanitizeHappened } from "@/lib/brief-display";
+import {
+  formatVisitPathLine,
+  incompleteSectionVisible,
+  shouldAutoExpandIncompleteSection,
+} from "@/lib/brief-summary-ui";
+import { readSessionStartedAt } from "@/lib/session";
 import type { ExitBrief, IntentCard } from "@/lib/schemas";
+import { readSurfaceVisitOrder } from "@/lib/visit-tracker";
 
 type BriefSheetProps = {
   open: boolean;
@@ -30,6 +38,21 @@ export function BriefSheet({
   onNavigate,
 }: BriefSheetProps) {
   const [voiceLine, setVoiceLine] = useState<string | null>(null);
+  const [userOpenedIncomplete, setUserOpenedIncomplete] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      setVoiceLine(null);
+      setUserOpenedIncomplete(false);
+    }
+  }, [open]);
+
+  const visitPathLine = useMemo(() => {
+    if (!open || typeof window === "undefined") return "";
+    const startedAt = readSessionStartedAt(Date.now());
+    const elapsedSec = Math.max(0, Math.round((Date.now() - startedAt) / 1000));
+    return formatVisitPathLine(readSurfaceVisitOrder(), elapsedSec);
+  }, [open, brief?.happened]);
 
   if (!open) return null;
 
@@ -39,6 +62,10 @@ export function BriefSheet({
       : brief
         ? sanitizeHappened(brief.happened)
         : "";
+
+  const incompleteExpanded =
+    brief != null &&
+    incompleteSectionVisible(brief.drift, userOpenedIncomplete);
 
   return (
     <div className="limit-root" role="dialog" aria-modal="true" aria-labelledby="brief-title">
@@ -56,16 +83,21 @@ export function BriefSheet({
         ) : brief ? (
           <>
             <p className="brief-drift-label">{driftHeadline(brief.drift)}</p>
-            <DriftRing drift={brief.drift} />
+            <DriftBar drift={brief.drift} />
+            {visitPathLine ? <p className="brief-visit-path">{visitPathLine}</p> : null}
             <p className="brief-happened">{happened}</p>
             {fallbackNote ? <p className="activity-hint">{fallbackNote}</p> : null}
             {intent ? (
-              <VisitCloseTools
-                intent={intent}
-                brief={brief}
-                onVoiceLine={setVoiceLine}
-                onNavigate={onNavigate}
-              />
+              <>
+                <IncompleteSummaryTools
+                  intent={intent}
+                  expanded={incompleteExpanded}
+                  onRequestExpand={() => setUserOpenedIncomplete(true)}
+                  onVoiceLine={setVoiceLine}
+                  onNavigate={onNavigate}
+                />
+                <PrivateVisitCard intent={intent} brief={brief} />
+              </>
             ) : null}
             <button type="button" className="limit-btn limit-btn--primary" onClick={onAction}>
               {brief.next_action}

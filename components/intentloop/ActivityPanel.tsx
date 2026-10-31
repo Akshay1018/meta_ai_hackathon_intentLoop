@@ -115,7 +115,7 @@ export function ActivityPanel() {
         <section className="activity-card">
           <p className="activity-kicker">Optional features (your consent)</p>
           <label className="activity-row">
-            <span>Still looking for something? (photo + Spark)</span>
+            <span>Match a screenshot (Spark vision)</span>
             <input
               type="checkbox"
               checked={consent.photoMatch}
@@ -134,7 +134,7 @@ export function ActivityPanel() {
             Not used when sharing a still post — reserved for a future Live surface.
           </p>
           <label className="activity-row">
-            <span>Voice on visit summary</span>
+            <span>Say what you still wanted (Voice + Spark)</span>
             <input
               type="checkbox"
               checked={consent.voiceSummary}

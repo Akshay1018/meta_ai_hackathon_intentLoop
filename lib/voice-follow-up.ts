@@ -75,11 +75,11 @@ export function fixtureVoiceFollowUp(text: string): VoiceFollowUp {
       action_label: "Open messages",
     };
   }
-  if (lower.includes("search") || lower.includes("find")) {
+  if (lower.includes("search") || lower.includes("find") || lower.includes("ria")) {
     return {
-      summary: "You can browse Search in the mock app.",
+      summary: "Got it — let's pull up what you asked for in Search.",
       navigate_to: "/search",
-      action_label: "Open Search",
+      action_label: "Search Ria",
     };
   }
   return {
