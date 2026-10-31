@@ -6,6 +6,7 @@ import { ConsentBanner } from "@/components/intentloop/ConsentBanner";
 import { useConsentSettings } from "@/components/intentloop/useConsentSettings";
 import { webmBlobToWav } from "@/lib/client-wav";
 import type { IntentCard } from "@/lib/schemas";
+import { buildSearchHref, type VisionAction } from "@/lib/vision-action";
 import type { VoiceFollowUp } from "@/lib/voice-follow-up";
 
 type IncompleteSummaryToolsProps = {
@@ -53,6 +54,7 @@ export function IncompleteSummaryTools({
     happened: string;
     vs_intent: string;
     next_step: string;
+    action: VisionAction;
   } | null>(null);
   const [voiceText, setVoiceText] = useState<string | null>(null);
   const [voiceFollowUp, setVoiceFollowUp] = useState<VoiceFollowUp | null>(null);
@@ -94,12 +96,14 @@ export function IncompleteSummaryTools({
         happened?: string;
         vs_intent?: string;
         next_step?: string;
+        action?: VisionAction;
       };
-      if (json.ok && json.happened) {
+      if (json.ok && json.happened && json.action) {
         setPhotoResult({
           happened: json.happened,
           vs_intent: json.vs_intent ?? "",
-          next_step: json.next_step ?? "If this is the one, save it — then close.",
+          next_step: json.next_step ?? "",
+          action: json.action,
         });
       }
     } finally {
@@ -224,16 +228,31 @@ export function IncompleteSummaryTools({
             </div>
           ) : null}
 
-          {photoResult ? (
-            <div className="visit-close-result">
-              <p className="visit-close-result-kicker">About this photo</p>
-              <p>{photoResult.happened}</p>
-              <p className="activity-hint">{photoResult.vs_intent}</p>
-              <p>
-                <strong>Next:</strong> {photoResult.next_step}
-              </p>
-            </div>
+      {photoResult ? (
+        <div className="visit-close-result">
+          <p className="visit-close-result-kicker">About this photo</p>
+          <p>{photoResult.happened}</p>
+          <p className="activity-hint">{photoResult.vs_intent}</p>
+          {photoResult.next_step ? (
+            <p className="activity-hint">{photoResult.next_step}</p>
           ) : null}
+          {photoResult.action.navigate_to ? (
+            <button
+              type="button"
+              className="limit-btn limit-btn--primary visit-close-voice-action"
+              onClick={() => {
+                const href =
+                  photoResult.action.navigate_to === "/search"
+                    ? buildSearchHref(photoResult.action.search_query)
+                    : photoResult.action.navigate_to!;
+                onNavigate?.(href);
+              }}
+            >
+              {photoResult.action.action_label}
+            </button>
+          ) : null}
+        </div>
+      ) : null}
 
           {voiceText ? (
             <div className="visit-close-result">
@@ -246,7 +265,13 @@ export function IncompleteSummaryTools({
                     <button
                       type="button"
                       className="limit-btn limit-btn--primary visit-close-voice-action"
-                      onClick={() => onNavigate?.(voiceFollowUp.navigate_to!)}
+                      onClick={() => {
+                    const href =
+                      voiceFollowUp.navigate_to === "/search"
+                        ? buildSearchHref(voiceFollowUp.search_query ?? voiceText)
+                        : voiceFollowUp.navigate_to!;
+                    onNavigate?.(href);
+                  }}
                     >
                       {voiceFollowUp.action_label}
                     </button>

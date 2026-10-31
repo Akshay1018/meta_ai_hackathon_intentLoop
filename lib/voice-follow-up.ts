@@ -14,6 +14,7 @@ export type VoiceFollowUp = {
   summary: string;
   navigate_to: VoiceFollowUpRoute;
   action_label: string;
+  search_query: string | null;
 };
 
 const ROUTES = ["/reels", "/search", "/dms", "/create", "/", "/profile", "none"] as const;
@@ -21,11 +22,12 @@ const ROUTES = ["/reels", "/search", "/dms", "/create", "/", "/profile", "none"]
 export const VOICE_FOLLOWUP_JSON_SCHEMA = {
   type: "object" as const,
   additionalProperties: false,
-  required: ["summary", "navigate_to", "action_label"],
+  required: ["summary", "navigate_to", "action_label", "search_query"],
   properties: {
     summary: { type: "string" },
     navigate_to: { type: "string", enum: [...ROUTES] },
     action_label: { type: "string" },
+    search_query: { type: ["string", "null"] },
   },
 };
 
@@ -48,6 +50,7 @@ function isVoiceFollowUpRaw(value: unknown): value is {
   summary: string;
   navigate_to: string;
   action_label: string;
+  search_query: string | null;
 } {
   if (!value || typeof value !== "object") return false;
   const v = value as Record<string, unknown>;
@@ -55,7 +58,8 @@ function isVoiceFollowUpRaw(value: unknown): value is {
     typeof v.summary === "string" &&
     typeof v.action_label === "string" &&
     typeof v.navigate_to === "string" &&
-    (ROUTES as readonly string[]).includes(v.navigate_to)
+    (ROUTES as readonly string[]).includes(v.navigate_to) &&
+    (v.search_query === null || typeof v.search_query === "string")
   );
 }
 
@@ -66,6 +70,7 @@ export function fixtureVoiceFollowUp(text: string): VoiceFollowUp {
       summary: "You wanted Reels — try the Reels tab for a quick scroll.",
       navigate_to: "/reels",
       action_label: "Open Reels",
+      search_query: null,
     };
   }
   if (lower.includes("message") || lower.includes("dm") || lower.includes("inbox")) {
@@ -73,19 +78,23 @@ export function fixtureVoiceFollowUp(text: string): VoiceFollowUp {
       summary: "Sounds like messages were on your mind.",
       navigate_to: "/dms",
       action_label: "Open messages",
+      search_query: null,
     };
   }
   if (lower.includes("search") || lower.includes("find") || lower.includes("ria")) {
+    const q = lower.includes("ria") ? "ria" : "posts";
     return {
       summary: "Got it — let's pull up what you asked for in Search.",
       navigate_to: "/search",
-      action_label: "Search Ria",
+      action_label: q === "ria" ? "Search Ria" : "Open Search",
+      search_query: q,
     };
   }
   return {
     summary: "Got it — we'll keep that in mind for next time.",
     navigate_to: null,
     action_label: "Back to feed",
+    search_query: null,
   };
 }
 
@@ -138,6 +147,8 @@ export async function interpretVoiceFollowUp(input: {
       summary: parsed.summary,
       navigate_to: routeFromApi(parsed.navigate_to),
       action_label: parsed.action_label,
+      search_query:
+        typeof parsed.search_query === "string" ? parsed.search_query.slice(0, 40) : null,
     },
     model,
     fixture: false,

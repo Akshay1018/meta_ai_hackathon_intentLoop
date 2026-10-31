@@ -23,6 +23,62 @@
       "likes": "31K",
       "hue": 280,
       "imageUrl": "/mock-images/reel-3.jpg"
+    },
+    {
+      "id": "r4",
+      "user": "slice.brooklyn",
+      "caption": "Pizza pull in slow motion",
+      "likes": "42K",
+      "hue": 12,
+      "imageUrl": "/mock-images/feed-3.jpg"
+    },
+    {
+      "id": "r5",
+      "user": "mountain.ria",
+      "caption": "Mountain morning Reels",
+      "likes": "19K",
+      "hue": 200,
+      "imageUrl": "/mock-images/grid-4.jpg"
+    },
+    {
+      "id": "r6",
+      "user": "city.cycles",
+      "caption": "Bike lane POV",
+      "likes": "6.2K",
+      "hue": 180,
+      "imageUrl": "/mock-images/grid-3.jpg"
+    },
+    {
+      "id": "r7",
+      "user": "nina.travels",
+      "caption": "Temple steps timelapse",
+      "likes": "11K",
+      "hue": 130,
+      "imageUrl": "/mock-images/grid-1.jpg"
+    },
+    {
+      "id": "r8",
+      "user": "leo.frames",
+      "caption": "Blue hour handheld",
+      "likes": "4.8K",
+      "hue": 210,
+      "imageUrl": "/mock-images/feed-4.jpg"
+    },
+    {
+      "id": "r9",
+      "user": "weekend.bake",
+      "caption": "Crumb shot ASMR",
+      "likes": "22K",
+      "hue": 40,
+      "imageUrl": "/mock-images/grid-6.jpg"
+    },
+    {
+      "id": "r10",
+      "user": "late.reels",
+      "caption": "Algorithm said one more",
+      "likes": "9.9K",
+      "hue": 300,
+      "imageUrl": "/mock-images/reel-2.jpg"
     }
   ]
 }

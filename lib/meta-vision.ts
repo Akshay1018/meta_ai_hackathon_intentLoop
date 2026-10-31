@@ -65,8 +65,8 @@ export async function analyzeScreenshot(input: {
 
 export function fixtureVision(intent: IntentCard): VisionResult {
   return {
-    happened: "Looks like a Reels or feed screen in your photo.",
-    vs_intent: `You opened for “${intent.goal}” — this might be the clip you had in mind.`,
-    next_step: "If this is the one, like or save it, then close the app.",
+    happened: "A whole pepperoni pizza on a board with a hand lifting one slice showing stretchy cheese.",
+    vs_intent: `You opened for “${intent.goal}” — this looks like a Feed post you scrolled past.`,
+    next_step: "Search for the pizza post to like or save it, or let it go if you're caught up.",
   };
 }

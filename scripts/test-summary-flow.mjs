@@ -99,6 +99,18 @@ await check("visit card lines", async () => {
   }
 });
 
+await check("vision returns action for pizza fixture", async () => {
+  const { res, json } = await post("/api/vision", {
+    intent: intentDms,
+    imageBase64: "x",
+    fixture: true,
+  });
+  if (!res.ok || !json.action?.navigate_to || json.action.navigate_to !== "/search") {
+    throw new Error(JSON.stringify(json));
+  }
+  if (!json.action.search_query) throw new Error("missing search_query");
+});
+
 await check("vision fixture accepts png", async () => {
   const { readFileSync } = await import("node:fs");
   const { fileURLToPath } = await import("node:url");

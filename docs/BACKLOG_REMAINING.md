@@ -9,7 +9,7 @@ Work through **one item at a time** with the user. Order is suggested priority f
 - [ ] **Persona picker in app** — demo presets (DMs-first, Create+Share, companion-scroll) for video
 - [ ] **Browse-only / companion-scroll copy** — Spark prompts so brief doesn’t invent fake DM goals
 - [ ] **SAM on Live / recording surface** — mock “Go Live” or Reels camera; wire `/api/segment` there only
-- [ ] **Search prefill** — pass query from voice follow-up (`?q=Ria`) into Search page
+- [x] **Search prefill** — `?q=` from vision + voice actions (mock results list)
 
 ## Ship & hackathon
 

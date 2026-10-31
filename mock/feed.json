@@ -10,6 +10,18 @@
   "posts": [
     {
       "id": "p1",
+      "username": "slice.brooklyn",
+      "place": "Brooklyn, NY",
+      "time": "35 minutes ago",
+      "likes": 4821,
+      "caption": "Wood-fired pepperoni pizza — that cheese pull though.",
+      "hue": 12,
+      "initials": "S",
+      "imageUrl": "/mock-images/feed-3.jpg",
+      "likedBy": "maya.draws"
+    },
+    {
+      "id": "p2",
       "username": "maya.draws",
       "place": "Lisbon, Portugal",
       "time": "2 hours ago",
@@ -21,7 +33,7 @@
       "likedBy": "jordan.runs"
     },
     {
-      "id": "p2",
+      "id": "p3",
       "username": "jordan.runs",
       "place": "Brooklyn, NY",
       "time": "5 hours ago",
@@ -33,7 +45,7 @@
       "likedBy": "priya.eats"
     },
     {
-      "id": "p3",
+      "id": "p4",
       "username": "priya.eats",
       "place": "Melbourne",
       "time": "1 day ago",
@@ -44,7 +56,7 @@
       "imageUrl": "/mock-images/feed-3.jpg"
     },
     {
-      "id": "p4",
+      "id": "p5",
       "username": "leo.frames",
       "place": "Copenhagen",
       "time": "2 days ago",
@@ -53,6 +65,85 @@
       "hue": 200,
       "initials": "L",
       "imageUrl": "/mock-images/feed-4.jpg"
+    },
+    {
+      "id": "p6",
+      "username": "nina.travels",
+      "place": "Kyoto",
+      "time": "2 days ago",
+      "likes": 2104,
+      "caption": "Bamboo path before the crowds.",
+      "hue": 130,
+      "initials": "N",
+      "imageUrl": "/mock-images/grid-1.jpg",
+      "likedBy": "leo.frames"
+    },
+    {
+      "id": "p7",
+      "username": "akifakkayaa",
+      "place": "Harbor walk",
+      "time": "3 days ago",
+      "likes": 756,
+      "caption": "Geçen haftalardan — boats and orange trees.",
+      "hue": 24,
+      "initials": "A",
+      "imageUrl": "/mock-images/grid-2.jpg"
+    },
+    {
+      "id": "p8",
+      "username": "city.cycles",
+      "place": "Amsterdam",
+      "time": "3 days ago",
+      "likes": 934,
+      "caption": "Rainy commute, dry socks somehow.",
+      "hue": 190,
+      "initials": "C",
+      "imageUrl": "/mock-images/grid-3.jpg"
+    },
+    {
+      "id": "p9",
+      "username": "mountain.ria",
+      "place": "Alps",
+      "time": "4 days ago",
+      "likes": 5621,
+      "caption": "Ria's ridge line at first light.",
+      "hue": 210,
+      "initials": "R",
+      "imageUrl": "/mock-images/grid-4.jpg",
+      "likedBy": "nina.travels"
+    },
+    {
+      "id": "p10",
+      "username": "studio.min",
+      "place": "Studio",
+      "time": "5 days ago",
+      "likes": 412,
+      "caption": "Desk reset for the week.",
+      "hue": 280,
+      "initials": "S",
+      "imageUrl": "/mock-images/grid-5.jpg"
+    },
+    {
+      "id": "p11",
+      "username": "weekend.bake",
+      "place": "Home kitchen",
+      "time": "6 days ago",
+      "likes": 1888,
+      "caption": "Sourdough Sunday — crumb check.",
+      "hue": 40,
+      "initials": "W",
+      "imageUrl": "/mock-images/grid-6.jpg"
+    },
+    {
+      "id": "p12",
+      "username": "late.reels",
+      "place": "",
+      "time": "1 week ago",
+      "likes": 990,
+      "caption": "POV: one more reel before sleep.",
+      "hue": 300,
+      "initials": "L",
+      "imageUrl": "/mock-images/grid-7.jpg"
     }
   ]
 }

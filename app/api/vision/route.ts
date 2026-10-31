@@ -1,8 +1,23 @@
 import { fixtureVision, analyzeScreenshot } from "@/lib/meta-vision";
 import { hasMetaApiKey, metaCallMeta } from "@/lib/meta";
 import { isIntentCard } from "@/lib/schemas";
+import { inferVisionAction } from "@/lib/vision-action";
 
 export const runtime = "nodejs";
+
+function withAction(
+  intent: { surface: string },
+  happened: string,
+  vs_intent: string,
+  next_step: string,
+) {
+  const action = inferVisionAction({
+    happened,
+    next_step,
+    intentSurface: intent.surface,
+  });
+  return { happened, vs_intent, next_step, action };
+}
 
 export async function POST(request: Request) {
   let body: { intent?: unknown; imageBase64?: unknown; mime?: unknown; fixture?: unknown } = {};
@@ -28,7 +43,7 @@ export async function POST(request: Request) {
       const fx = fixtureVision(body.intent);
       return Response.json({
         ok: true,
-        ...fx,
+        ...withAction(body.intent, fx.happened, fx.vs_intent, fx.next_step),
         fixture: true,
         meta: metaCallMeta("fixture"),
       });
@@ -40,9 +55,7 @@ export async function POST(request: Request) {
     });
     return Response.json({
       ok: true,
-      happened: result.happened,
-      vs_intent: result.vs_intent,
-      next_step: result.next_step,
+      ...withAction(body.intent, result.happened, result.vs_intent, result.next_step),
       fixture: false,
       meta: metaCallMeta(model),
     });
@@ -50,8 +63,8 @@ export async function POST(request: Request) {
     const fb = fixtureVision(body.intent);
     return Response.json({
       ok: true,
-      happened: fb.happened,
-      vs_intent: fb.vs_intent,
+      ...withAction(body.intent, fb.happened, fb.vs_intent, fb.next_step),
+      next_step: fb.next_step,
       fixture: true,
       meta: metaCallMeta("fixture-fallback"),
       message: "Vision unavailable; fixture fallback.",
