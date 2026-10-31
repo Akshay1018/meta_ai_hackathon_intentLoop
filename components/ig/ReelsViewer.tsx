@@ -15,10 +15,15 @@ export type ReelItem = {
 
 type ReelsViewerProps = {
   reels: ReelItem[];
+  initialReelId?: string | null;
 };
 
-export function ReelsViewer({ reels }: ReelsViewerProps) {
-  const [index, setIndex] = useState(0);
+export function ReelsViewer({ reels, initialReelId }: ReelsViewerProps) {
+  const startIndex =
+    initialReelId != null && initialReelId !== ""
+      ? reels.findIndex((r) => r.id === initialReelId)
+      : 0;
+  const [index, setIndex] = useState(startIndex >= 0 ? startIndex : 0);
   const reel = reels[index] ?? reels[0];
 
   const next = useCallback(() => {

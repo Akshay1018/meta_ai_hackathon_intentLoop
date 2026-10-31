@@ -6,7 +6,7 @@ import { ConsentBanner } from "@/components/intentloop/ConsentBanner";
 import { useConsentSettings } from "@/components/intentloop/useConsentSettings";
 import { webmBlobToWav } from "@/lib/client-wav";
 import type { IntentCard } from "@/lib/schemas";
-import { buildSearchHref, type VisionAction } from "@/lib/vision-action";
+import { resolveVisionHref, type VisionAction } from "@/lib/vision-action";
 import type { VoiceFollowUp } from "@/lib/voice-follow-up";
 
 type IncompleteSummaryToolsProps = {
@@ -236,16 +236,13 @@ export function IncompleteSummaryTools({
           {photoResult.next_step ? (
             <p className="activity-hint">{photoResult.next_step}</p>
           ) : null}
-          {photoResult.action.navigate_to ? (
+          {resolveVisionHref(photoResult.action) ? (
             <button
               type="button"
               className="limit-btn limit-btn--primary visit-close-voice-action"
               onClick={() => {
-                const href =
-                  photoResult.action.navigate_to === "/search"
-                    ? buildSearchHref(photoResult.action.search_query)
-                    : photoResult.action.navigate_to!;
-                onNavigate?.(href);
+                const href = resolveVisionHref(photoResult.action);
+                if (href) onNavigate?.(href);
               }}
             >
               {photoResult.action.action_label}

@@ -99,16 +99,16 @@ await check("visit card lines", async () => {
   }
 });
 
-await check("vision returns action for pizza fixture", async () => {
+await check("vision returns View post deep link for pizza fixture", async () => {
   const { res, json } = await post("/api/vision", {
     intent: intentDms,
     imageBase64: "x",
     fixture: true,
   });
-  if (!res.ok || !json.action?.navigate_to || json.action.navigate_to !== "/search") {
+  if (!res.ok || json.action?.action_label !== "View post") {
     throw new Error(JSON.stringify(json));
   }
-  if (!json.action.search_query) throw new Error("missing search_query");
+  if (json.action.direct_href !== "/?post=p1") throw new Error(JSON.stringify(json.action));
 });
 
 await check("vision fixture accepts png", async () => {

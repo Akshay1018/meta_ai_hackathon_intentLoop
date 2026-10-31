@@ -1,7 +1,7 @@
 import { fixtureVision, analyzeScreenshot } from "@/lib/meta-vision";
 import { hasMetaApiKey, metaCallMeta } from "@/lib/meta";
 import { isIntentCard } from "@/lib/schemas";
-import { inferVisionAction } from "@/lib/vision-action";
+import { enrichVisionAction, inferVisionAction } from "@/lib/vision-action";
 
 export const runtime = "nodejs";
 
@@ -11,11 +11,12 @@ function withAction(
   vs_intent: string,
   next_step: string,
 ) {
-  const action = inferVisionAction({
+  const base = inferVisionAction({
     happened,
     next_step,
     intentSurface: intent.surface,
   });
+  const action = enrichVisionAction(base, happened);
   return { happened, vs_intent, next_step, action };
 }
 

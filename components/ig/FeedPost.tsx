@@ -20,7 +20,7 @@ export function FeedPost({ post }: FeedPostProps) {
   const [saved, setSaved] = useState(false);
 
   return (
-    <article className="post-card">
+    <article id={`post-${post.id}`} className="post-card">
       <div className="post-head">
         <div
           className="post-avatar post-avatar--ring"
