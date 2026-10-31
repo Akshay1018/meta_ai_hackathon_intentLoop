@@ -10,10 +10,11 @@
     "mock-images": "node scripts/fetch-mock-images.mjs",
     "smoke:routes": "node scripts/smoke-routes.mjs",
     "test:summary-flow": "node scripts/test-summary-flow.mjs",
+    "test:personas": "npx tsx --test lib/personas.test.ts && npx tsx scripts/test-personas-api.ts",
     "test:intent": "npx tsx scripts/test-intent.mjs",
     "test:meta-live": "node scripts/make-demo-png.mjs && node scripts/make-demo-wav.mjs && node scripts/test-meta-live.mjs",
     "test:meta-live:heavy": "node scripts/make-demo-png.mjs && node scripts/make-demo-wav.mjs && node scripts/test-meta-live.mjs --heavy",
-    "test": "npx tsx --test lib/intent-from-spark.test.ts lib/exit-from-spark.test.ts lib/intent-primary.test.ts lib/session.test.ts lib/voice-follow-up.test.ts lib/brief-summary-ui.test.ts lib/vision-action.test.ts lib/mock-search.test.ts && npm run test:intent"
+    "test": "npx tsx --test lib/intent-from-spark.test.ts lib/exit-from-spark.test.ts lib/intent-primary.test.ts lib/session.test.ts lib/voice-follow-up.test.ts lib/brief-summary-ui.test.ts lib/vision-action.test.ts lib/mock-search.test.ts lib/personas.test.ts && npm run test:intent"
   },
   "dependencies": {
     "next": "^15.5.6",

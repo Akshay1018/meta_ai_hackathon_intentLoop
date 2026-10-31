@@ -3,7 +3,9 @@
 import { useCallback, useState } from "react";
 
 import { appendBriefRecord } from "@/lib/brief-history";
+import { idbAppendBrief } from "@/lib/brief-idb";
 import { readIntentCardsForVisit, readPrimaryIntentCard } from "@/lib/intent-primary";
+import { readActivePersonaId } from "@/lib/persona-store";
 import {
   fixtureIntentCard,
   type ExitBrief,
@@ -42,6 +44,7 @@ export function useExitBrief() {
     const intentsBySurface = readIntentCardsForVisit(surfaceOrder);
     const postedThisVisit = readPostedThisVisit();
 
+    const personaId = readActivePersonaId();
     const body = {
       intent,
       surfacesVisited,
@@ -49,6 +52,7 @@ export function useExitBrief() {
       elapsedSec,
       postedThisVisit,
       intentsBySurface,
+      ...(personaId ? { personaId } : {}),
       ...(useFixtureClient ? { fixture: true } : {}),
     };
 
@@ -73,7 +77,13 @@ export function useExitBrief() {
         });
         return intent;
       }
-      appendBriefRecord(intent, json.brief, Boolean(json.fixture));
+      appendBriefRecord(intent, json.brief, Boolean(json.fixture), personaId);
+      void idbAppendBrief({
+        intent,
+        brief: json.brief,
+        fixture: Boolean(json.fixture),
+        personaId,
+      });
       window.dispatchEvent(new Event("intentloop:brief-saved"));
       setState({
         loading: false,

@@ -6,7 +6,10 @@ import { useEffect, useState } from "react";
 import { useConsentSettings } from "@/components/intentloop/useConsentSettings";
 import { useLimitTimer } from "@/components/intentloop/useLimitTimer";
 import { useSessionSettings } from "@/components/intentloop/useSessionSettings";
+import { PersonaPicker } from "@/components/intentloop/PersonaPicker";
+import { idbReadBriefsLastDays, type StoredBriefRecord } from "@/lib/brief-idb";
 import { readBriefRecords, type BriefRecord } from "@/lib/brief-history";
+import { PERSONAS } from "@/lib/personas";
 import { limitSeconds, resetDemoVisit } from "@/lib/session";
 
 function timerHint(input: {
@@ -34,9 +37,13 @@ export function ActivityPanel() {
   const { consent, update: updateConsent } = useConsentSettings();
   const { remaining, phase, blockReason } = useLimitTimer(settings);
   const [briefs, setBriefs] = useState<BriefRecord[]>([]);
+  const [history7d, setHistory7d] = useState<StoredBriefRecord[]>([]);
 
   useEffect(() => {
-    const refresh = () => setBriefs(readBriefRecords());
+    const refresh = () => {
+      setBriefs(readBriefRecords());
+      void idbReadBriefsLastDays(7).then(setHistory7d);
+    };
     refresh();
     window.addEventListener("intentloop:brief-saved", refresh);
     return () => window.removeEventListener("intentloop:brief-saved", refresh);
@@ -151,14 +158,14 @@ export function ActivityPanel() {
           </label>
         </section>
 
-        <section className="activity-card">
-          <p className="activity-kicker">Demo persona (video)</p>
-          <p className="activity-sub">
-            For the video, run two visits: <strong>DMs-first</strong> (reply intent) and{" "}
-            <strong>Create + Share</strong> (creator). Full matrix:{" "}
-            <code className="activity-code">docs/PERSONAS_AND_IMPACT.md</code>. In-app persona picker
-            is next.
+        <section className="activity-card activity-card--persona">
+          <p className="activity-kicker">Persona (end-to-end)</p>
+          <p className="activity-hint">
+            IntentLoop extends Meta&apos;s limit with <strong>outcome</strong> — who you are shapes
+            intent copy, visit summary, and optional Spark / Voice / Muse tools. Matrix:{" "}
+            <code className="activity-code">docs/PERSONAS_AND_IMPACT.md</code>
           </p>
+          <PersonaPicker />
         </section>
 
         <section className="activity-card">
@@ -189,9 +196,36 @@ export function ActivityPanel() {
               {briefs.map((row) => (
                 <li key={row.id} className="brief-list-item">
                   <span className="brief-list-time">{row.at}</span>
+                  {row.personaId ? (
+                    <span className="brief-list-persona">{PERSONAS[row.personaId].title}</span>
+                  ) : null}
                   <strong>{row.intentGoal}</strong>
                   <p>{row.brief.happened}</p>
                   <p className="activity-hint">Drift {Math.round(row.brief.drift)}%</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section className="activity-card">
+          <p className="activity-kicker">Last 7 days</p>
+          {history7d.length === 0 ? (
+            <p className="activity-hint">
+              Saved on this device after each visit summary (Profile checker persona).
+            </p>
+          ) : (
+            <ul className="brief-list">
+              {history7d.map((row) => (
+                <li key={row.id} className="brief-list-item">
+                  <span className="brief-list-time">
+                    {row.day} · {row.at}
+                  </span>
+                  {row.personaId ? (
+                    <span className="brief-list-persona">{PERSONAS[row.personaId].title}</span>
+                  ) : null}
+                  <strong>{row.intentGoal}</strong>
+                  <p>{row.brief.happened}</p>
                 </li>
               ))}
             </ul>

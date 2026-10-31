@@ -1,5 +1,6 @@
 import { inferIntentCard } from "@/lib/intent-from-spark";
 import { hasMetaApiKey, metaCallMeta } from "@/lib/meta";
+import { isPersonaId } from "@/lib/personas";
 import { isIntentSurface } from "@/lib/schemas";
 
 export const runtime = "nodejs";
@@ -12,7 +13,7 @@ function wantFixture(body: { fixture?: unknown }): boolean {
 }
 
 export async function POST(request: Request) {
-  let body: { surface?: unknown; fixture?: unknown } = {};
+  let body: { surface?: unknown; fixture?: unknown; personaId?: unknown } = {};
   try {
     body = (await request.json()) as typeof body;
   } catch {
@@ -25,9 +26,11 @@ export async function POST(request: Request) {
   }
 
   const fixture = wantFixture(body);
+  const personaId =
+    typeof body.personaId === "string" && isPersonaId(body.personaId) ? body.personaId : null;
 
   try {
-    const result = await inferIntentCard(surfaceRaw, { fixture });
+    const result = await inferIntentCard(surfaceRaw, { fixture, personaId });
     return Response.json({
       ok: true,
       card: result.card,

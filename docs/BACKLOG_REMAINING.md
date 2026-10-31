@@ -4,10 +4,10 @@ Work through **one item at a time** with the user. Order is suggested priority f
 
 ## Product & UX
 
-- [ ] **7-day visit history** — IndexedDB (or extend localStorage), list in Your activity
+- [x] **7-day visit history** — IndexedDB list in Your activity (with Today)
 - [ ] **Time + where UI** — optional bar chart or table (minutes per surface) alongside path line
-- [ ] **Persona picker in app** — demo presets (DMs-first, Create+Share, companion-scroll) for video
-- [ ] **Browse-only / companion-scroll copy** — Spark prompts so brief doesn’t invent fake DM goals
+- [x] **Persona picker in app** — all 10 personas in Your activity
+- [x] **Browse-only / companion-scroll copy** — persona + Spark hints; fixture exit
 - [ ] **SAM on Live / recording surface** — mock “Go Live” or Reels camera; wire `/api/segment` there only
 - [x] **Search prefill** — `?q=` from vision + voice actions (mock results list)
 
@@ -22,7 +22,7 @@ Work through **one item at a time** with the user. Order is suggested priority f
 ## Quality
 
 - [ ] **Facebook adapter** — cut unless needed for submission
-- [ ] **E2E checklist** — second persona run documented in README
+- [x] **E2E checklist** — `docs/PERSONA_E2E_MANUAL.md` + `npm run test:personas`
 
 ## Done (summary page pass)
 

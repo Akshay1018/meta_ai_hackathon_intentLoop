@@ -1,3 +1,4 @@
+import type { PersonaId } from "@/lib/personas";
 import type { ExitBrief, IntentCard } from "@/lib/schemas";
 
 export type BriefRecord = {
@@ -6,11 +7,17 @@ export type BriefRecord = {
   intentGoal: string;
   brief: ExitBrief;
   fixture: boolean;
+  personaId?: PersonaId | null;
 };
 
 const KEY = "intentloop:briefs-today";
 
-export function appendBriefRecord(intent: IntentCard, brief: ExitBrief, fixture: boolean): void {
+export function appendBriefRecord(
+  intent: IntentCard,
+  brief: ExitBrief,
+  fixture: boolean,
+  personaId: PersonaId | null = null,
+): void {
   if (typeof window === "undefined") return;
   try {
     const raw = localStorage.getItem(KEY);
@@ -21,6 +28,7 @@ export function appendBriefRecord(intent: IntentCard, brief: ExitBrief, fixture:
       intentGoal: intent.goal,
       brief,
       fixture,
+      personaId,
     });
     localStorage.setItem(KEY, JSON.stringify(list.slice(0, 20)));
   } catch {

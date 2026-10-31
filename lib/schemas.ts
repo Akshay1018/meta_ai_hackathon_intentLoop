@@ -156,6 +156,7 @@ export type ExitBriefInput = {
   elapsedSec: number;
   postedThisVisit: boolean;
   intentsBySurface?: Partial<Record<IntentSurface, IntentCard>>;
+  personaId?: string | null;
 };
 
 export function fixtureExitBrief(input: ExitBriefInput): ExitBrief {

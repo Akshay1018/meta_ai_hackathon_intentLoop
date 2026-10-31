@@ -7,13 +7,16 @@ import {
   type IntentSurface,
 } from "@/lib/schemas";
 import { getMetaClient, sparkModelId } from "@/lib/meta";
+import { personaIntentCard, personaSparkIntentHint, type PersonaId } from "@/lib/personas";
 
 export async function inferIntentCard(
   surface: IntentSurface,
-  options: { fixture: boolean },
+  options: { fixture: boolean; personaId?: PersonaId | null },
 ): Promise<{ card: IntentCard; model: string; fixture: boolean }> {
+  const personaId = options.personaId ?? null;
   if (options.fixture) {
-    return { card: fixtureIntentCard(surface), model: "fixture", fixture: true };
+    const card = personaId ? personaIntentCard(surface, personaId) : fixtureIntentCard(surface);
+    return { card, model: "fixture", fixture: true };
   }
 
   const client = getMetaClient();
@@ -25,7 +28,8 @@ export async function inferIntentCard(
         role: "system",
         content:
           "You infer a short Instagram session intent from which tab the user opened. " +
-          "Never diagnose health. Never shame. source must be inferred. app is instagram.",
+          "Never diagnose health. Never shame. source must be inferred. app is instagram. " +
+          personaSparkIntentHint(personaId),
       },
       {
         role: "user",

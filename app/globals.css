@@ -1342,6 +1342,70 @@ button {
   text-align: center;
 }
 
+.activity-card--persona {
+  border: 1px solid var(--ig-line-soft);
+}
+
+.persona-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.persona-select-row {
+  flex-wrap: wrap;
+}
+
+.persona-select {
+  flex: 1;
+  min-width: 160px;
+  font: inherit;
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--ig-line);
+  border-radius: 8px;
+  background: var(--ig-surface);
+}
+
+.persona-impact {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ig-text);
+  font-style: italic;
+}
+
+.persona-tools {
+  margin: 0;
+  padding: 0 0 0 18px;
+  font-size: 12px;
+  color: var(--ig-muted);
+  line-height: 1.5;
+}
+
+.persona-start-btn {
+  margin-top: 4px;
+}
+
+.persona-clear {
+  border: 0;
+  background: none;
+  color: var(--ig-blue);
+  font-size: 13px;
+  padding: 0;
+  margin-left: 6px;
+}
+
+.brief-list-persona {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ig-muted);
+  margin-bottom: 2px;
+}
+
 .activity-code {
   font-size: 11px;
   background: var(--ig-line-soft);

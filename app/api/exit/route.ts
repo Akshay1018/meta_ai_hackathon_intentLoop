@@ -1,6 +1,7 @@
 import { sanitizeHappened } from "@/lib/brief-display";
 import { inferExitBrief } from "@/lib/exit-from-spark";
 import { hasMetaApiKey, metaCallMeta } from "@/lib/meta";
+import { isPersonaId } from "@/lib/personas";
 import { isIntentCard, isIntentSurface, type ExitBriefInput, type IntentSurface } from "@/lib/schemas";
 
 export const runtime = "nodejs";
@@ -27,6 +28,7 @@ export async function POST(request: Request) {
     elapsedSec?: unknown;
     recap?: unknown;
     fixture?: unknown;
+    personaId?: unknown;
   } = {};
   try {
     body = (await request.json()) as typeof body;
@@ -47,6 +49,9 @@ export async function POST(request: Request) {
   const recap = typeof body.recap === "string" ? body.recap : undefined;
   const fixture = wantFixture(body);
 
+  const personaId =
+    typeof body.personaId === "string" && isPersonaId(body.personaId) ? body.personaId : null;
+
   const payload: ExitBriefInput & { recap?: string } = {
     intent: body.intent,
     surfacesVisited,
@@ -54,6 +59,7 @@ export async function POST(request: Request) {
     elapsedSec,
     postedThisVisit,
     recap,
+    personaId,
   };
 
   if (body.intentsBySurface && typeof body.intentsBySurface === "object") {

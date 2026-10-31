@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { readCachedIntent, writeCachedIntent } from "@/lib/intent-cache";
+import { readActivePersonaId } from "@/lib/persona-store";
 import type { IntentCard, IntentSurface } from "@/lib/schemas";
 
 type State = {
@@ -36,8 +37,12 @@ export function useIntentCard(surface: IntentSurface): State {
     const task =
       existing ??
       (async () => {
-        const body: { surface: IntentSurface; fixture?: boolean } = { surface };
+        const personaId = readActivePersonaId();
+        const body: { surface: IntentSurface; fixture?: boolean; personaId?: string } = {
+          surface,
+        };
         if (useFixtureClient) body.fixture = true;
+        if (personaId) body.personaId = personaId;
         const res = await fetch("/api/intent", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

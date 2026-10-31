@@ -51,4 +51,7 @@ Use 2–3 in the demo; don’t claim all at once.
 **Primary tape:** Companion-scroll → post + Reels → limit → **visit summary** → optional screenshot (Spark) → session card (Muse Image).  
 **Secondary B-roll:** Marketer DMs path vs creator post path — two different **Today** rows after two resets.
 
-Link: [HACKATHON_PLAN.md](./HACKATHON_PLAN.md) backlog for 7-day history and “time + where” UI.
+Link: [HACKATHON_PLAN.md](./HACKATHON_PLAN.md) backlog for “time + where” UI.
+
+**In-app:** Profile → Your activity → **Persona (end-to-end)** picker.  
+**Testing:** [PERSONA_E2E_MANUAL.md](./PERSONA_E2E_MANUAL.md) · [PERSONA_E2E_TEST_REPORT.md](./PERSONA_E2E_TEST_REPORT.md) · `npm run test:personas`
