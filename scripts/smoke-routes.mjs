@@ -11,9 +11,17 @@ for (const path of routes) {
   try {
     const res = await fetch(url, { redirect: "manual" });
     const html = await res.text();
-    const hasCss = html.includes("globals") || html.includes("_next/static/css");
-    const ok = res.status === 200 && hasCss;
-    console.log(`${ok ? "ok" : "FAIL"} ${res.status} ${path}${hasCss ? "" : " (no css link)"}`);
+    const cssHref = html.match(/href="(\/_next\/static\/css[^"]+)"/)?.[1];
+    let cssOk = Boolean(cssHref);
+    if (cssHref) {
+      const cssRes = await fetch(`${base}${cssHref}`);
+      cssOk = cssRes.ok && (Number(cssRes.headers.get("content-length")) || 0) > 1000;
+      if (!cssOk) cssOk = (await cssRes.text()).length > 1000;
+    }
+    const ok = res.status === 200 && cssOk;
+    console.log(
+      `${ok ? "ok" : "FAIL"} ${res.status} ${path}${cssOk ? "" : " (css missing or empty)"}`,
+    );
     if (!ok) failed++;
   } catch (e) {
     console.log(`FAIL ${path}`, e instanceof Error ? e.message : e);

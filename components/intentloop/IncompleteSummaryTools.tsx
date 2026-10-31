@@ -6,7 +6,11 @@ import { ConsentBanner } from "@/components/intentloop/ConsentBanner";
 import { useConsentSettings } from "@/components/intentloop/useConsentSettings";
 import { webmBlobToWav } from "@/lib/client-wav";
 import type { IntentCard } from "@/lib/schemas";
-import { resolveVisionHref, type VisionAction } from "@/lib/vision-action";
+import {
+  buildSearchHref,
+  resolveVisionHref,
+  type VisionAction,
+} from "@/lib/vision-action";
 import type { VoiceFollowUp } from "@/lib/voice-follow-up";
 
 type IncompleteSummaryToolsProps = {
