@@ -1,25 +1,31 @@
 # IntentLoop
 
-**Outcome for your Instagram visit — not just minutes.**
+## Instagram counts the minutes. IntentLoop names the outcome.
 
-IntentLoop is a **session layer** we built for the **Meta Global AI Developer Hackathon 2026** (Indie · **Build for Your World**). It sits **inside a faithful mock of Instagram** in this repo: feed first, familiar tabs, and the same *kind* of daily-limit moment people already know — then adds a **visit summary**, optional evidence, and (in a Reels record demo) **surroundings awareness** when you choose it.
+*Time limits tell you **how long**. A **visit summary** tells you **what the visit was for** — and whether it matched why you opened the app.*
 
-This is **not** a change to Meta’s production apps. It is a **working prototype** that shows how time limits could close with **meaning**, using **Meta Model API** models on real routes.
+IntentLoop is a **session layer** built for the **Meta Global AI Developer Hackathon 2026** (Indie · **Build for Your World**). In this repo it lives **inside a faithful mock of Instagram**: **feed first**, the **daily limit sheet** you already recognize — plus one extra row, **See visit summary**, powered by **Meta Model API** (Spark, Voice, SAM, Image).
+
+**If Instagram shipped this:** users would keep today’s **Time spent** and **15 / 30 / 45 minute** reminders, and optionally gain **outcome** at the same moment — no new app, no quiz on open, history in **Your activity**. Same trust, clearer closure.
+
+This prototype is **not** production Instagram. It is **working code** judges can run locally to see how **minutes + outcome** could feel native.
 
 **Live demo:** _Deploy URL will be added after Vercel setup._  
-**3-minute video:** see [Video & submission checklist](docs/VIDEO_AND_SUBMISSION.md).
+**3-minute video:** [Video & submission checklist](docs/VIDEO_AND_SUBMISSION.md).
 
 <p align="center">
-  <img src="docs/readme/screenshots/01-home-feed.jpg" alt="Mock Instagram home — stories and feed, no IntentLoop overlay on open" width="320" />
+  <img src="docs/readme/screenshots/00-daily-limit-banner.png" alt="Instagram-style daily limit sheet with Skip, Remind, and See visit summary" width="320" />
 </p>
-<p align="center"><em>Feed first: no quiz, no overlay on cold open.</em></p>
+<p align="center"><em>The moment you already know — with <strong>See visit summary</strong> as the IntentLoop door.</em></p>
 
 ---
 
 ## Table of contents
 
+- [A day you recognize](#a-day-you-recognize)
 - [Why IntentLoop](#why-intentloop)
 - [The gap Instagram leaves today](#the-gap-instagram-leaves-today)
+- [If Meta shipped this](#if-meta-shipped-this)
 - [How IntentLoop helps](#how-intentloop-helps)
 - [Who it is for (personas)](#who-it-is-for-personas)
 - [What we built](#what-we-built)
@@ -35,9 +41,30 @@ This is **not** a change to Meta’s production apps. It is a **working prototyp
 
 ---
 
+## A day you recognize
+
+You’re on a **video call** or in a **group chat on speaker**. Instagram is open on your lap. You tell yourself you’ll check **one DM** — then Stories, then Reels. The call ends and you realize you never sent that reply.
+
+Today, when your **daily limit** pops up, you can **Skip** and keep scrolling. You still might not know:
+
+- **Why did I open Instagram this time?**
+- **Did I do that one thing?**
+- **Where did the visit go** — Messages, Feed, or Reels?
+
+IntentLoop adds **See visit summary** on that **same bottom sheet**. One tap → **visit summary**: a plain **outcome** line, **drift**, **time + where**, and an optional **next step** (for example, “Open DMs”). No lecture. **Skip** still works.
+
+We do **not** listen to your call or detect that you’re on speaker. We use the **tabs you open** and **time on each surface** — the same kind of signals you’d expect from **Time spent** — then close the loop when **your limit** hits.
+
+<p align="center">
+  <img src="docs/readme/screenshots/02-dms-intent-chip.png" alt="DMs with silent Inbox on intent chip" width="320" />
+</p>
+<p align="center"><em>You opened for Messages — IntentLoop keeps a silent <strong>intent</strong> line while you browse.</em></p>
+
+---
+
 ## Why IntentLoop
 
-People open Instagram for a **job**: reply to a DM, post a photo, check one story, unwind for five minutes. The app is excellent at keeping you engaged. Meta also gives **Time spent** and **daily limits** (15, 30, 45 minutes, and custom) — that answers **how long** you stayed.
+People open Instagram for a **job**: reply to a DM, post a photo, check one story, unwind for five minutes. The app is excellent at keeping you engaged. Meta already gives **Time spent** and **daily limits** (15, 30, 45 minutes, and custom) — that answers **how long** you stayed.
 
 It does not, by itself, answer:
 
@@ -62,7 +89,21 @@ It does not, by itself, answer:
 | — | Optional **evidence** you choose (screenshot, voice) compared to why you opened |
 | — | In our **demo only**: Reels record + **surroundings check** with consent |
 
-IntentLoop **does not replace** Meta’s controls. In this repo it **mock**s the shell and adds the **summary layer** judges can click through.
+IntentLoop **does not replace** Meta’s controls. In this repo it **mocks** the shell and adds the **outcome layer** judges can click through.
+
+---
+
+## If Meta shipped this
+
+| For people | What would feel different |
+|------------|---------------------------|
+| **Daily limit users** | Same banner grammar; optional **visit summary** instead of only “time’s up” |
+| **DMs / Create openers** | Quiet **intent** line; summary says if Reels **drifted** the visit |
+| **Companion-scroll** | Neutral closure after a fuzzy visit — not guilt, not more minutes |
+| **Creators** | “Did I post?” answered in the **summary** when they shared |
+| **Privacy-minded users** | Summaries on **device**; extras (photo, voice, camera) **opt-in** |
+
+Built **during the hackathon (Oct 26 – Nov 4, 2026)** as a **public prototype**, not a promise of a Meta roadmap.
 
 ---
 
@@ -148,9 +189,14 @@ API base: `https://api.meta.ai/v1` — see [Meta Model API](https://dev.meta.ai/
 
 ## Real situations we designed for
 
-### Companion-scroll / no clear objective
+### On a call, scrolling with no clear outcome
 
-You’re on a speakerphone or with friends, Instagram is open, and tabs blur together. IntentLoop does **not** detect the call. It uses the **same limit banner** you already understand and, if you want, a **visit summary** that describes drift without lecturing.
+**Your day:** Speakerphone or group call; Instagram open; you drift through Feed and Reels.  
+**IntentLoop:** When **your daily limit** hits, tap **See visit summary**. You get **why the visit looked like** (for example, “You opened for messages but Reels showed up”) and **time + where** — so you know if you still owe yourself that DM. Choose **Companion-scroll** in **Your activity** to tune demo copy for this story.
+
+### Companion-scroll / no single objective
+
+Tabs blur together; there was no one “job.” The **visit summary** still gives a **neutral outcome line** and drift — closure without shame. **No call detection**; no extra sensors.
 
 ### DMs intent, Reels wins
 
@@ -206,6 +252,8 @@ Optional **Muse Image** background + on-device composited card — memento only,
 
 | Topic | Image |
 |-------|--------|
+| Feed first (no overlay on open) | ![Home feed](docs/readme/screenshots/01-home-feed.jpg) |
+| Daily limit + **See visit summary** | ![Limit banner](docs/readme/screenshots/00-daily-limit-banner.png) |
 | Reels tab | ![Reels](docs/readme/screenshots/03-reels.png) |
 | Profile → Your activity | ![Activity timer and time + where](docs/readme/screenshots/06-activity-time-where.png) |
 | Today history | ![Today](docs/readme/screenshots/09-history-today.png) |
