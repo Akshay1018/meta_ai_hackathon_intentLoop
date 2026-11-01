@@ -13,11 +13,11 @@ import { readActivePersonaId, writeActivePersonaId } from "@/lib/persona-store";
 import { resetDemoVisit } from "@/lib/session";
 
 const TOOL_LABEL: Record<PersonaMetaTool, string> = {
-  "spark-intent": "Spark intent",
-  "spark-exit": "Spark exit brief",
-  "spark-vision": "Screenshot match",
-  voice: "Voice follow-up",
-  "visit-card": "Visit card (Muse)",
+  "spark-intent": "Silent intent on each tab",
+  "spark-exit": "Visit summary at your limit",
+  "spark-vision": "Match a screenshot",
+  voice: "Say what you still wanted",
+  "visit-card": "Private visit picture",
 };
 
 type PersonaPickerProps = {
@@ -63,11 +63,13 @@ export function PersonaPicker({ onStarted }: PersonaPickerProps) {
           </button>
         </p>
       ) : (
-        <p className="activity-hint">Pick a persona, then start a fresh visit with the right entry tab.</p>
+        <p className="activity-hint">
+          Choose how you use Instagram, then start a fresh visit on the right tab.
+        </p>
       )}
 
       <label className="activity-row persona-select-row" htmlFor="persona-select">
-        <span>Persona</span>
+        <span>Profile</span>
         <select
           id="persona-select"
           className="persona-select"
@@ -90,7 +92,7 @@ export function PersonaPicker({ onStarted }: PersonaPickerProps) {
       <p className="activity-hint">
         <strong>Try:</strong> {def.visitScript}
       </p>
-      <ul className="persona-tools" aria-label="Meta tools for this persona">
+      <ul className="persona-tools" aria-label="Optional features that fit this profile">
         {def.metaTools.map((t) => (
           <li key={t}>{TOOL_LABEL[t]}</li>
         ))}

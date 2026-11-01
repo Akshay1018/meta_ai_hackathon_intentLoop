@@ -22,6 +22,10 @@ const SURFACE_LABELS: Record<IntentSurface, string> = {
   profile: "Profile",
 };
 
+export function surfaceDisplayLabel(surface: IntentSurface): string {
+  return SURFACE_LABELS[surface];
+}
+
 export function collapseSurfacePath(order: IntentSurface[]): IntentSurface[] {
   const out: IntentSurface[] = [];
   for (const s of order) {

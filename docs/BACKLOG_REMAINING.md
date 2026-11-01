@@ -5,7 +5,7 @@ Work through **one item at a time** with the user. Order is suggested priority f
 ## Product & UX
 
 - [x] **7-day visit history** — IndexedDB list in Your activity (with Today)
-- [ ] **Time + where UI** — optional bar chart or table (minutes per surface) alongside path line
+- [x] **Time + where UI** — dwell tracking + bar/legend in visit summary and Your activity
 - [x] **Persona picker in app** — all 10 personas in Your activity
 - [x] **Browse-only / companion-scroll copy** — persona + Spark hints; fixture exit
 - [ ] **SAM on Live / recording surface** — mock “Go Live” or Reels camera; wire `/api/segment` there only

@@ -1,4 +1,5 @@
 import { clearAllCachedIntents } from "@/lib/intent-cache";
+import { clearDwellTracking } from "@/lib/visit-dwell";
 import { clearPostedThisVisit } from "@/lib/visit-outcome";
 import { clearSurfaceVisits } from "@/lib/visit-tracker";
 
@@ -109,6 +110,7 @@ export function resetDemoVisit(now: number = Date.now()): void {
   sessionStorage.setItem(STARTED_KEY, String(now));
   clearAllCachedIntents();
   clearSurfaceVisits();
+  clearDwellTracking();
   clearPostedThisVisit();
 }
 

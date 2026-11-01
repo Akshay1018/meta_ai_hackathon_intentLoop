@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
+import { recordDwellSurfaceEnter } from "@/lib/visit-dwell";
 import { pathnameToSurface, recordSurfaceVisit } from "@/lib/visit-tracker";
 
 export function SurfaceTracker() {
@@ -10,7 +11,10 @@ export function SurfaceTracker() {
 
   useEffect(() => {
     const surface = pathnameToSurface(pathname);
-    if (surface) recordSurfaceVisit(surface);
+    if (surface) {
+      recordSurfaceVisit(surface);
+      recordDwellSurfaceEnter(surface);
+    }
   }, [pathname]);
 
   return null;

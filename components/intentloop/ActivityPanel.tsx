@@ -7,6 +7,7 @@ import { useConsentSettings } from "@/components/intentloop/useConsentSettings";
 import { useLimitTimer } from "@/components/intentloop/useLimitTimer";
 import { useSessionSettings } from "@/components/intentloop/useSessionSettings";
 import { PersonaPicker } from "@/components/intentloop/PersonaPicker";
+import { TimeWhereOnDemand } from "@/components/intentloop/TimeWhereOnDemand";
 import { idbReadBriefsLastDays, type StoredBriefRecord } from "@/lib/brief-idb";
 import { readBriefRecords, type BriefRecord } from "@/lib/brief-history";
 import { personaTitle } from "@/lib/persona-catalog";
@@ -38,15 +39,24 @@ export function ActivityPanel() {
   const { remaining, phase, blockReason } = useLimitTimer(settings);
   const [briefs, setBriefs] = useState<BriefRecord[]>([]);
   const [history7d, setHistory7d] = useState<StoredBriefRecord[]>([]);
+  const [visitResetNonce, setVisitResetNonce] = useState(0);
 
   useEffect(() => {
     const refresh = () => {
       setBriefs(readBriefRecords());
       void idbReadBriefsLastDays(7).then(setHistory7d);
     };
+    const onVisitReset = () => {
+      refresh();
+      setVisitResetNonce((n) => n + 1);
+    };
     refresh();
     window.addEventListener("intentloop:brief-saved", refresh);
-    return () => window.removeEventListener("intentloop:brief-saved", refresh);
+    window.addEventListener("intentloop:visit-reset", onVisitReset);
+    return () => {
+      window.removeEventListener("intentloop:brief-saved", refresh);
+      window.removeEventListener("intentloop:visit-reset", onVisitReset);
+    };
   }, []);
 
   const startNewVisit = () => {
@@ -86,6 +96,7 @@ export function ActivityPanel() {
             Resets the {limitSeconds(settings)}s timer, clears tab history and intent cache for
             this visit, then shows the limit banner again after it expires.
           </p>
+          <TimeWhereOnDemand visitResetNonce={visitResetNonce} />
         </section>
 
         <section className="activity-card">
@@ -122,7 +133,7 @@ export function ActivityPanel() {
         <section className="activity-card">
           <p className="activity-kicker">Optional features (your consent)</p>
           <label className="activity-row">
-            <span>Match a screenshot (Spark vision)</span>
+            <span>Match a screenshot from your photos</span>
             <input
               type="checkbox"
               checked={consent.photoMatch}
@@ -130,7 +141,7 @@ export function ActivityPanel() {
             />
           </label>
           <label className="activity-row">
-            <span>Surroundings check (SAM) — for Live / recording later</span>
+            <span>Surroundings check — for Live or recording later</span>
             <input
               type="checkbox"
               checked={consent.surroundingsCheck}
@@ -141,7 +152,7 @@ export function ActivityPanel() {
             Not used when sharing a still post — reserved for a future Live surface.
           </p>
           <label className="activity-row">
-            <span>Say what you still wanted (Voice + Spark)</span>
+            <span>Say what you still wanted (microphone)</span>
             <input
               type="checkbox"
               checked={consent.voiceSummary}
@@ -149,7 +160,7 @@ export function ActivityPanel() {
             />
           </label>
           <label className="activity-row">
-            <span>Visit card (Muse Image)</span>
+            <span>Private visit picture</span>
             <input
               type="checkbox"
               checked={consent.visitCard}
@@ -159,11 +170,11 @@ export function ActivityPanel() {
         </section>
 
         <section className="activity-card activity-card--persona">
-          <p className="activity-kicker">Persona (end-to-end)</p>
+          <p className="activity-kicker">Who you&apos;re browsing as</p>
           <p className="activity-hint">
-            IntentLoop extends Meta&apos;s limit with <strong>outcome</strong> — who you are shapes
-            intent copy, visit summary, and optional Spark / Voice / Muse tools. Matrix:{" "}
-            <code className="activity-code">docs/PERSONAS_AND_IMPACT.md</code>
+            Pick the kind of visit that matches you — we tune the silent intent line and your limit
+            summary in plain language. Optional extras (photo, voice, visit picture) still only run
+            if you turn them on above.
           </p>
           <PersonaPicker />
         </section>
