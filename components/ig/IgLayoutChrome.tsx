@@ -11,10 +11,9 @@ import { SurfaceTracker } from "@/components/intentloop/SurfaceTracker";
 
 type IgLayoutChromeProps = {
   children: ReactNode;
-  metaKeyConfigured: boolean;
 };
 
-export function IgLayoutChrome({ children, metaKeyConfigured }: IgLayoutChromeProps) {
+export function IgLayoutChrome({ children }: IgLayoutChromeProps) {
   const pathname = usePathname();
   const onReels = pathname === "/reels" || pathname.startsWith("/reels/");
   const hideTabBar =
@@ -23,7 +22,7 @@ export function IgLayoutChrome({ children, metaKeyConfigured }: IgLayoutChromePr
     pathname === "/reels/record";
 
   return (
-    <PhoneShell metaKeyConfigured={metaKeyConfigured} variant={onReels ? "reels" : "default"}>
+    <PhoneShell variant={onReels ? "reels" : "default"}>
       <IgStatusBar dark={onReels} />
       <SurfaceTracker />
       <div className="ig-main">{children}</div>
