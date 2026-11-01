@@ -14,9 +14,9 @@ This prototype is **not** production Instagram. It is **working code** judges ca
 **3-minute video:** [Video & submission checklist](docs/VIDEO_AND_SUBMISSION.md).
 
 <p align="center">
-  <img src="docs/readme/screenshots/00-daily-limit-banner.png" alt="Instagram-style daily limit sheet with Skip, Remind, and See visit summary" width="320" />
+  <img src="docs/readme/screenshots/00-daily-limit-banner.png" alt="Mock Instagram Reels with the daily limit sheet: Skip, Remind me in 1 or 2 hours, and See visit summary" width="320" />
 </p>
-<p align="center"><em>The moment you already know — with <strong>See visit summary</strong> as the IntentLoop door.</em></p>
+<p align="center"><em><strong>You’re at your daily limit</strong> — same sheet on Feed or Reels, with <strong>See visit summary</strong> as the IntentLoop door.</em></p>
 
 ---
 
@@ -253,7 +253,7 @@ Optional **Muse Image** background + on-device composited card — memento only,
 | Topic | Image |
 |-------|--------|
 | Feed first (no overlay on open) | ![Home feed](docs/readme/screenshots/01-home-feed.jpg) |
-| Daily limit + **See visit summary** | ![Limit banner](docs/readme/screenshots/00-daily-limit-banner.png) |
+| Daily limit on Reels + **See visit summary** | ![Limit banner on Reels](docs/readme/screenshots/00-daily-limit-banner.png) |
 | Reels tab | ![Reels](docs/readme/screenshots/03-reels.png) |
 | Profile → Your activity | ![Activity timer and time + where](docs/readme/screenshots/06-activity-time-where.png) |
 | Today history | ![Today](docs/readme/screenshots/09-history-today.png) |
