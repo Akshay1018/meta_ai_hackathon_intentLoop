@@ -11,6 +11,7 @@ export type SegmentSummary = {
   prompt: string;
   raw: string;
   nudge: string;
+  alertLevel?: "none" | "caution" | "urgent";
 };
 
 function nudgeFromRecordingRaw(raw: string): string {
@@ -32,9 +33,13 @@ function nudgeFromRecordingRaw(raw: string): string {
   if (/crosswalk|traffic|car|street|road/.test(lower)) {
     return "Busy spot — stay aware of people and traffic around you.";
   }
-  return raw.length > 20
-    ? "Quick surroundings check — keep an eye on who is around you while recording."
-    : "All clear for now — tap Check surroundings again if the scene changes.";
+  if (phoneCount >= 2) {
+    return "Another phone is in frame — someone may be recording you. Glance behind you.";
+  }
+  if (raw.length > 20) {
+    return "Quick surroundings check — keep an eye on who is around you while recording.";
+  }
+  return "Could not confirm the scene from SAM alone — glance behind you before you keep filming.";
 }
 
 function nudgeFromWalkRaw(raw: string): string {

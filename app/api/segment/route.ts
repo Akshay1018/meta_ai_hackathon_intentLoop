@@ -1,4 +1,9 @@
 import {
+  analyzeRecordingSurroundings,
+  fixtureRecordingSurroundings,
+  mergeSamAndVisionNudge,
+} from "@/lib/meta-recording-surroundings";
+import {
   fixtureSegment,
   segmentSurroundingsPhoto,
   type SegmentContext,
@@ -22,6 +27,7 @@ export async function POST(request: Request) {
 
   const imageBase64 = typeof body.imageBase64 === "string" ? body.imageBase64 : "";
   const context: SegmentContext = body.context === "recording" ? "recording" : "walk";
+  const mime = typeof body.mime === "string" ? body.mime : undefined;
   const fixture =
     process.env.INTENTLOOP_FIXTURE === "1" || body.fixture === true || !hasMetaApiKey();
 
@@ -31,6 +37,21 @@ export async function POST(request: Request) {
 
   try {
     if (fixture) {
+      if (context === "recording") {
+        const fx = fixtureRecordingSurroundings();
+        const summary = {
+          ...fixtureSegment("recording"),
+          nudge: fx.nudge,
+          raw: `[fixture] ${fx.nudge}`,
+          alertLevel: fx.alert_level,
+        };
+        return Response.json({
+          ok: true,
+          summary,
+          fixture: true,
+          meta: metaCallMeta("fixture"),
+        });
+      }
       const summary = fixtureSegment(context);
       return Response.json({
         ok: true,
@@ -39,25 +60,60 @@ export async function POST(request: Request) {
         meta: metaCallMeta("fixture"),
       });
     }
-    const { summary, model } = await segmentSurroundingsPhoto({
+
+    const { summary: samSummary, model: samModel } = await segmentSurroundingsPhoto({
       imageBase64,
-      mime: typeof body.mime === "string" ? body.mime : undefined,
+      mime,
       context,
     });
+
+    if (context === "recording" && imageBase64) {
+      try {
+        const { analysis, model: sparkModel } = await analyzeRecordingSurroundings({
+          imageBase64,
+          mime,
+          samRaw: samSummary.raw,
+        });
+        const nudge = mergeSamAndVisionNudge({ samRaw: samSummary.raw, analysis });
+        return Response.json({
+          ok: true,
+          summary: {
+            ...samSummary,
+            nudge,
+            alertLevel: analysis.alert_level,
+            raw: `[sam:${samModel}] ${samSummary.raw} | [spark:${sparkModel}] ${JSON.stringify(analysis)}`,
+          },
+          fixture: false,
+          meta: metaCallMeta(sparkModel, { sam: samModel }),
+        });
+      } catch {
+        return Response.json({
+          ok: true,
+          summary: samSummary,
+          fixture: false,
+          meta: metaCallMeta(samModel),
+          message: "Spark surroundings vision unavailable; SAM-only nudge.",
+        });
+      }
+    }
+
     return Response.json({
       ok: true,
-      summary,
+      summary: samSummary,
       fixture: false,
-      meta: metaCallMeta(model),
+      meta: metaCallMeta(samModel),
     });
   } catch {
-    const summary = fixtureSegment(context);
+    const summary =
+      context === "recording"
+        ? { ...fixtureSegment("recording"), nudge: fixtureRecordingSurroundings().nudge }
+        : fixtureSegment(context);
     return Response.json({
       ok: true,
       summary,
       fixture: true,
       meta: metaCallMeta("fixture-fallback"),
-      message: "SAM unavailable; fixture fallback.",
+      message: "Surroundings check unavailable; fixture fallback.",
     });
   }
 }
