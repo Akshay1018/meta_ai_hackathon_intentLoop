@@ -1,4 +1,4 @@
-# IntentLoop
+# IntentLoop · Meta AI for Instagram — **outcome** when your daily limit hits
 
 ## Instagram counts the minutes. IntentLoop names the outcome.
 
@@ -20,8 +20,29 @@ This prototype is **not** production Instagram. It is **working code** judges ca
 
 ---
 
+## Meta AI tools — where and why
+
+We use **specialized models for specialized jobs** — structured JSON and media routes, not one chat box.
+
+| Feature / use case | Meta model (default ID) | Route | Where in the app | Why this model |
+|--------------------|-------------------------|-------|------------------|----------------|
+| Silent intent line | **Muse Spark 1.3** `muse-spark-1.3` | `POST /api/intent` | DMs, Create header chip | Strict **JSON** IntentCard; cached once per surface per visit |
+| Visit summary | **Muse Spark 1.3** | `POST /api/exit` | Limit sheet → **See visit summary** | ExitBrief schema: drift, happened, next_action |
+| Screenshot vs intent | **Muse Spark 1.3** (vision) | `POST /api/vision` | Brief → **Match a screenshot** | Compares **your** photo to why you opened |
+| Voice recap | **Muse Voice Transcribe** `muse-voice-transcribe-1.0` | `POST /api/transcribe` | Brief → **Say what you still wanted** | Short WAV → text on device flow |
+| Voice → next step | **Muse Spark 1.3** | `POST /api/voice-follow-up` | After transcribe | Routes to Search / Reels in mock UI |
+| Recording surroundings | **SAM 3.1** `sam-3.1` + **Spark** (same request) | `POST /api/segment` | Reels → camera → alerts | SAM for segmentation signal; Spark reads frame for plain nudge |
+| Visit memento | **Muse Image** `muse-image-1.0` | `POST /api/card` | Brief → **Create visit card** | Visual close users can keep locally |
+
+**Not in the in-app loop:** Muse Code / Wonder (how we authored the repo). **Deferred:** Baseten Spark Open fallback, PWA.
+
+API base: `https://api.meta.ai/v1` — see [Meta Model API](https://dev.meta.ai/docs/overview). Configure via `.env.local` ([`.env.example`](.env.example)).
+
+---
+
 ## Table of contents
 
+- [Meta AI tools — where and why](#meta-ai-tools--where-and-why)
 - [A day you recognize](#a-day-you-recognize)
 - [Why IntentLoop](#why-intentloop)
 - [The gap Instagram leaves today](#the-gap-instagram-leaves-today)
@@ -29,7 +50,6 @@ This prototype is **not** production Instagram. It is **working code** judges ca
 - [How IntentLoop helps](#how-intentloop-helps)
 - [Who it is for (personas)](#who-it-is-for-personas)
 - [What we built](#what-we-built)
-- [Meta AI tools — where and why](#meta-ai-tools--where-and-why)
 - [Real situations we designed for](#real-situations-we-designed-for)
 - [Trust, consent, and data](#trust-consent-and-data)
 - [Screenshots by feature](#screenshots-by-feature)
@@ -164,26 +184,6 @@ Full matrix: [Personas & impact](docs/PERSONAS_AND_IMPACT.md).
 | Search | Prefill `?q=` from vision / voice follow-up (mock results UI) |
 
 Built **during the hackathon window (Oct 26 – Nov 4, 2026)**. All product code in this repository is event work.
-
----
-
-## Meta AI tools — where and why
-
-We use **specialized models for specialized jobs** — structured JSON and media routes, not one chat box.
-
-| Feature / use case | Meta model (default ID) | Route | Where in the app | Why this model |
-|--------------------|-------------------------|-------|------------------|----------------|
-| Silent intent line | **Muse Spark 1.3** `muse-spark-1.3` | `POST /api/intent` | DMs, Create header chip | Strict **JSON** IntentCard; cached once per surface per visit |
-| Visit summary | **Muse Spark 1.3** | `POST /api/exit` | Limit sheet → **See visit summary** | ExitBrief schema: drift, happened, next_action |
-| Screenshot vs intent | **Muse Spark 1.3** (vision) | `POST /api/vision` | Brief → **Match a screenshot** | Compares **your** photo to why you opened |
-| Voice recap | **Muse Voice Transcribe** `muse-voice-transcribe-1.0` | `POST /api/transcribe` | Brief → **Say what you still wanted** | Short WAV → text on device flow |
-| Voice → next step | **Muse Spark 1.3** | `POST /api/voice-follow-up` | After transcribe | Routes to Search / Reels in mock UI |
-| Recording surroundings | **SAM 3.1** `sam-3.1` + **Spark** (same request) | `POST /api/segment` | Reels → camera → alerts | SAM for segmentation signal; Spark reads frame for plain nudge |
-| Visit memento | **Muse Image** `muse-image-1.0` | `POST /api/card` | Brief → **Create visit card** | Visual close users can keep locally |
-
-**Not in the in-app loop:** Muse Code / Wonder (how we authored the repo). **Deferred:** Baseten Spark Open fallback, PWA.
-
-API base: `https://api.meta.ai/v1` — see [Meta Model API](https://dev.meta.ai/docs/overview). Configure via `.env.local` ([`.env.example`](.env.example)).
 
 ---
 
