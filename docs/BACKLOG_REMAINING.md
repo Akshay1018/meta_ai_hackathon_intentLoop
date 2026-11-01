@@ -13,7 +13,7 @@ Work through **one item at a time** with the user. Order is suggested priority f
 
 ## Ship & hackathon
 
-- [ ] **README** — architecture, model IDs, judging section, “built during hackathon”
+- [x] **README** — architecture, model IDs, judging section, “built during hackathon”
 - [ ] **Vercel deploy** + **rate limit** on `/api/*` (protect `MODEL_API_KEY`)
 - [ ] **3-minute video** — storyboard in `HACKATHON_PLAN.md` §9
 - [ ] **PWA polish** — manifest, install hint (nice-to-have)
