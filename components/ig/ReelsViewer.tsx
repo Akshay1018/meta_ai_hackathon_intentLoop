@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback, useState, type KeyboardEvent, type MouseEvent } from "react";
 
 import { IconCamera, IconComment, IconHeart, IconMore, IconShare } from "@/components/ig/IgIcons";
@@ -19,6 +20,7 @@ type ReelsViewerProps = {
 };
 
 export function ReelsViewer({ reels, initialReelId }: ReelsViewerProps) {
+  const router = useRouter();
   const startIndex =
     initialReelId != null && initialReelId !== ""
       ? reels.findIndex((r) => r.id === initialReelId)
@@ -40,7 +42,15 @@ export function ReelsViewer({ reels, initialReelId }: ReelsViewerProps) {
     <div className="reels-shell">
       <header className="reels-topbar">
         <span className="reels-title">Reels</span>
-        <button type="button" className="ig-icon-btn reels-camera-btn" aria-label="Camera">
+        <button
+          type="button"
+          className="ig-icon-btn reels-camera-btn"
+          aria-label="Camera"
+          onClick={(e) => {
+            e.stopPropagation();
+            router.push("/reels/record");
+          }}
+        >
           <IconCamera size={24} />
         </button>
       </header>

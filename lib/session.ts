@@ -1,6 +1,7 @@
 import { clearAllCachedIntents } from "@/lib/intent-cache";
 import { clearDwellTracking } from "@/lib/visit-dwell";
 import { clearPostedThisVisit } from "@/lib/visit-outcome";
+import { clearVisitSurroundings } from "@/lib/visit-surroundings";
 import { clearSurfaceVisits } from "@/lib/visit-tracker";
 
 export type SessionSettings = {
@@ -112,6 +113,7 @@ export function resetDemoVisit(now: number = Date.now()): void {
   clearSurfaceVisits();
   clearDwellTracking();
   clearPostedThisVisit();
+  clearVisitSurroundings();
 }
 
 export type LimitBlockReason = "none" | "disabled" | "skipped" | "snoozed";

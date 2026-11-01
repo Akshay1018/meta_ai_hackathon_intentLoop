@@ -2,7 +2,15 @@
  * Smoke-test HTML routes (dev or start server must already be up on :3000).
  *   node scripts/smoke-routes.mjs
  */
-const routes = ["/", "/reels", "/create", "/dms", "/profile", "/profile/activity"];
+const routes = [
+  "/",
+  "/reels",
+  "/reels/record",
+  "/create",
+  "/dms",
+  "/profile",
+  "/profile/activity",
+];
 const base = process.env.SMOKE_BASE ?? "http://127.0.0.1:3000";
 
 let failed = 0;

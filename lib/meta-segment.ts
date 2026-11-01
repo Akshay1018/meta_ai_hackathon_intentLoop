@@ -2,6 +2,10 @@ import { getMetaClient, metaCallMeta } from "@/lib/meta";
 import { museSamModelId } from "@/lib/meta-env";
 
 const WALK_PROMPT = "phone, person, crosswalk, car";
+export const RECORDING_PROMPT =
+  "person, phone, camera, filming, recording, behind, shoulder, pointing";
+
+export type SegmentContext = "walk" | "recording";
 
 export type SegmentSummary = {
   prompt: string;
@@ -9,10 +13,49 @@ export type SegmentSummary = {
   nudge: string;
 };
 
-export async function segmentWalkPhoto(input: {
+function nudgeFromRecordingRaw(raw: string): string {
+  const lower = raw.toLowerCase();
+  const phoneCount = (lower.match(/phone/g) ?? []).length;
+  const hasPerson = /person|people|someone|figure|human|face|crowd/.test(lower);
+  const hasBehind = /behind|over shoulder|back|rear|second|background/.test(lower);
+  const hasFilming = /film|record|camera|point|video|shoot/.test(lower);
+
+  if ((hasPerson && hasFilming && hasBehind) || (phoneCount >= 2 && hasPerson && hasFilming)) {
+    return "Someone may be recording from behind — glance around before you keep filming.";
+  }
+  if (phoneCount >= 2 && hasPerson) {
+    return "Multiple phones in view — move somewhere private if you feel watched.";
+  }
+  if (hasPerson && hasFilming) {
+    return "People with cameras nearby — stay aware of who is in your shot.";
+  }
+  if (/crosswalk|traffic|car|street|road/.test(lower)) {
+    return "Busy spot — stay aware of people and traffic around you.";
+  }
+  return raw.length > 20
+    ? "Quick surroundings check — keep an eye on who is around you while recording."
+    : "All clear for now — tap Check surroundings again if the scene changes.";
+}
+
+function nudgeFromWalkRaw(raw: string): string {
+  const lower = raw.toLowerCase();
+  const manyPhones = (lower.match(/phone/g) ?? []).length >= 2;
+  if (manyPhones) {
+    return "Several phones in frame — step somewhere quieter if you want more privacy while recording.";
+  }
+  if (raw.length > 20) {
+    return "Looks like you're outside — eyes up for a block. Pocket the phone if you're crossing.";
+  }
+  return "Busy spot — stay aware of people and traffic around you.";
+}
+
+export async function segmentSurroundingsPhoto(input: {
   imageBase64: string;
   mime?: string;
+  context?: SegmentContext;
 }): Promise<{ summary: SegmentSummary; model: string }> {
+  const context = input.context === "recording" ? "recording" : "walk";
+  const prompt = context === "recording" ? RECORDING_PROMPT : WALK_PROMPT;
   const client = getMetaClient();
   const model = museSamModelId();
   const mime = input.mime?.startsWith("image/") ? input.mime : "image/jpeg";
@@ -26,7 +69,7 @@ export async function segmentWalkPhoto(input: {
         type: "message",
         role: "user",
         content: [
-          { type: "input_text", text: WALK_PROMPT },
+          { type: "input_text", text: prompt },
           { type: "input_image", image_url: dataUrl, detail: "auto" },
         ],
       },
@@ -43,21 +86,31 @@ export async function segmentWalkPhoto(input: {
       : undefined;
   const raw = response.output_text ?? fallbackText ?? "";
 
-  const lower = raw.toLowerCase();
-  const manyPhones = (lower.match(/phone/g) ?? []).length >= 2;
-  const nudge = manyPhones
-    ? "Several phones in frame — step somewhere quieter if you want more privacy while recording."
-    : raw.length > 20
-      ? "Looks like you're outside — eyes up for a block. Pocket the phone if you're crossing."
-      : "Busy spot — stay aware of people and traffic around you.";
+  const nudge =
+    context === "recording" ? nudgeFromRecordingRaw(raw) : nudgeFromWalkRaw(raw);
 
   return {
-    summary: { prompt: WALK_PROMPT, raw: raw.slice(0, 500), nudge },
+    summary: { prompt, raw: raw.slice(0, 500), nudge },
     model: metaCallMeta(model).model,
   };
 }
 
-export function fixtureSegment(): SegmentSummary {
+/** @deprecated use segmentSurroundingsPhoto */
+export async function segmentWalkPhoto(input: {
+  imageBase64: string;
+  mime?: string;
+}): Promise<{ summary: SegmentSummary; model: string }> {
+  return segmentSurroundingsPhoto({ ...input, context: "walk" });
+}
+
+export function fixtureSegment(context: SegmentContext = "walk"): SegmentSummary {
+  if (context === "recording") {
+    return {
+      prompt: RECORDING_PROMPT,
+      raw: "[fixture] recording surroundings",
+      nudge: "Someone may be recording from behind — glance around before you keep filming.",
+    };
+  }
   return {
     prompt: WALK_PROMPT,
     raw: "[fixture] sam masks not requested",

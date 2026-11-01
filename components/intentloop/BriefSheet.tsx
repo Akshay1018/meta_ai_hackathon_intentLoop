@@ -15,6 +15,7 @@ import {
 import { readSessionStartedAt } from "@/lib/session";
 import type { ExitBrief, IntentCard } from "@/lib/schemas";
 import { readDwellRowsForVisit } from "@/lib/visit-dwell";
+import { visitSurroundingsSummaryLine } from "@/lib/visit-surroundings";
 import { readSurfaceVisitOrder } from "@/lib/visit-tracker";
 
 type BriefSheetProps = {
@@ -50,7 +51,12 @@ export function BriefSheet({
 
   const visitTiming = useMemo(() => {
     if (!open || typeof window === "undefined") {
-      return { visitPathLine: "", elapsedSec: 0, dwellRows: [] as ReturnType<typeof readDwellRowsForVisit> };
+      return {
+        visitPathLine: "",
+        elapsedSec: 0,
+        dwellRows: [] as ReturnType<typeof readDwellRowsForVisit>,
+        surroundingsLine: null as string | null,
+      };
     }
     const startedAt = readSessionStartedAt(Date.now());
     const elapsedSec = Math.max(0, Math.round((Date.now() - startedAt) / 1000));
@@ -58,6 +64,7 @@ export function BriefSheet({
       visitPathLine: formatVisitPathLine(readSurfaceVisitOrder(), elapsedSec),
       elapsedSec,
       dwellRows: readDwellRowsForVisit(elapsedSec),
+      surroundingsLine: visitSurroundingsSummaryLine(),
     };
   }, [open, brief?.happened]);
 
@@ -109,6 +116,12 @@ export function BriefSheet({
 
               <section className="brief-section brief-section--story" aria-label="Summary">
                 <p className="brief-happened">{happened}</p>
+                {visitTiming.surroundingsLine ? (
+                  <div className="brief-surroundings" role="note">
+                    <p className="brief-surroundings-kicker">Recording surroundings</p>
+                    <p className="brief-surroundings-text">{visitTiming.surroundingsLine}</p>
+                  </div>
+                ) : null}
                 {fallbackNote ? <p className="brief-fallback-note">{fallbackNote}</p> : null}
               </section>
 

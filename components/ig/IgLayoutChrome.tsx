@@ -17,7 +17,10 @@ type IgLayoutChromeProps = {
 export function IgLayoutChrome({ children, metaKeyConfigured }: IgLayoutChromeProps) {
   const pathname = usePathname();
   const onReels = pathname === "/reels" || pathname.startsWith("/reels/");
-  const hideTabBar = pathname === "/create" || pathname.startsWith("/create/");
+  const hideTabBar =
+    pathname === "/create" ||
+    pathname.startsWith("/create/") ||
+    pathname === "/reels/record";
 
   return (
     <PhoneShell metaKeyConfigured={metaKeyConfigured} variant={onReels ? "reels" : "default"}>

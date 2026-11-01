@@ -141,7 +141,7 @@ export function ActivityPanel() {
             />
           </label>
           <label className="activity-row">
-            <span>Surroundings check — for Live or recording later</span>
+            <span>Surroundings check — Mac camera on Reels record / Live mock</span>
             <input
               type="checkbox"
               checked={consent.surroundingsCheck}
@@ -149,7 +149,8 @@ export function ActivityPanel() {
             />
           </label>
           <p className="activity-hint">
-            Not used when sharing a still post — reserved for a future Live surface.
+            Reels → camera → allow Mac preview, then auto/manual SAM checks while recording. Notes
+            appear on your visit summary. Not used for still Create posts.
           </p>
           <label className="activity-row">
             <span>Say what you still wanted (microphone)</span>

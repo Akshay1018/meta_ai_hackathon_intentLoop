@@ -128,6 +128,25 @@ await check("vision fixture accepts png", async () => {
   }
 });
 
+await check("SAM segment fixture for surroundings", async () => {
+  const { res, json } = await post("/api/segment", { imageBase64: "", fixture: true });
+  if (!res.ok || !json.summary?.nudge) {
+    throw new Error(JSON.stringify(json));
+  }
+});
+
+await check("SAM recording context fixture (behind nudge)", async () => {
+  const { res, json } = await post("/api/segment", {
+    imageBase64: "",
+    fixture: true,
+    context: "recording",
+  });
+  const nudge = json.summary?.nudge?.toLowerCase() ?? "";
+  if (!res.ok || !nudge.includes("behind")) {
+    throw new Error(JSON.stringify(json));
+  }
+});
+
 await check("low vs high drift brief fixtures", async () => {
   if (briefLowDrift.drift >= 40) throw new Error("low fixture");
   if (briefHighDrift.drift < 40) throw new Error("high fixture");

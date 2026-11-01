@@ -8,7 +8,7 @@ Work through **one item at a time** with the user. Order is suggested priority f
 - [x] **Time + where UI** — dwell tracking + bar/legend in visit summary and Your activity
 - [x] **Persona picker in app** — all 10 personas in Your activity
 - [x] **Browse-only / companion-scroll copy** — persona + Spark hints; fixture exit
-- [ ] **SAM on Live / recording surface** — mock “Go Live” or Reels camera; wire `/api/segment` there only
+- [x] **SAM on Live / recording surface** — `/reels/record` + Check surroundings → `/api/segment`
 - [x] **Search prefill** — `?q=` from vision + voice actions (mock results list)
 
 ## Ship & hackathon
