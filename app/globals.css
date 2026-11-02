@@ -540,6 +540,15 @@ button {
   flex-shrink: 0;
 }
 
+.intent-chip--muted {
+  opacity: 0.85;
+  font-size: 11px;
+  max-width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .intent-chip--loading {
   width: 88px;
   height: 24px;

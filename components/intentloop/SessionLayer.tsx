@@ -36,7 +36,7 @@ export function SessionLayer() {
   const router = useRouter();
   const { settings } = useSessionSettings();
   const { phase, skip, remindHours } = useLimitTimer(settings);
-  const { loading, brief, fallbackNote, intent, fetchBrief, reset } = useExitBrief();
+  const { loading, brief, fallbackNote, loadError, intent, fetchBrief, reset } = useExitBrief();
   const [briefOpen, setBriefOpen] = useState(false);
 
   const onSeeBrief = useCallback(async () => {
@@ -79,9 +79,11 @@ export function SessionLayer() {
         brief={brief}
         intent={intent}
         fallbackNote={fallbackNote}
+        loadError={loadError}
         onClose={closeBrief}
         onAction={onAction}
         onNavigate={onNavigate}
+        onRetry={() => void fetchBrief()}
       />
     </>
   );

@@ -11,13 +11,21 @@ type IntentChipProps = {
   surface: IntentSurface;
   card: IntentCard | null;
   loading: boolean;
+  rateLimitHint?: string | null;
 };
 
-export function IntentChip({ surface, card, loading }: IntentChipProps) {
+export function IntentChip({ surface, card, loading, rateLimitHint }: IntentChipProps) {
   const label = CHIP_LABEL[surface];
   if (!label) return null;
   if (loading) {
     return <span className="intent-chip intent-chip--loading" aria-busy="true" />;
+  }
+  if (rateLimitHint) {
+    return (
+      <span className="intent-chip intent-chip--muted" title={rateLimitHint}>
+        Intent · paused
+      </span>
+    );
   }
   if (!card) return null;
   return (

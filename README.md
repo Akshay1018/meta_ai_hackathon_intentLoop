@@ -307,6 +307,8 @@ Open [http://localhost:3000](http://localhost:3000).
 If CSS or chunks break: stop port 3000, run `npm run dev:clean`, hard-refresh.  
 Route smoke (server up): `npm run smoke:routes`
 
+**Public demo (Vercel):** set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` so `/api/*` is rate-limited per IP (~150 AI calls/hour — enough for several full judge runs). Users see a plain **Try again** message with retry timing; optional `RATE_LIMIT_BYPASS_SECRET` for submission notes only.
+
 **UI without spending credits:**
 
 ```bash

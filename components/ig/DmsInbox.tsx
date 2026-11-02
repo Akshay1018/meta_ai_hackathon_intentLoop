@@ -19,14 +19,14 @@ type DmsInboxProps = {
 };
 
 export function DmsInbox({ threads }: DmsInboxProps) {
-  const { card, loading } = useIntentCard("dms");
+  const { card, loading, rateLimitHint } = useIntentCard("dms");
 
   return (
     <div className="ig-route">
       <header className="ig-header ig-header--messages">
         <span className="messages-title">you</span>
         <div className="messages-head-actions">
-          <IntentChip surface="dms" card={card} loading={loading} />
+          <IntentChip surface="dms" card={card} loading={loading} rateLimitHint={rateLimitHint} />
           <button type="button" className="ig-icon-btn" aria-label="New message">
             <IconDm size={22} />
           </button>

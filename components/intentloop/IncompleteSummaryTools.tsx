@@ -4,7 +4,9 @@ import { useCallback, useRef, useState } from "react";
 
 import { ConsentBanner } from "@/components/intentloop/ConsentBanner";
 import { useConsentSettings } from "@/components/intentloop/useConsentSettings";
+import { isRateLimited, parseRetryAfterSeconds, type ApiJson } from "@/lib/api-client";
 import { webmBlobToWav } from "@/lib/client-wav";
+import { rateLimitUserMessage } from "@/lib/rate-limit-messages";
 import type { IntentCard } from "@/lib/schemas";
 import {
   buildSearchHref,
@@ -64,6 +66,7 @@ export function IncompleteSummaryTools({
   const [voiceFollowUp, setVoiceFollowUp] = useState<VoiceFollowUp | null>(null);
   const [recording, setRecording] = useState(false);
   const [micHint, setMicHint] = useState<string | null>(null);
+  const [toolHint, setToolHint] = useState<string | null>(null);
   const photoRef = useRef<HTMLInputElement>(null);
   const mediaRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -81,6 +84,7 @@ export function IncompleteSummaryTools({
 
   const onPhotoPick = async (file: File) => {
     setBusy("photo");
+    setToolHint(null);
     try {
       const dataUrl = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
@@ -95,13 +99,17 @@ export function IncompleteSummaryTools({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ intent, imageBase64: m[2], mime: m[1] }),
       });
-      const json = (await res.json()) as {
-        ok?: boolean;
+      const json = (await res.json()) as ApiJson & {
         happened?: string;
         vs_intent?: string;
         next_step?: string;
         action?: VisionAction;
       };
+      if (isRateLimited(res, json)) {
+        const retry = parseRetryAfterSeconds(res, json);
+        setToolHint(json.message ?? rateLimitUserMessage(retry));
+        return;
+      }
       if (json.ok && json.happened && json.action) {
         setPhotoResult({
           happened: json.happened,
@@ -117,6 +125,7 @@ export function IncompleteSummaryTools({
 
   const startVoice = async () => {
     setMicHint(null);
+    setToolHint(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const rec = new MediaRecorder(stream);
@@ -134,7 +143,12 @@ export function IncompleteSummaryTools({
           const form = new FormData();
           form.append("audio", wav, "note.wav");
           const res = await fetch("/api/transcribe", { method: "POST", body: form });
-          const json = (await res.json()) as { ok?: boolean; text?: string };
+          const json = (await res.json()) as ApiJson & { text?: string };
+          if (isRateLimited(res, json)) {
+            const retry = parseRetryAfterSeconds(res, json);
+            setToolHint(json.message ?? rateLimitUserMessage(retry));
+            return;
+          }
           if (json.ok && json.text) {
             setVoiceText(json.text);
             onVoiceLine?.(json.text);
@@ -143,7 +157,12 @@ export function IncompleteSummaryTools({
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ transcript: json.text, intent }),
             });
-            const fuJson = (await fu.json()) as { ok?: boolean; followUp?: VoiceFollowUp };
+            const fuJson = (await fu.json()) as ApiJson & { followUp?: VoiceFollowUp };
+            if (isRateLimited(fu, fuJson)) {
+              const retry = parseRetryAfterSeconds(fu, fuJson);
+              setToolHint(fuJson.message ?? rateLimitUserMessage(retry));
+              return;
+            }
             if (fuJson.ok && fuJson.followUp) setVoiceFollowUp(fuJson.followUp);
           }
         } finally {
@@ -207,6 +226,7 @@ export function IncompleteSummaryTools({
           ) : null}
 
           {micHint ? <p className="activity-hint">{micHint}</p> : null}
+          {toolHint ? <p className="activity-hint">{toolHint}</p> : null}
 
           <div className="visit-close-grid">
             {OPEN_LOOP_TOOLS.map((tool) => (

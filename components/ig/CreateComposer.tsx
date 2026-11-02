@@ -24,7 +24,7 @@ const CREATE_ROWS = [
 ] as const;
 
 export function CreateComposer() {
-  const { card, loading } = useIntentCard("create");
+  const { card, loading, rateLimitHint } = useIntentCard("create");
   const [caption, setCaption] = useState("");
   const [posted, setPosted] = useState(false);
 
@@ -50,7 +50,7 @@ export function CreateComposer() {
         </button>
       </header>
       <div className="create-subhead">
-        <IntentChip surface="create" card={card} loading={loading} />
+        <IntentChip surface="create" card={card} loading={loading} rateLimitHint={rateLimitHint} />
         {!loading && card ? (
           <span className="create-session-hint">Posting · that&apos;s the session</span>
         ) : null}

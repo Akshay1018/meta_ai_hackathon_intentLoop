@@ -13,6 +13,8 @@ import {
 } from "@/lib/schemas";
 import { readSessionSettings, readSessionStartedAt } from "@/lib/session";
 import { readPostedThisVisit } from "@/lib/visit-outcome";
+import { isRateLimited, parseRetryAfterSeconds, type ApiJson } from "@/lib/api-client";
+import { rateLimitUserMessage } from "@/lib/rate-limit-messages";
 import { readSurfaceVisitOrder, readSurfaceVisits } from "@/lib/visit-tracker";
 
 const useFixtureClient = process.env.NEXT_PUBLIC_INTENTLOOP_FIXTURE === "1";
@@ -21,6 +23,7 @@ type BriefState = {
   loading: boolean;
   brief: ExitBrief | null;
   fallbackNote: string | null;
+  loadError: string | null;
   intent: IntentCard | null;
 };
 
@@ -29,11 +32,12 @@ export function useExitBrief() {
     loading: false,
     brief: null,
     fallbackNote: null,
+    loadError: null,
     intent: null,
   });
 
   const fetchBrief = useCallback(async () => {
-    setState({ loading: true, brief: null, fallbackNote: null, intent: null });
+    setState({ loading: true, brief: null, fallbackNote: null, loadError: null, intent: null });
     const startedAt = readSessionStartedAt(Date.now());
     const elapsedSec = Math.max(0, Math.round((Date.now() - startedAt) / 1000));
     const surfaceOrder = readSurfaceVisitOrder();
@@ -62,17 +66,27 @@ export function useExitBrief() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      const json = (await res.json()) as {
-        ok?: boolean;
+      const json = (await res.json()) as ApiJson & {
         brief?: ExitBrief;
         fixture?: boolean;
-        message?: string;
       };
+      if (isRateLimited(res, json)) {
+        const retry = parseRetryAfterSeconds(res, json);
+        setState({
+          loading: false,
+          brief: null,
+          fallbackNote: null,
+          loadError: json.message ?? rateLimitUserMessage(retry),
+          intent,
+        });
+        return intent;
+      }
       if (!res.ok || !json.ok || !json.brief) {
         setState({
           loading: false,
           brief: null,
           fallbackNote: null,
+          loadError: json.message ?? "Visit summary unavailable right now.",
           intent,
         });
         return intent;
@@ -89,17 +103,18 @@ export function useExitBrief() {
         loading: false,
         brief: json.brief,
         fallbackNote: json.message ?? null,
+        loadError: null,
         intent,
       });
       return intent;
     } catch {
-      setState({ loading: false, brief: null, fallbackNote: null, intent });
+      setState({ loading: false, brief: null, fallbackNote: null, loadError: null, intent });
       return intent;
     }
   }, []);
 
   const reset = useCallback(() => {
-    setState({ loading: false, brief: null, fallbackNote: null, intent: null });
+    setState({ loading: false, brief: null, fallbackNote: null, loadError: null, intent: null });
   }, []);
 
   return { ...state, fetchBrief, reset };

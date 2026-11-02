@@ -24,9 +24,11 @@ type BriefSheetProps = {
   brief: ExitBrief | null;
   intent: IntentCard | null;
   fallbackNote: string | null;
+  loadError: string | null;
   onClose: () => void;
   onAction: () => void;
   onNavigate: (href: string) => void;
+  onRetry?: () => void;
 };
 
 export function BriefSheet({
@@ -35,9 +37,11 @@ export function BriefSheet({
   brief,
   intent,
   fallbackNote,
+  loadError,
   onClose,
   onAction,
   onNavigate,
+  onRetry,
 }: BriefSheetProps) {
   const [voiceLine, setVoiceLine] = useState<string | null>(null);
   const [userOpenedIncomplete, setUserOpenedIncomplete] = useState(false);
@@ -151,9 +155,17 @@ export function BriefSheet({
         ) : (
           <>
             <div className="brief-sheet-body">
-              <p className="limit-copy">Limit reached. Brief unavailable right now.</p>
+              <p className="limit-copy">
+                {loadError ??
+                  "Limit reached. Visit summary unavailable right now — try again in a moment."}
+              </p>
             </div>
             <div className="brief-sheet-actions">
+              {onRetry ? (
+                <button type="button" className="limit-btn limit-btn--primary" onClick={onRetry}>
+                  Try again
+                </button>
+              ) : null}
               <button type="button" className="limit-btn" onClick={onClose}>
                 Done
               </button>

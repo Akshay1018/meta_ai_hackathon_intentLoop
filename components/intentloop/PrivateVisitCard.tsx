@@ -4,7 +4,9 @@ import { useCallback, useState } from "react";
 
 import { ConsentBanner } from "@/components/intentloop/ConsentBanner";
 import { useConsentSettings } from "@/components/intentloop/useConsentSettings";
+import { isRateLimited, parseRetryAfterSeconds, type ApiJson } from "@/lib/api-client";
 import { driftHeadline } from "@/lib/brief-display";
+import { rateLimitUserMessage } from "@/lib/rate-limit-messages";
 import type { ExitBrief, IntentCard } from "@/lib/schemas";
 
 type PrivateVisitCardProps = {
@@ -17,21 +19,27 @@ export function PrivateVisitCard({ intent, brief }: PrivateVisitCardProps) {
   const [pendingConsent, setPendingConsent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [cardUrl, setCardUrl] = useState<string | null>(null);
+  const [cardError, setCardError] = useState<string | null>(null);
 
   const buildCard = useCallback(async () => {
     setBusy(true);
+    setCardError(null);
     try {
       const res = await fetch("/api/card", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ brief, intentGoal: intent.goal }),
       });
-      const json = (await res.json()) as {
-        ok?: boolean;
+      const json = (await res.json()) as ApiJson & {
         backgroundBase64?: string;
         imageBase64?: string;
         lines?: { goal: string; outcome: string; hook: string };
       };
+      if (isRateLimited(res, json)) {
+        const retry = parseRetryAfterSeconds(res, json);
+        setCardError(json.message ?? rateLimitUserMessage(retry));
+        return;
+      }
       const bg = json.backgroundBase64 ?? json.imageBase64;
       if (!json.ok || !bg || !json.lines) return;
 
@@ -114,6 +122,7 @@ export function PrivateVisitCard({ intent, brief }: PrivateVisitCardProps) {
         </div>
       )}
 
+      {cardError ? <p className="activity-hint">{cardError}</p> : null}
       {busy ? <p className="activity-hint">Creating card…</p> : null}
     </section>
   );
