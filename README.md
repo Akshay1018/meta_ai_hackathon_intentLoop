@@ -322,6 +322,7 @@ INTENTLOOP_FIXTURE=1 NEXT_PUBLIC_INTENTLOOP_FIXTURE=1 npm run dev:clean
 ```bash
 npm test                    # unit tests — no Meta billing
 npm run test:summary-flow   # local API smoke (fixtures if no key)
+npm run test:rate-limit     # probe live demo rate limit (fixture, no Meta). Add -- --stress to force 429
 npm run test:personas       # persona fixtures
 npm run test:meta-live      # light live Meta smoke — uses key
 ```

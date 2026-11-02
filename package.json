@@ -9,6 +9,7 @@
     "start": "next start --port 3000",
     "mock-images": "node scripts/fetch-mock-images.mjs",
     "smoke:routes": "node scripts/smoke-routes.mjs",
+    "test:rate-limit": "node scripts/test-rate-limit.mjs",
     "test:summary-flow": "node scripts/test-summary-flow.mjs",
     "test:personas": "npx tsx --test lib/personas.test.ts && npx tsx scripts/test-personas-api.ts",
     "test:intent": "npx tsx scripts/test-intent.mjs",
