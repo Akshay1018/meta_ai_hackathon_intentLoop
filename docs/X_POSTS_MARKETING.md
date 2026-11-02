@@ -197,7 +197,7 @@ IntentLoop — Meta AI for Instagram: outcome when your daily limit hits.
 
 ▶️ Demo video (built during the event)
 🔗 Public repo: [PASTE_GITHUB_URL]
-🌐 Try it: [PASTE_VERCEL_URL_WHEN_LIVE]
+🌐 Try it: https://meta-ai-hackathon-intent-loop.vercel.app/
 
 Tagging @Meta @MetaAI @Instagram — feedback welcome from users & builders.
 

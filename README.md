@@ -10,7 +10,7 @@ IntentLoop is a **session layer** built for the **Meta Global AI Developer Hacka
 
 This prototype is **not** production Instagram. It is **working code** judges can run locally to see how **minutes + outcome** could feel native.
 
-**Live demo:** _Deploy URL will be added after Vercel setup._  
+**Live demo:** [https://meta-ai-hackathon-intent-loop.vercel.app/](https://meta-ai-hackathon-intent-loop.vercel.app/)  
 **3-minute video:** [Video & submission checklist](docs/VIDEO_AND_SUBMISSION.md).
 
 <p align="center">

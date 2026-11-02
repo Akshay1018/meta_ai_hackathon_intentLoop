@@ -15,7 +15,7 @@ Work through **one item at a time** with the user. Order is suggested priority f
 
 - [x] **README** — architecture, model IDs, judging section, “built during hackathon”
 - [x] **Rate limit** on `/api/*` (Upstash + UI copy) — set `UPSTASH_*` on Vercel before sharing widely
-- [ ] **Vercel deploy** (env vars + live URL in README)
+- [x] **Vercel deploy** (env vars + live URL in README)
 - [ ] **3-minute video** — storyboard in `HACKATHON_PLAN.md` §9
 - [ ] **PWA polish** — manifest, install hint (nice-to-have)
 - [ ] **Baseten Spark Open fallback** — optional partner path
