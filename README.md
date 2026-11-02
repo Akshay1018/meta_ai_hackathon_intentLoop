@@ -1,17 +1,43 @@
 # IntentLoop · Meta AI for Instagram — **outcome** when your daily limit hits
 
+## Impact · **Build for Your World**
+
+**Meta Global AI Developer Hackathon 2026** · Indie track · Theme: **Build for Your World**
+
+Instagram already helps billions of people manage **time** (Time spent, 15 / 30 / 45 minute limits). It does not yet answer, at the moment you pause: **what was this visit for, and did I do it?** That gap shows up in ordinary life — on a **call with the phone on your lap**, “just one DM,” then Reels; creators asking **did I post?**; anyone ending a scroll without closure.
+
+**IntentLoop** is a **session layer** we built **during the hackathon** inside a faithful **mock Instagram**: same **feed first** open, same **daily limit** sheet — plus **See visit summary** (outcome, drift, **time + where**, one optional next step). No new app. No lecture on launch. Summaries stay on **your device** in **Your activity**.
+
+| Who benefits | Why it matters |
+|--------------|----------------|
+| **Daily-limit users** | Turn “time’s up” into **honest closure**, not guilt |
+| **DM / Create openers** | See when Reels **drifted** the visit; nudge back to the job |
+| **Companion-scroll** | Neutral summary when there was no single task — real **Build for Your World** behavior |
+| **Creators** | “Posted this visit” reflected in the summary |
+| **Meta / Instagram** | Uses **trust UI people already have**; makes **Meta AI** useful for structured life moments, not another chat box |
+
+**Could people use this?** If Meta shipped one row on the existing limit sheet, yes — same controls, clearer **outcome**. This repo is a **working prototype** ([live demo](https://meta-ai-hackathon-intent-loop.vercel.app/)), not production Instagram.
+
+**Reading this repo for judging (Stage 2 rubric):**
+
+| Category | Where to look in this README |
+|----------|------------------------------|
+| **Impact (30%)** | This section · [If Meta shipped this](#if-meta-shipped-this) · [A day you recognize](#a-day-you-recognize) |
+| **Use of Meta AI (25%)** | [Meta AI tools — where and why](#meta-ai-tools--where-and-why) |
+| **Technical depth (20%)** | [Architecture](#architecture) · [Trust, consent, and data](#trust-consent-and-data) · rate limit in [Run locally](#run-locally) |
+| **Demo (25%)** | [Live demo](https://meta-ai-hackathon-intent-loop.vercel.app/) · [Judge / demo path](#run-locally) · [3-min video](docs/VIDEO_AND_SUBMISSION.md) |
+
+---
+
 ## Instagram counts the minutes. IntentLoop names the outcome.
 
 *Time limits tell you **how long**. A **visit summary** tells you **what the visit was for** — and whether it matched why you opened the app.*
 
-IntentLoop is a **session layer** built for the **Meta Global AI Developer Hackathon 2026** (Indie · **Build for Your World**). In this repo it lives **inside a faithful mock of Instagram**: **feed first**, the **daily limit sheet** you already recognize — plus one extra row, **See visit summary**, powered by **Meta Model API** (Spark, Voice, SAM, Image).
-
-**If Instagram shipped this:** users would keep today’s **Time spent** and **15 / 30 / 45 minute** reminders, and optionally gain **outcome** at the same moment — no new app, no quiz on open, history in **Your activity**. Same trust, clearer closure.
-
-This prototype is **not** production Instagram. It is **working code** judges can run locally to see how **minutes + outcome** could feel native.
+Powered by **Meta Model API** — Muse Spark, Voice Transcribe, SAM 3.1, Muse Image — on the routes in the table below.
 
 **Live demo:** [https://meta-ai-hackathon-intent-loop.vercel.app/](https://meta-ai-hackathon-intent-loop.vercel.app/)  
-**3-minute video:** [Video & submission checklist](docs/VIDEO_AND_SUBMISSION.md).
+**3-minute video:** [checklist](docs/VIDEO_AND_SUBMISSION.md) · [script](docs/VIDEO_SCRIPT_3MIN.md)  
+**Hackathon context:** [requirements & what we shipped](docs/HACKATHON_SUBMISSION.md) · [official Meta AI links](docs/HACKATHON_PLAN.md#16-links-official)
 
 <p align="center">
   <img src="docs/readme/screenshots/00-daily-limit-banner.png" alt="Mock Instagram Reels with the daily limit sheet: Skip, Remind me in 1 or 2 hours, and See visit summary" width="320" />
@@ -42,6 +68,7 @@ API base: `https://api.meta.ai/v1` — see [Meta Model API](https://dev.meta.ai/
 
 ## Table of contents
 
+- [Impact · Build for Your World](#impact--build-for-your-world)
 - [Meta AI tools — where and why](#meta-ai-tools--where-and-why)
 - [A day you recognize](#a-day-you-recognize)
 - [Why IntentLoop](#why-intentloop)
@@ -56,7 +83,7 @@ API base: `https://api.meta.ai/v1` — see [Meta Model API](https://dev.meta.ai/
 - [Architecture](#architecture)
 - [Run locally](#run-locally)
 - [Tests and credits](#tests-and-credits)
-- [Documentation](#documentation)
+- [Hackathon & submission](#hackathon--submission)
 - [License](#license)
 
 ---
@@ -287,8 +314,8 @@ Optional **Muse Image** background + on-device composited card — memento only,
 **Requirements:** Node 20+, npm, `MODEL_API_KEY` in `.env.local` for live Meta (optional fixtures for UI-only).
 
 ```bash
-git clone <your-public-repo-url>
-cd hackathon/meta_ai_hackathon_intentLoop
+git clone https://github.com/Akshay1018/meta_ai_hackathon_intentLoop.git
+cd meta_ai_hackathon_intentLoop
 npm install
 cp .env.example .env.local   # add MODEL_API_KEY
 npm run dev:clean
@@ -327,20 +354,19 @@ npm run test:personas       # persona fixtures
 npm run test:meta-live      # light live Meta smoke — uses key
 ```
 
-Do not run live Meta scripts in a loop. See [Hackathon rules](docs/HACKATHON_RULES_AND_JUDGING.md) for credit hygiene.
+Do not run live Meta scripts in a loop.
 
 ---
 
-## Documentation
+## Hackathon & submission
 
-| Doc | Purpose |
-|-----|---------|
-| [HACKATHON_PLAN.md](docs/HACKATHON_PLAN.md) | Product arc + video storyboard |
-| [HACKATHON_RULES_AND_JUDGING.md](docs/HACKATHON_RULES_AND_JUDGING.md) | Rules and rubric |
-| [PERSONAS_AND_IMPACT.md](docs/PERSONAS_AND_IMPACT.md) | Persona matrix |
-| [VIDEO_AND_SUBMISSION.md](docs/VIDEO_AND_SUBMISSION.md) | 3-min video checklist |
-| [PERSONA_E2E_MANUAL.md](docs/PERSONA_E2E_MANUAL.md) | Manual E2E |
-| [BACKLOG_REMAINING.md](docs/BACKLOG_REMAINING.md) | Ship backlog (Vercel, rate limit, …) |
+**Event:** Meta Global AI Developer Hackathon 2026 · Indie · **Build for Your World**
+
+| Link | |
+|------|--|
+| **Requirements & what we built** | [docs/HACKATHON_SUBMISSION.md](docs/HACKATHON_SUBMISSION.md) |
+| **Official Meta AI & submit links** | [HACKATHON_PLAN.md §16](docs/HACKATHON_PLAN.md#16-links-official) |
+| **Judging rubric (internal)** | [HACKATHON_RULES_AND_JUDGING.md](docs/HACKATHON_RULES_AND_JUDGING.md) |
 
 ---
 
