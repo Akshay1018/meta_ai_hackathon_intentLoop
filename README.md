@@ -25,7 +25,7 @@ Instagram already helps billions of people manage **time** (Time spent, 15 / 30 
 | **Impact (30%)** | This section · [If Meta shipped this](#if-meta-shipped-this) · [A day you recognize](#a-day-you-recognize) |
 | **Use of Meta AI (25%)** | [Meta AI tools — where and why](#meta-ai-tools--where-and-why) |
 | **Technical depth (20%)** | [Architecture](#architecture) · [Trust, consent, and data](#trust-consent-and-data) · rate limit in [Run locally](#run-locally) |
-| **Demo (25%)** | [Live demo](https://meta-ai-hackathon-intent-loop.vercel.app/) · [Judge / demo path](#run-locally) · [3-min video](docs/VIDEO_AND_SUBMISSION.md) |
+| **Demo (25%)** | [Live demo](https://meta-ai-hackathon-intent-loop.vercel.app/) · [Judge / demo path](#run-locally) · 3-minute video (hackathon submission) |
 
 ---
 
@@ -36,8 +36,7 @@ Instagram already helps billions of people manage **time** (Time spent, 15 / 30 
 Powered by **Meta Model API** — Muse Spark, Voice Transcribe, SAM 3.1, Muse Image — on the routes in the table below.
 
 **Live demo:** [https://meta-ai-hackathon-intent-loop.vercel.app/](https://meta-ai-hackathon-intent-loop.vercel.app/)  
-**3-minute video:** [checklist](docs/VIDEO_AND_SUBMISSION.md) · [script](docs/VIDEO_SCRIPT_3MIN.md)  
-**Hackathon context:** [requirements & what we shipped](docs/HACKATHON_SUBMISSION.md) · [official Meta AI links](docs/HACKATHON_PLAN.md#16-links-official)
+**Hackathon:** [Meta Global AI Developer Hackathon 2026](https://cerebralvalley.ai/e/meta-ai-developer-hackathon) · Indie · **Build for Your World** · [Submit](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit) · [Meta Model API](https://dev.meta.ai/docs/overview)
 
 <p align="center">
   <img src="docs/readme/screenshots/00-daily-limit-banner.png" alt="Mock Instagram Reels with the daily limit sheet: Skip, Remind me in 1 or 2 hours, and See visit summary" width="320" />
@@ -83,7 +82,6 @@ API base: `https://api.meta.ai/v1` — see [Meta Model API](https://dev.meta.ai/
 - [Architecture](#architecture)
 - [Run locally](#run-locally)
 - [Tests and credits](#tests-and-credits)
-- [Hackathon & submission](#hackathon--submission)
 - [License](#license)
 
 ---
@@ -190,8 +188,6 @@ In **Profile → Your activity** you can pick a **persona** to tune demo copy an
 <p align="center">
   <img src="docs/readme/screenshots/08-persona-picker.png" alt="Persona picker — DMs-first selected" width="320" />
 </p>
-
-Full matrix: [Personas & impact](docs/PERSONAS_AND_IMPACT.md).
 
 ---
 
@@ -355,18 +351,6 @@ npm run test:meta-live      # light live Meta smoke — uses key
 ```
 
 Do not run live Meta scripts in a loop.
-
----
-
-## Hackathon & submission
-
-**Event:** Meta Global AI Developer Hackathon 2026 · Indie · **Build for Your World**
-
-| Link | |
-|------|--|
-| **Requirements & what we built** | [docs/HACKATHON_SUBMISSION.md](docs/HACKATHON_SUBMISSION.md) |
-| **Official Meta AI & submit links** | [HACKATHON_PLAN.md §16](docs/HACKATHON_PLAN.md#16-links-official) |
-| **Judging rubric (internal)** | [HACKATHON_RULES_AND_JUDGING.md](docs/HACKATHON_RULES_AND_JUDGING.md) |
 
 ---
 

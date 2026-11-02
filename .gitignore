@@ -1,3 +1,6 @@
+# Internal planning docs (keep locally; public repo = README + docs/readme/screenshots only)
+/docs/*.md
+
 # Secrets — never commit
 .env
 .env.local
