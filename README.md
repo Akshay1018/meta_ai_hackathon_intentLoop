@@ -36,12 +36,11 @@ Instagram already helps billions of people manage **time** (Time spent, 15 / 30 
 Powered by **Meta Model API** — Muse Spark, Voice Transcribe, SAM 3.1, Muse Image — on the routes in the table below.
 
 **Live demo:** [https://meta-ai-hackathon-intent-loop.vercel.app/](https://meta-ai-hackathon-intent-loop.vercel.app/)  
-**Hackathon:** [Meta Global AI Developer Hackathon 2026](https://cerebralvalley.ai/e/meta-ai-developer-hackathon) · Indie · **Build for Your World** · [Submit](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit) · [Meta Model API](https://dev.meta.ai/docs/overview)
+**Hackathon:** [Meta Global AI Developer Hackathon 2026](https://cerebralvalley.ai/e/meta-ai-developer-hackathon) · Indie · **Build for Your World** ·[SMeta Model API](https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit)
 
-<p align="center">
-  <img src="docs/readme/screenshots/00-daily-limit-banner.png" alt="Mock Instagram Reels with the daily limit sheet: Skip, Remind me in 1 or 2 hours, and See visit summary" width="320" />
-</p>
-<p align="center"><em><strong>You’re at your daily limit</strong> — same sheet on Feed or Reels, with <strong>See visit summary</strong> as the IntentLoop door.</em></p>
+![Mock Instagram Reels with the daily limit sheet: Skip, Remind me in 1 or 2 hours, and See visit summary](docs/readme/screenshots/00-daily-limit-banner.png)
+
+***You’re at your daily limit** — same sheet on Feed or Reels, with **See visit summary** as the IntentLoop door.*
 
 ---
 
@@ -100,10 +99,9 @@ IntentLoop adds **See visit summary** on that **same bottom sheet**. One tap →
 
 We do **not** listen to your call or detect that you’re on speaker. We use the **tabs you open** and **time on each surface** — the same kind of signals you’d expect from **Time spent** — then close the loop when **your limit** hits.
 
-<p align="center">
-  <img src="docs/readme/screenshots/02-dms-intent-chip.png" alt="DMs with silent Inbox on intent chip" width="320" />
-</p>
-<p align="center"><em>You opened for Messages — IntentLoop keeps a silent <strong>intent</strong> line while you browse.</em></p>
+![DMs with silent Inbox on intent chip](docs/readme/screenshots/02-dms-intent-chip.png)
+
+*You opened for Messages — IntentLoop keeps a silent **intent** line while you browse.*
 
 ---
 
@@ -164,10 +162,9 @@ Open mock IG (feed first)
   → history in Your activity (Today + 7 days on device)
 ```
 
-<p align="center">
-  <img src="docs/readme/screenshots/11-visit-summary.png" alt="Visit summary with drift, time on tabs, and happened line" width="320" />
-</p>
-<p align="center"><em>Visit summary: drift, time + where, one plain-language line.</em></p>
+![Visit summary with drift, time on tabs, and happened line](docs/readme/screenshots/11-visit-summary.png)
+
+*Visit summary: drift, time + where, one plain-language line.*
 
 ---
 
@@ -185,9 +182,7 @@ In **Profile → Your activity** you can pick a **persona** to tune demo copy an
 | **Profile checker** | Wants pattern over days | **Today** + **Last 7 days** on device |
 | **Marketer / influencer / parent / teen (16+)** | Work or bounded personal use | Outcome + tone rules (no “addiction” language) |
 
-<p align="center">
-  <img src="docs/readme/screenshots/08-persona-picker.png" alt="Persona picker — DMs-first selected" width="320" />
-</p>
+![Persona picker — DMs-first selected](docs/readme/screenshots/08-persona-picker.png)
 
 ---
 
@@ -223,9 +218,7 @@ Tabs blur together; there was no one “job.” The **visit summary** still give
 
 ### DMs intent, Reels wins
 
-<p align="center">
-  <img src="docs/readme/screenshots/02-dms-intent-chip.png" alt="DMs inbox with Inbox on intent chip" width="320" />
-</p>
+![DMs inbox with Inbox on intent chip](docs/readme/screenshots/02-dms-intent-chip.png)
 
 Spark sets a silent goal; dwell + exit summary describe whether Messages or Reels dominated.
 
@@ -233,9 +226,7 @@ Spark sets a silent goal; dwell + exit summary describe whether Messages or Reel
 
 With **consent**, the Reels **record** mock turns on your **Mac camera**. **Surroundings alerts** (toggle on that screen) run SAM + Spark on frames; you can get a nudge if another phone appears in view. Nothing is posted to the feed.
 
-<p align="center">
-  <img src="docs/readme/screenshots/04-reels-surroundings.png" alt="Surroundings nudge while recording — another phone in frame" width="320" />
-</p>
+![Surroundings nudge while recording — another phone in frame](docs/readme/screenshots/04-reels-surroundings.png)
 
 Recording surroundings can also appear under **Recording surroundings** on the visit summary when IntentLoop is on.
 
@@ -243,17 +234,13 @@ Recording surroundings can also appear under **Recording surroundings** on the v
 
 On the summary sheet, optionally **match a screenshot** (Spark vision) or **say what you still wanted** (Voice + Spark routing).
 
-<p align="center">
-  <img src="docs/readme/screenshots/12-visit-summary-extras.png" alt="Summary incomplete — screenshot and voice options" width="320" />
-</p>
+![Summary incomplete — screenshot and voice options](docs/readme/screenshots/12-visit-summary-extras.png)
 
 ### Private visit card
 
 Optional **Muse Image** background + on-device composited card — memento only, not shared to feed.
 
-<p align="center">
-  <img src="docs/readme/screenshots/13-visit-card.png" alt="Private visit card with drift and happened line" width="320" />
-</p>
+![Private visit card with drift and happened line](docs/readme/screenshots/13-visit-card.png)
 
 ---
 
@@ -263,9 +250,7 @@ Optional **Muse Image** background + on-device composited card — memento only,
 - We do **not** ask for your real Instagram password or read real DMs.
 - **Photo, voice, surroundings, visit card** run only when you enable them in **Your activity** and trigger them in flow.
 
-<p align="center">
-  <img src="docs/readme/screenshots/07-privacy-consent.png" alt="Privacy copy and optional feature toggles" width="320" />
-</p>
+![Privacy copy and optional feature toggles](docs/readme/screenshots/07-privacy-consent.png)
 
 **API usage:** No Meta polling while idle on Home. Intent calls happen when you open **DMs/Create** (first time per visit, then cache). Exit runs when you tap **See visit summary**. Reels surroundings can repeat while the **record** preview is active and alerts are on — leave that page or turn alerts off to stop.
 
@@ -321,16 +306,16 @@ Open [http://localhost:3000](http://localhost:3000).
 
 **Judge / demo path (45s):**
 
-1. **Profile → Your activity** → IntentLoop **on** → **Start new visit (demo)**  
-2. **DMs → Reels → Create** (optional Share)  
-3. Wait for limit sheet (~45s in demo mode)  
-4. **See visit summary**  
+1. **Profile → Your activity** → IntentLoop **on** → **Start new visit (demo)**
+2. **DMs → Reels → Create** (optional Share)
+3. Wait for limit sheet (~45s in demo mode)
+4. **See visit summary**
 5. Optional: Reels → camera → surroundings; persona picker; check **Today** / **7 days**
 
 If CSS or chunks break: stop port 3000, run `npm run dev:clean`, hard-refresh.  
 Route smoke (server up): `npm run smoke:routes`
 
-**Public demo (Vercel):** set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` so `/api/*` is rate-limited per IP (~150 AI calls/hour — enough for several full judge runs). Users see a plain **Try again** message with retry timing; optional `RATE_LIMIT_BYPASS_SECRET` for submission notes only.
+**Public demo (Vercel):** set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` so `/api/`* is rate-limited per IP (~150 AI calls/hour — enough for several full judge runs). Users see a plain **Try again** message with retry timing; optional `RATE_LIMIT_BYPASS_SECRET` for submission notes only.
 
 **UI without spending credits:**
 
