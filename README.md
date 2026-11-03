@@ -25,7 +25,7 @@ Instagram already helps billions of people manage **time** (Time spent, 15 / 30 
 | **Impact (30%)** | This section · [If Meta shipped this](#if-meta-shipped-this) · [A day you recognize](#a-day-you-recognize) |
 | **Use of Meta AI (25%)** | [Meta AI tools — where and why](#meta-ai-tools--where-and-why) |
 | **Technical depth (20%)** | [Architecture](#architecture) · [Trust, consent, and data](#trust-consent-and-data) · rate limit in [Run locally](#run-locally) |
-| **Demo (25%)** | [Live demo](https://meta-ai-hackathon-intent-loop.vercel.app/) · [3-min demo video](https://www.youtube.com/watch?v=UAw3k_FNUm8) · [Judge / demo path](#run-locally) |
+| **Demo (25%)** | [Live demo](https://meta-ai-hackathon-intent-loop.vercel.app/) · [Demo videos (for judges)](#demo-videos-for-judges) · [Judge / demo path](#run-locally) |
 
 ---
 
@@ -36,9 +36,19 @@ Instagram already helps billions of people manage **time** (Time spent, 15 / 30 
 Powered by **Meta Model API** — Muse Spark, Voice Transcribe, SAM 3.1, Muse Image — on the routes in the table below.
 
 **Live demo:** [https://meta-ai-hackathon-intent-loop.vercel.app/](https://meta-ai-hackathon-intent-loop.vercel.app/)  
-**Demo video (3 min):** [YouTube](https://www.youtube.com/watch?v=UAw3k_FNUm8)  
 **Repository:** [github.com/Akshay1018/meta_ai_hackathon_intentLoop](https://github.com/Akshay1018/meta_ai_hackathon_intentLoop)  
 **Hackathon:** [Meta Global AI Developer Hackathon 2026](https://cerebralvalley.ai/e/meta-ai-developer-hackathon) · Indie · **Build for Your World** · [Meta Model API](https://dev.meta.ai/docs/overview)
+
+## Demo videos (for judges)
+
+| | Link |
+|--|------|
+| **Primary — hackathon submission demo (~3 min)** | [YouTube — narrated walkthrough](https://www.youtube.com/watch?v=UAw3k_FNUm8) |
+| **Supplementary — silent screen recording (~2.5 min)** | [YouTube — product only, no audio / no webcam](https://www.youtube.com/watch?v=hzwBpWJo5Xw) |
+
+**Use the primary video for judging.** It matches the hackathon submission: English narration, presenter on camera, and walkthrough of features, code context, and live Meta Model API behavior on Vercel.
+
+**Use the supplementary video** if you prefer a quiet, full UI pass: screen capture of the entire IntentLoop flow on the live app (visit → daily limit → **See visit summary** → Reels record → Surroundings / SAM), with no voiceover and no picture-in-picture.
 
 ![Mock Instagram Reels with the daily limit sheet: Skip, Remind me in 1 or 2 hours, and See visit summary](docs/readme/screenshots/00-daily-limit-banner.png)
 
@@ -69,6 +79,7 @@ API base: `https://api.meta.ai/v1` — see [Meta Model API](https://dev.meta.ai/
 ## Table of contents
 
 - [Impact · Build for Your World](#impact--build-for-your-world)
+- [Demo videos (for judges)](#demo-videos-for-judges)
 - [Meta AI tools — where and why](#meta-ai-tools--where-and-why)
 - [A day you recognize](#a-day-you-recognize)
 - [Why IntentLoop](#why-intentloop)
