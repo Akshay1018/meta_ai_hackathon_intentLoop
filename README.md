@@ -23,7 +23,7 @@ Instagram already helps billions of people manage **time** (Time spent, 15 / 30 
 | Category | Where to look in this README |
 |----------|------------------------------|
 | **Impact (30%)** | This section · [If Meta shipped this](#if-meta-shipped-this) · [A day you recognize](#a-day-you-recognize) |
-| **Use of Meta AI (25%)** | [Meta AI tools — where and why](#meta-ai-tools--where-and-why) |
+| **Use of Meta AI (25%)** | [Meta AI tools — where and why](#meta-ai-tools--where-and-why) · [Architecture](#architecture) |
 | **Technical depth (20%)** | [What we built](#what-we-built) · [Architecture](#architecture) · [Trust, consent, and data](#trust-consent-and-data) · rate limit in [Run locally](#run-locally) |
 | **Demo (25%)** | [Live demo](https://meta-ai-hackathon-intent-loop.vercel.app/) · [Demo videos (for judges)](#demo-videos-for-judges) · [Judge / demo path](#run-locally) |
 
@@ -74,149 +74,7 @@ We use **specialized models for specialized jobs** — structured JSON and media
 
 API base: `https://api.meta.ai/v1` — see [Meta Model API](https://dev.meta.ai/docs/overview). Configure via `.env.local` ([`.env.example`](.env.example)).
 
----
-
-## Table of contents
-
-- [Impact · Build for Your World](#impact--build-for-your-world)
-- [Demo videos (for judges)](#demo-videos-for-judges)
-- [Meta AI tools — where and why](#meta-ai-tools--where-and-why)
-- [A day you recognize](#a-day-you-recognize)
-- [Why IntentLoop](#why-intentloop)
-- [The gap Instagram leaves today](#the-gap-instagram-leaves-today)
-- [If Meta shipped this](#if-meta-shipped-this)
-- [How IntentLoop helps](#how-intentloop-helps)
-- [Who it is for (personas)](#who-it-is-for-personas)
-- [What we built](#what-we-built)
-- [Architecture](#architecture)
-- [Real situations we designed for](#real-situations-we-designed-for)
-- [Trust, consent, and data](#trust-consent-and-data)
-- [Screenshots by feature](#screenshots-by-feature)
-- [Run locally](#run-locally)
-- [Tests and credits](#tests-and-credits)
-- [License](#license)
-
----
-
-## A day you recognize
-
-You’re on a **video call** or in a **group chat on speaker**. Instagram is open on your lap. You tell yourself you’ll check **one DM** — then Stories, then Reels. The call ends and you realize you never sent that reply.
-
-Today, when your **daily limit** pops up, you can **Skip** and keep scrolling. You still might not know:
-
-- **Why did I open Instagram this time?**
-- **Did I do that one thing?**
-- **Where did the visit go** — Messages, Feed, or Reels?
-
-IntentLoop adds **See visit summary** on that **same bottom sheet**. One tap → **visit summary**: a plain **outcome** line, **drift**, **time + where**, and an optional **next step** (for example, “Open DMs”). No lecture. **Skip** still works.
-
-We do **not** listen to your call or detect that you’re on speaker. We use the **tabs you open** and **time on each surface** — the same kind of signals you’d expect from **Time spent** — then close the loop when **your limit** hits.
-
-![DMs with silent Inbox on intent chip](docs/readme/screenshots/02-dms-intent-chip.png)
-
-*You opened for Messages — IntentLoop keeps a silent **intent** line while you browse.*
-
----
-
-## Why IntentLoop
-
-People open Instagram for a **job**: reply to a DM, post a photo, check one story, unwind for five minutes. The app is excellent at keeping you engaged. Meta already gives **Time spent** and **daily limits** (15, 30, 45 minutes, and custom) — that answers **how long** you stayed.
-
-It does not, by itself, answer:
-
-- **What was this visit for?**
-- **Did I do the thing I opened for?**
-- **Where did the minutes go** (Feed vs Reels vs Messages)?
-- **Optional:** Is there something in my **environment** worth a calm nudge while I’m **recording** (with my consent)?
-
-**Objective:** Extend the limit moment people already trust with one **honest visit summary**, stored in **Profile → Your activity**, powered by **structured Meta AI** — not a generic chatbot on launch.
-
-**Psychology (plain language):** Autopilot scrolling — especially when the phone is out during a call or with friends — feels fine in the moment. Closure matters: a **neutral** line about the visit beats shame or a raw minute count.
-
----
-
-## The gap Instagram leaves today
-
-| What exists today (real Instagram) | What is missing for “outcome” |
-|-----------------------------------|-----------------------------|
-| Daily time reminders / limits | A structured **summary of the visit** tied to that limit |
-| Time spent totals | **Which surfaces** absorbed the visit (Feed, Reels, DMs, …) in plain language |
-| Skip / Remind later on the banner | Optional **next step** (“Open DMs”, “Close — post is done”) |
-| — | Optional **evidence** you choose (screenshot, voice) compared to why you opened |
-| — | In our **demo only**: Reels record + **surroundings check** with consent |
-
-IntentLoop **does not replace** Meta’s controls. In this repo it **mocks** the shell and adds the **outcome layer** judges can click through.
-
----
-
-## If Meta shipped this
-
-| For people | What would feel different |
-|------------|---------------------------|
-| **Daily limit users** | Same banner grammar; optional **visit summary** instead of only “time’s up” |
-| **DMs / Create openers** | Quiet **intent** line; summary says if Reels **drifted** the visit |
-| **Companion-scroll** | Neutral closure after a fuzzy visit — not guilt, not more minutes |
-| **Creators** | “Did I post?” answered in the **summary** when they shared |
-| **Privacy-minded users** | Summaries on **device**; extras (photo, voice, camera) **opt-in** |
-
-Built **during the hackathon (Oct 26 – Nov 4, 2026)** as a **public prototype**, not a promise of a Meta roadmap.
-
----
-
-## How IntentLoop helps
-
-```text
-Open mock IG (feed first)
-  → browse DMs / Reels / Create / Profile (local tab + dwell tracking)
-  → silent IntentCard on DMs & Create when needed (Spark, cached per visit)
-  → your limit sheet (Skip · Remind · See visit summary)
-  → Visit summary: drift, one honest paragraph, time-on-tabs
-  → optional: screenshot · voice · visit card · recording surroundings note
-  → history in Your activity (Today + 7 days on device)
-```
-
-![Visit summary with drift, time on tabs, and happened line](docs/readme/screenshots/11-visit-summary.png)
-
-*Visit summary: drift, time + where, one plain-language line.*
-
----
-
-## Who it is for (personas)
-
-In **Profile → Your activity** you can pick a **persona** to tune demo copy and intent lines. Personas describe **real situations**; the app does **not** spy on calls, location, or other apps.
-
-| Persona | Situation | What IntentLoop adds in this repo |
-|---------|-----------|-----------------------------------|
-| **Everyday scroller** | “Just five minutes” | Summary when limit hits; Skip always works |
-| **Companion-scroll** | Phone out during a **call or with friends**, easy drift | Same limit UX; neutral summary — **no call detection** |
-| **DMs-first** | Opened Messages to reply | **Inbox · on intent** chip; summary nudges back to DMs if Reels won |
-| **Creator / poster** | Came to share a post | Tracks **posted this visit**; summary leads with the win |
-| **Reels binger** | “A few clips” | High drift vs other goals; path line shows Reels time |
-| **Profile checker** | Wants pattern over days | **Today** + **Last 7 days** on device |
-| **Marketer / influencer / parent / teen (16+)** | Work or bounded personal use | Outcome + tone rules (no “addiction” language) |
-
-![Persona picker — DMs-first selected](docs/readme/screenshots/08-persona-picker.png)
-
----
-
-## What we built
-
-| Area | Shipped in this repo |
-|------|----------------------|
-| Mock Instagram | Home, Search, Reels, Shop, Profile, DMs, Create |
-| Session layer | Limit timer (45s demo or minutes), limit sheet, visit summary sheet |
-| Intent | Spark **IntentCard** on **DMs & Create** (session cache) |
-| Exit | Spark **ExitBrief** on **See visit summary** |
-| Time + where | Dwell by tab in summary and activity (refresh on demand) |
-| History | Today list + IndexedDB **7-day** summaries |
-| Personas | 10 personas + **Start persona visit** |
-| Brief extras | Screenshot match, voice note, Muse Image visit card (each behind consent) |
-| Reels record mock | Mac camera, auto/manual **surroundings** (SAM + Spark), Reels-only alert toggle |
-| Search | Prefill `?q=` from vision / voice follow-up (mock results UI) |
-
-Built **during the hackathon window (Oct 26 – Nov 4, 2026)**. All product code in this repository is event work.
-
-**Silent full UI walkthrough (no narration):** [YouTube screen demo ~2.5 min](https://www.youtube.com/watch?v=hzwBpWJo5Xw) — same live Vercel build as the narrated submission video.
+The table above is the **model map**; [Architecture](#architecture) below is **how those routes, UI, and client state connect** in one visit.
 
 ---
 
@@ -342,6 +200,150 @@ No feed upload; scanning stops when the user leaves record or turns alerts off.
 | Schemas / fixtures | `lib/schemas.ts` |
 | Meta client | `lib/meta.ts`, `lib/meta-env.ts` |
 | Tests | `lib/*.test.ts`, `npm test` |
+
+**End-to-end UI (silent):** [YouTube screen demo ~2.5 min](https://www.youtube.com/watch?v=hzwBpWJo5Xw)
+
+---
+
+## Table of contents
+
+- [Impact · Build for Your World](#impact--build-for-your-world)
+- [Demo videos (for judges)](#demo-videos-for-judges)
+- [Meta AI tools — where and why](#meta-ai-tools--where-and-why)
+- [Architecture](#architecture)
+- [A day you recognize](#a-day-you-recognize)
+- [Why IntentLoop](#why-intentloop)
+- [The gap Instagram leaves today](#the-gap-instagram-leaves-today)
+- [If Meta shipped this](#if-meta-shipped-this)
+- [How IntentLoop helps](#how-intentloop-helps)
+- [Who it is for (personas)](#who-it-is-for-personas)
+- [What we built](#what-we-built)
+- [Real situations we designed for](#real-situations-we-designed-for)
+- [Trust, consent, and data](#trust-consent-and-data)
+- [Screenshots by feature](#screenshots-by-feature)
+- [Run locally](#run-locally)
+- [Tests and credits](#tests-and-credits)
+- [License](#license)
+
+---
+
+## A day you recognize
+
+You’re on a **video call** or in a **group chat on speaker**. Instagram is open on your lap. You tell yourself you’ll check **one DM** — then Stories, then Reels. The call ends and you realize you never sent that reply.
+
+Today, when your **daily limit** pops up, you can **Skip** and keep scrolling. You still might not know:
+
+- **Why did I open Instagram this time?**
+- **Did I do that one thing?**
+- **Where did the visit go** — Messages, Feed, or Reels?
+
+IntentLoop adds **See visit summary** on that **same bottom sheet**. One tap → **visit summary**: a plain **outcome** line, **drift**, **time + where**, and an optional **next step** (for example, “Open DMs”). No lecture. **Skip** still works.
+
+We do **not** listen to your call or detect that you’re on speaker. We use the **tabs you open** and **time on each surface** — the same kind of signals you’d expect from **Time spent** — then close the loop when **your limit** hits.
+
+![DMs with silent Inbox on intent chip](docs/readme/screenshots/02-dms-intent-chip.png)
+
+*You opened for Messages — IntentLoop keeps a silent **intent** line while you browse.*
+
+---
+
+## Why IntentLoop
+
+People open Instagram for a **job**: reply to a DM, post a photo, check one story, unwind for five minutes. The app is excellent at keeping you engaged. Meta already gives **Time spent** and **daily limits** (15, 30, 45 minutes, and custom) — that answers **how long** you stayed.
+
+It does not, by itself, answer:
+
+- **What was this visit for?**
+- **Did I do the thing I opened for?**
+- **Where did the minutes go** (Feed vs Reels vs Messages)?
+- **Optional:** Is there something in my **environment** worth a calm nudge while I’m **recording** (with my consent)?
+
+**Objective:** Extend the limit moment people already trust with one **honest visit summary**, stored in **Profile → Your activity**, powered by **structured Meta AI** — not a generic chatbot on launch.
+
+**Psychology (plain language):** Autopilot scrolling — especially when the phone is out during a call or with friends — feels fine in the moment. Closure matters: a **neutral** line about the visit beats shame or a raw minute count.
+
+---
+
+## The gap Instagram leaves today
+
+| What exists today (real Instagram) | What is missing for “outcome” |
+|-----------------------------------|-----------------------------|
+| Daily time reminders / limits | A structured **summary of the visit** tied to that limit |
+| Time spent totals | **Which surfaces** absorbed the visit (Feed, Reels, DMs, …) in plain language |
+| Skip / Remind later on the banner | Optional **next step** (“Open DMs”, “Close — post is done”) |
+| — | Optional **evidence** you choose (screenshot, voice) compared to why you opened |
+| — | In our **demo only**: Reels record + **surroundings check** with consent |
+
+IntentLoop **does not replace** Meta’s controls. In this repo it **mocks** the shell and adds the **outcome layer** judges can click through.
+
+---
+
+## If Meta shipped this
+
+| For people | What would feel different |
+|------------|---------------------------|
+| **Daily limit users** | Same banner grammar; optional **visit summary** instead of only “time’s up” |
+| **DMs / Create openers** | Quiet **intent** line; summary says if Reels **drifted** the visit |
+| **Companion-scroll** | Neutral closure after a fuzzy visit — not guilt, not more minutes |
+| **Creators** | “Did I post?” answered in the **summary** when they shared |
+| **Privacy-minded users** | Summaries on **device**; extras (photo, voice, camera) **opt-in** |
+
+Built **during the hackathon (Oct 26 – Nov 4, 2026)** as a **public prototype**, not a promise of a Meta roadmap.
+
+---
+
+## How IntentLoop helps
+
+```text
+Open mock IG (feed first)
+  → browse DMs / Reels / Create / Profile (local tab + dwell tracking)
+  → silent IntentCard on DMs & Create when needed (Spark, cached per visit)
+  → your limit sheet (Skip · Remind · See visit summary)
+  → Visit summary: drift, one honest paragraph, time-on-tabs
+  → optional: screenshot · voice · visit card · recording surroundings note
+  → history in Your activity (Today + 7 days on device)
+```
+
+![Visit summary with drift, time on tabs, and happened line](docs/readme/screenshots/11-visit-summary.png)
+
+*Visit summary: drift, time + where, one plain-language line.*
+
+---
+
+## Who it is for (personas)
+
+In **Profile → Your activity** you can pick a **persona** to tune demo copy and intent lines. Personas describe **real situations**; the app does **not** spy on calls, location, or other apps.
+
+| Persona | Situation | What IntentLoop adds in this repo |
+|---------|-----------|-----------------------------------|
+| **Everyday scroller** | “Just five minutes” | Summary when limit hits; Skip always works |
+| **Companion-scroll** | Phone out during a **call or with friends**, easy drift | Same limit UX; neutral summary — **no call detection** |
+| **DMs-first** | Opened Messages to reply | **Inbox · on intent** chip; summary nudges back to DMs if Reels won |
+| **Creator / poster** | Came to share a post | Tracks **posted this visit**; summary leads with the win |
+| **Reels binger** | “A few clips” | High drift vs other goals; path line shows Reels time |
+| **Profile checker** | Wants pattern over days | **Today** + **Last 7 days** on device |
+| **Marketer / influencer / parent / teen (16+)** | Work or bounded personal use | Outcome + tone rules (no “addiction” language) |
+
+![Persona picker — DMs-first selected](docs/readme/screenshots/08-persona-picker.png)
+
+---
+
+## What we built
+
+| Area | Shipped in this repo |
+|------|----------------------|
+| Mock Instagram | Home, Search, Reels, Shop, Profile, DMs, Create |
+| Session layer | Limit timer (45s demo or minutes), limit sheet, visit summary sheet |
+| Intent | Spark **IntentCard** on **DMs & Create** (session cache) |
+| Exit | Spark **ExitBrief** on **See visit summary** |
+| Time + where | Dwell by tab in summary and activity (refresh on demand) |
+| History | Today list + IndexedDB **7-day** summaries |
+| Personas | 10 personas + **Start persona visit** |
+| Brief extras | Screenshot match, voice note, Muse Image visit card (each behind consent) |
+| Reels record mock | Mac camera, auto/manual **surroundings** (SAM + Spark), Reels-only alert toggle |
+| Search | Prefill `?q=` from vision / voice follow-up (mock results UI) |
+
+Built **during the hackathon window (Oct 26 – Nov 4, 2026)**. All product code in this repository is event work. See [Architecture](#architecture) for how these pieces connect.
 
 ---
 
